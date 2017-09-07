@@ -1,0 +1,16 @@
+#platform :ios, '9.0'
+
+source 'https://github.com/CocoaPods/Specs.git'
+target 'Slug Ride 2' do
+    use_frameworks!
+    
+    pod 'GoogleMaps'
+    pod 'GooglePlaces'
+    pod 'GooglePlacesAPI'
+    pod 'SwiftyJSON'
+    pod 'LBTAComponents', '~> 0.1.9'
+    pod 'QRCodeReader.swift'
+    pod 'QRCode'
+    pod 'FloatRatingView', '~> 2.0.0'
+    pod 'SlideMenuControllerSwift'
+end

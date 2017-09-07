@@ -1,0 +1,6 @@
+framework module Pods_Slug_Ride_2 {
+  umbrella header "Pods-Slug Ride 2-umbrella.h"
+
+  export *
+  module * { export * }
+}
