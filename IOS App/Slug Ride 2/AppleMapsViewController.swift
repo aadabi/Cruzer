@@ -14,6 +14,11 @@ protocol HandleMapSearch: class {
     func dropPinZoomIn(_ placemark:MKPlacemark)
 }
 
+class customPin: MKPointAnnotation {
+    var pinColor: UIColor?
+}
+
+
 class AppleMapsViewController: UIViewController {
     
     var selectedPin: MKPlacemark?
@@ -22,6 +27,9 @@ class AppleMapsViewController: UIViewController {
     let locationManager = CLLocationManager()
     var myRoute : MKRoute!
     
+    var destinationArray : [CLLocationCoordinate2D] = []
+    var annotationArray : [customPin] = []
+    var updateAnnotationArray : [customPin] = []
     @IBOutlet weak var mapView: MKMapView!
     
     
@@ -83,6 +91,8 @@ class AppleMapsViewController: UIViewController {
         
         let markDestination = MKPlacemark(coordinate: CLLocationCoordinate2DMake(selectedPin.coordinate.latitude, selectedPin.coordinate.longitude), addressDictionary: nil)
         
+        self.destinationArray.append(CLLocationCoordinate2DMake(selectedPin.coordinate.latitude, selectedPin.coordinate.longitude))
+        
         //let mapItem = MKMapItem(placemark: selectedPin)
         //let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
         //mapItem.openInMaps(launchOptions: launchOptions)
@@ -115,7 +125,8 @@ class AppleMapsViewController: UIViewController {
     func startRide() {
         guard let selectedPin = selectedPin else { return }
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let dict = ["user_email":appDelegate.user_email,"location_latitude": (locationManager.location?.coordinate.latitude)! ,
+        let dict = ["user_email":appDelegate.user_email,
+                    "location_latitude": (locationManager.location?.coordinate.latitude)! ,
                     "location_longitude":(locationManager.location?.coordinate.longitude)!,
                     "destination_latitude": selectedPin.coordinate.latitude ,
                     "destination_longitude":selectedPin.coordinate.longitude,
@@ -159,6 +170,8 @@ class AppleMapsViewController: UIViewController {
         }
     }
     
+    var timer = Timer()
+    
     //////////////////////////////////
     //Process after the function is done
     //////////////////////////////////
@@ -178,6 +191,99 @@ class AppleMapsViewController: UIViewController {
         
         let backButton2 = UIBarButtonItem(title: "End Ride", style: UIBarButtonItemStyle.plain, target: self, action: #selector(AppleMapsViewController.endRideButtonAction(_:)))
         self.navigationItem.rightBarButtonItem = backButton2
+        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.pollforUsers(_:)), userInfo: nil, repeats: false)
+    }
+    
+    
+    //////////////////////////////
+    //User Poll for polling for new users in the area
+    //////////////////////////////
+    func pollforUsers(_ sender: Any) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let dict = ["user_email":appDelegate.user_email,
+                    "location_latitude": (locationManager.location?.coordinate.latitude)! ,
+                    "location_longitude":(locationManager.location?.coordinate.longitude)!,
+                    "destination_longitude":self.destinationArray[0].longitude,
+                    "destination_latitude":self.destinationArray[0].latitude,
+                    "driver_status":appDelegate.driver_status] as [String: Any]
+        print(dict)
+        if let jsonData = try? JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted){
+            print("success")
+            //SUBJECT TO URL CHANGE!!!!!
+            let url = NSURL(string: "http://138.68.252.198:8000/rideshare/query_ride/")!
+            let request = NSMutableURLRequest(url: url as URL)
+            request.httpMethod = "POST"
+            request.setValue("Token \(appDelegate.token)", forHTTPHeaderField: "Authorization")
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = jsonData
+            
+            let task = URLSession.shared.dataTask(with: request as URLRequest){
+                data, response, error in
+                if let httpResponse = response as? HTTPURLResponse{
+                    print(httpResponse.statusCode)
+                    if(httpResponse.statusCode != 200){
+                        print("error")
+                        return
+                    }
+                }
+                print("success1")
+                guard error == nil else{
+                    print(error!)
+                    return
+                }
+                print("success2")
+                guard let data = data else {
+                    print("Data Empty")
+                    return
+                }
+                print("success3")
+                let json = try! JSONSerialization.jsonObject(with: data, options: []) as AnyObject
+                print(json)
+                
+                //Clears previous markers
+                self.updateAnnotationArray.removeAll()
+                let userss = json["user_list"] as? [[String: Any]]
+                for user in userss! {
+                    if user["user_email"] as! String != appDelegate.user_email {
+                        let annotation = customPin()
+                        annotation.coordinate = CLLocationCoordinate2D(latitude: user["location_latitude"] as! Double,
+                                                                       longitude: user["location_longitude"] as! Double)
+                        annotation.title = user["user_email"] as? String
+                        if (user["driver_status"] as! Bool == true) {
+                            annotation.pinColor = .green
+                        } else {
+                            annotation.pinColor = .purple
+                        }
+                        //marker.snippet = "Destination: \(user["destination_longitude"] as! Double)"
+                        self.updateAnnotationArray.append(annotation)
+                    }
+                    
+                }
+                
+                
+                DispatchQueue.main.async(execute: self.updateInfo)
+                //DispatchQueue.main.async(execute: self.postDone)
+            }
+            task.resume()
+        }
+        
+    }
+    
+    func updateInfo() {
+        //updates new markers
+        print("check")
+        var region = mapView.region
+        region.center = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!,
+                                               longitude: (locationManager.location?.coordinate.longitude)!)
+        mapView.setRegion(region, animated: true)
+        mapView.removeAnnotations(annotationArray)
+        annotationArray.removeAll()
+        mapView.addAnnotations(updateAnnotationArray)
+        for annotation in updateAnnotationArray {
+            annotationArray.append(annotation)
+        }
+        self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.pollforUsers(_:)), userInfo: nil, repeats: false)
+        self.updateAnnotationArray.removeAll()
     }
     
     //////////////////////////////
@@ -333,9 +439,9 @@ class AppleMapsViewController: UIViewController {
                         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                         
                         self?.present(alert, animated: true, completion: nil)
-                        //if self?.timer != nil {
-                        //    self?.timer.invalidate()
-                        //}
+                        if self?.timer != nil {
+                            self?.timer.invalidate()
+                        }
                         //self?.coins.text = "\(appDelegate.point_count)"
                     } else {
                         let alert = UIAlertController(
@@ -388,9 +494,9 @@ class AppleMapsViewController: UIViewController {
     //End Ride FUnctions
     ////////////////////////////
     func endRideButtonAction(_ button: UIBarButtonItem) {
-        //if self.timer != nil {
-        //    self.timer.invalidate()
-        //}
+        if self.timer != nil {
+            self.timer.invalidate()
+        }
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let dict = ["user_email":appDelegate.user_email] as [String: Any]
         print(dict)
