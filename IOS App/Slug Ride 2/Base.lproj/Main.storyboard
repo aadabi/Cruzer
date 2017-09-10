@@ -334,6 +334,14 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JBz-cM-HFH">
+                                <rect key="frame" x="164" y="499" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <segue destination="hzq-fo-4m6" kind="show" id="kW2-FY-wKB"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.85483099490000003" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -370,23 +378,23 @@
             </objects>
             <point key="canvasLocation" x="-119.2" y="-412.44377811094455"/>
         </scene>
-        <!--Left View Controller-->
-        <scene sceneID="gba-vf-afR">
+        <!--Payment View Controller-->
+        <scene sceneID="01K-Fr-Wnc">
             <objects>
-                <viewController storyboardIdentifier="LeftViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Vgp-ot-A2f" customClass="LeftViewController" customModule="Slug_Ride_2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="hzq-fo-4m6" customClass="PaymentViewController" customModule="Slug_Ride_2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="32p-wF-5QQ"/>
-                        <viewControllerLayoutGuide type="bottom" id="JqL-UG-QZf"/>
+                        <viewControllerLayoutGuide type="top" id="KBJ-Fh-pjx"/>
+                        <viewControllerLayoutGuide type="bottom" id="PP0-As-5Hx"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="FEx-Fw-J0D" customClass="Left">
+                    <view key="view" contentMode="scaleToFill" id="kTL-ie-BFQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1ea-NP-UCp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sqa-sP-bmH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="772" y="-270"/>
+            <point key="canvasLocation" x="540" y="116"/>
         </scene>
         <!--Edit Information View Controller-->
         <scene sceneID="Eeb-V7-AIb">

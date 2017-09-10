@@ -25,13 +25,15 @@ class AppleMapsViewController: UIViewController {
     var resultSearchController: UISearchController!
     
     let locationManager = CLLocationManager()
-    var myRoute : MKRoute!
-    
+    var myRoute :MKRoute = MKRoute()
     var destinationArray : [CLLocationCoordinate2D] = []
     var annotationArray : [customPin] = []
     var updateAnnotationArray : [customPin] = []
     @IBOutlet weak var mapView: MKMapView!
     
+    var curr = 1
+    var madefar = false
+    let synthesizer = AVSpeechSynthesizer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,8 +117,9 @@ class AppleMapsViewController: UIViewController {
                 
             }
         })
+        //
         startRide()
-        //locationManager.startUpdatingLocation()
+        locationManager.startUpdatingLocation()
     }
     
     //////////////////////////////////
@@ -191,6 +194,8 @@ class AppleMapsViewController: UIViewController {
         
         let backButton2 = UIBarButtonItem(title: "End Ride", style: UIBarButtonItemStyle.plain, target: self, action: #selector(AppleMapsViewController.endRideButtonAction(_:)))
         self.navigationItem.rightBarButtonItem = backButton2
+        
+        
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.pollforUsers(_:)), userInfo: nil, repeats: false)
     }
     
@@ -208,7 +213,7 @@ class AppleMapsViewController: UIViewController {
                     "driver_status":appDelegate.driver_status] as [String: Any]
         print(dict)
         if let jsonData = try? JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted){
-            print("success")
+            //print("success")
             //SUBJECT TO URL CHANGE!!!!!
             let url = NSURL(string: "http://138.68.252.198:8000/rideshare/query_ride/")!
             let request = NSMutableURLRequest(url: url as URL)
@@ -226,19 +231,19 @@ class AppleMapsViewController: UIViewController {
                         return
                     }
                 }
-                print("success1")
+                //print("success1")
                 guard error == nil else{
                     print(error!)
                     return
                 }
-                print("success2")
+                //print("success2")
                 guard let data = data else {
                     print("Data Empty")
                     return
                 }
-                print("success3")
+                //print("success3")
                 let json = try! JSONSerialization.jsonObject(with: data, options: []) as AnyObject
-                print(json)
+                //print(json)
                 
                 //Clears previous markers
                 self.updateAnnotationArray.removeAll()
@@ -271,7 +276,7 @@ class AppleMapsViewController: UIViewController {
     
     func updateInfo() {
         //updates new markers
-        print("check")
+        //print("check")
         var region = mapView.region
         region.center = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!,
                                                longitude: (locationManager.location?.coordinate.longitude)!)
@@ -487,6 +492,8 @@ class AppleMapsViewController: UIViewController {
         
         myLineRenderer.lineWidth = 3
         
+        print(myRoute.steps)
+        self.navigationItem.title = self.myRoute.steps[0].instructions
         return myLineRenderer
     }
     
@@ -497,6 +504,7 @@ class AppleMapsViewController: UIViewController {
         if self.timer != nil {
             self.timer.invalidate()
         }
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let dict = ["user_email":appDelegate.user_email] as [String: Any]
         print(dict)
@@ -572,19 +580,83 @@ extension AppleMapsViewController : CLLocationManagerDelegate {
             locationManager.requestLocation()
         }
     }
-    
+
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations[0]
         
-        let span:MKCoordinateSpan = MKCoordinateSpanMake(0.05, 0.05)
-        let myLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
-        let region:MKCoordinateRegion = MKCoordinateRegionMake(myLocation, span)
-        mapView.setRegion(region, animated: true)
+        //let span:MKCoordinateSpan = MKCoordinateSpanMake(0.05, 0.05)
+        //let myLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
+        //let region:MKCoordinateRegion = MKCoordinateRegionMake(myLocation, span)
+        //mapView.setRegion(region, animated: true)
         
         print(location.altitude)
         print(location.speed)
         
         self.mapView.showsUserLocation = true
+        
+        // Updating current instruction
+        if self.myRoute.steps.count > self.curr {
+            print("Check")
+            // Getting the coordinates in the polyline
+            let poly = self.myRoute.steps[self.curr].polyline
+            var coordsPointer = UnsafeMutablePointer<CLLocationCoordinate2D>.allocate(capacity: poly.pointCount)
+            poly.getCoordinates(coordsPointer, range: NSMakeRange(0, poly.pointCount))
+            var coords: [CLLocationCoordinate2D] = []
+            for i in 0..<poly.pointCount {
+                coords.append(coordsPointer[i])
+            }
+            coordsPointer.deallocate(capacity: poly.pointCount)
+            
+            // Getting the end point of the step
+            let point = coords[0]
+            let location2 = CLLocation(latitude: point.latitude, longitude: point.longitude)
+            
+            // If the current location is less than 50 meters from the end of the route step, announce the instruction
+            if  Int((location.distance(from: location2))) < 50 {
+                if (madefar) {
+                    let utterance = AVSpeechUtterance(string: navigationItem.title!)
+                    utterance.rate = 0.5
+                    self.synthesizer.speak(utterance)
+                    self.madefar  = false
+                }
+            }
+            // If the current location is now more than 50 meters away from the last step
+            else if (!madefar) {
+                
+                // Converting the distance from meters to feet
+                var distance=Int(self.myRoute.steps[self.curr].distance * 3.28)
+                
+                // Declaring the utterance for the next step
+                var utterance = AVSpeechUtterance()
+                
+                // Setting the utterance based on how far the next step is (using miles, fractinos of miles, or feet)
+                // and rounding that distance
+                if distance > 5280 {
+                    distance = distance / 528
+                    let newDistance = Double(distance)/10.0
+                    utterance = AVSpeechUtterance(string: "In " + String(newDistance) + " miles, " + self.myRoute.steps[self.curr].instructions )
+                } else if distance > 528 {
+                    distance = (distance / 528)
+                    utterance = AVSpeechUtterance(string: "In point " + String(distance) + " miles, " + self.myRoute.steps[self.curr].instructions)
+                    
+                } else if distance > 100 {
+                    distance = (distance / 100) * 100
+                    utterance = AVSpeechUtterance(string:  "In " + String(distance) + " feet, " + self.myRoute.steps[self.curr].instructions)
+                } else {
+                    utterance = AVSpeechUtterance(string: "In " + String(distance) + " feet, " + self.myRoute.steps[self.curr].instructions)
+                }
+                
+                // Speaking the next step
+                utterance.rate = 0.5
+                self.synthesizer.speak(utterance)
+                self.navigationItem.title = self.myRoute.steps[self.curr].instructions
+                
+                // Updating to the next step
+                self.madefar = true
+                curr+=1
+            }
+        }
+
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -619,20 +691,34 @@ extension AppleMapsViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?{
         print("Check1")
-        guard !(annotation is MKUserLocation) else { return nil }
-        let reuseId = "pin"
-        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
-        if pinView == nil {
-            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+        if let pin = annotation as? customPin {
+            guard !(annotation is MKUserLocation) else { return nil }
+            let reuseId = "pin"
+            var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+            if pinView == nil {
+                pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            }
+            pinView?.pinTintColor = pin.pinColor
+            pinView?.canShowCallout = true
+ 
+            return pinView
+        } else {
+            guard !(annotation is MKUserLocation) else { return nil }
+            let reuseId = "pin"
+            var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+            if pinView == nil {
+                pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            }
+            pinView?.pinTintColor = UIColor.orange
+            pinView?.canShowCallout = true
+            let smallSquare = CGSize(width: 30, height: 30)
+            let button = UIButton(frame: CGRect(origin: CGPoint.zero, size: smallSquare))
+            button.setBackgroundImage(UIImage(named: "car"), for: UIControlState())
+            button.addTarget(self, action: #selector(AppleMapsViewController.getDirections), for: .touchUpInside)
+            pinView?.rightCalloutAccessoryView = button
+            
+            return pinView
         }
-        pinView?.pinTintColor = UIColor.orange
-        pinView?.canShowCallout = true
-        let smallSquare = CGSize(width: 30, height: 30)
-        let button = UIButton(frame: CGRect(origin: CGPoint.zero, size: smallSquare))
-        button.setBackgroundImage(UIImage(named: "car"), for: UIControlState())
-        button.addTarget(self, action: #selector(AppleMapsViewController.getDirections), for: .touchUpInside)
-        pinView?.rightCalloutAccessoryView = button
-        
-        return pinView
+
     }
 }
