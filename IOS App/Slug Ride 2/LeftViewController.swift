@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LeftViewController : UIViewController {
+class PaymentViewController : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
