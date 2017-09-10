@@ -820,6 +820,8 @@ def user_registration(request):
 	user = User.objects.create_user(first_name = jsonobj['first_name'], last_name = jsonobj['last_name'], email = jsonobj['email'], username = jsonobj['email'])
 	user.set_password(jsonobj['password'])
 	email = jsonobj['email']
+	if email.endswith("ucsc.edu") is False:
+		return HttpResponse(status=400)
 	first_name = jsonobj['first_name']
 	last_name = jsonobj['last_name']
 	share_code = jsonobj['share_code']

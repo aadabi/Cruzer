@@ -10,7 +10,7 @@ class CustomActiveRide(admin.ModelAdmin):
 	search_fields = ['driver_email']
 	list_display = ('driver_email','get_name')
 	def get_name(self, obj):
-		return obj.userprofile.email
+		return "test" #obj.userprofile.email
 	get_name.admin_order_field  = 'userprofile'  #Allows column order sorting
 	get_name.short_description = 'Rider Email'  #Renames column head
 	
