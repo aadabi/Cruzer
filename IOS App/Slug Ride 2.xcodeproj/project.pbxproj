@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4129A0B91F68F5EA007D1110 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4129A0B61F68F5EA007D1110 /* Alamofire.framework */; };
+		4129A0BA1F68F5EA007D1110 /* Braintree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4129A0B71F68F5EA007D1110 /* Braintree.framework */; };
+		4129A0BB1F68F5EA007D1110 /* BraintreeDropIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4129A0B81F68F5EA007D1110 /* BraintreeDropIn.framework */; };
 		586B41511ED9267900060857 /* ridervid2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 586B41501ED9266C00060857 /* ridervid2.mp4 */; };
 		587F48C81EE741CD000E3F4B /* drivervidfin.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 587F48C61EE7413F000E3F4B /* drivervidfin.mp4 */; };
 		587F48C91EE741D3000E3F4B /* front.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 587F48C71EE7413F000E3F4B /* front.mp4 */; };
@@ -77,7 +80,6 @@
 		5B737E451EC2FD6000D14DBB /* IQUIView+IQKeyboardToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B737E331EC2FD6000D14DBB /* IQUIView+IQKeyboardToolbar.swift */; };
 		5B737E461EC2FD6000D14DBB /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5B737E351EC2FD6000D14DBB /* IQKeyboardManager.bundle */; };
 		5B766AA11F0E1BC100697819 /* MarketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B766AA01F0E1BC100697819 /* MarketViewController.swift */; };
-		5BF97C661F450D97003F8F54 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF97C651F450D97003F8F54 /* SWRevealViewController.m */; };
 		9A066CC74B8A70EA3F3DF98F /* Pods_Slug_Ride_2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84424FA16559502B87DADE04 /* Pods_Slug_Ride_2.framework */; };
 		9B7D456C1EA7744B00FA2FF5 /* AccountInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D456B1EA7744B00FA2FF5 /* AccountInformationViewController.swift */; };
 		9B7D456E1EA775D900FA2FF5 /* EditInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7D456D1EA775D900FA2FF5 /* EditInformationViewController.swift */; };
@@ -111,6 +113,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4129A0B61F68F5EA007D1110 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../Library/Developer/Xcode/DerivedData/Slug_Ride_2-abnzsxgkrlapmbehjccusxpypjjr/Build/Products/Debug-iphonesimulator/Alamofire/Alamofire.framework"; sourceTree = "<group>"; };
+		4129A0B71F68F5EA007D1110 /* Braintree.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Braintree.framework; path = "../../../Library/Developer/Xcode/DerivedData/Slug_Ride_2-abnzsxgkrlapmbehjccusxpypjjr/Build/Products/Debug-iphonesimulator/Braintree/Braintree.framework"; sourceTree = "<group>"; };
+		4129A0B81F68F5EA007D1110 /* BraintreeDropIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BraintreeDropIn.framework; path = "../../../Library/Developer/Xcode/DerivedData/Slug_Ride_2-abnzsxgkrlapmbehjccusxpypjjr/Build/Products/Debug-iphonesimulator/BraintreeDropIn/BraintreeDropIn.framework"; sourceTree = "<group>"; };
 		586B41501ED9266C00060857 /* ridervid2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = ridervid2.mp4; sourceTree = "<group>"; };
 		587F48C61EE7413F000E3F4B /* drivervidfin.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = drivervidfin.mp4; sourceTree = "<group>"; };
 		587F48C71EE7413F000E3F4B /* front.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = front.mp4; sourceTree = "<group>"; };
@@ -212,8 +217,6 @@
 		5BC013A81ED421380032951F /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		5BC013A91ED421380032951F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5BF97C631F450D96003F8F54 /* Slug Ride 2-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Slug Ride 2-Bridging-Header.h"; sourceTree = "<group>"; };
-		5BF97C641F450D97003F8F54 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = "../../../../../Downloads/SWRevealViewController-master/SWRevealViewController/SWRevealViewController.h"; sourceTree = "<group>"; };
-		5BF97C651F450D97003F8F54 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = "../../../../../Downloads/SWRevealViewController-master/SWRevealViewController/SWRevealViewController.m"; sourceTree = "<group>"; };
 		84424FA16559502B87DADE04 /* Pods_Slug_Ride_2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Slug_Ride_2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B7D456B1EA7744B00FA2FF5 /* AccountInformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountInformationViewController.swift; sourceTree = "<group>"; };
 		9B7D456D1EA775D900FA2FF5 /* EditInformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditInformationViewController.swift; sourceTree = "<group>"; };
@@ -242,6 +245,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4129A0B91F68F5EA007D1110 /* Alamofire.framework in Frameworks */,
+				4129A0BA1F68F5EA007D1110 /* Braintree.framework in Frameworks */,
+				4129A0BB1F68F5EA007D1110 /* BraintreeDropIn.framework in Frameworks */,
 				58B53E4B1EAEBCEF00060707 /* UIKit.framework in Frameworks */,
 				58B53E491EAEBCE800060707 /* SystemConfiguration.framework in Frameworks */,
 				58B53E471EAEBCE000060707 /* QuartzCore.framework in Frameworks */,
@@ -291,6 +297,9 @@
 		58B53E311EAEBC3F00060707 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4129A0B61F68F5EA007D1110 /* Alamofire.framework */,
+				4129A0B71F68F5EA007D1110 /* Braintree.framework */,
+				4129A0B81F68F5EA007D1110 /* BraintreeDropIn.framework */,
 				5BC013981ED421380032951F /* LBTAComponents */,
 				5BC013891ED421050032951F /* LBTAComponents */,
 				58B53E4A1EAEBCEF00060707 /* UIKit.framework */,
@@ -494,8 +503,6 @@
 			children = (
 				5B559A591F3C2DEF001709A2 /* SlideMenuControllerSwift.h */,
 				5B559A5A1F3C2DEF001709A2 /* SlideMenuController.swift */,
-				5BF97C641F450D97003F8F54 /* SWRevealViewController.h */,
-				5BF97C651F450D97003F8F54 /* SWRevealViewController.m */,
 				5B0B0B3B1F2191AC000E8FD7 /* rating.mp4 */,
 				5B4DD5FF1F353D55008CD50F /* Background.jpeg */,
 				586B41501ED9266C00060857 /* ridervid2.mp4 */,
@@ -627,7 +634,7 @@
 				TargetAttributes = {
 					9BAA30B61EA730C0003A5B54 = {
 						CreatedOnToolsVersion = 8.3.1;
-						DevelopmentTeam = ZU57MZ4K37;
+						DevelopmentTeam = 96A8ZKB2BA;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
@@ -846,7 +853,6 @@
 				5B392A8B1EB05A56008FF85B /* MenuViewController.swift in Sources */,
 				5B41BA811F0DDE8900167770 /* QRReaderViewController.swift in Sources */,
 				5B41BA981F0DE4E000167770 /* ToggleTorchButton.swift in Sources */,
-				5BF97C661F450D97003F8F54 /* SWRevealViewController.m in Sources */,
 				5B737E401EC2FD6000D14DBB /* IQTextView.swift in Sources */,
 				5B41BA971F0DE4E000167770 /* SwitchCameraButton.swift in Sources */,
 				5B737E3E1EC2FD6000D14DBB /* IQKeyboardManager.swift in Sources */,
@@ -1018,14 +1024,14 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = ZU57MZ4K37;
+				DEVELOPMENT_TEAM = 96A8ZKB2BA;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "Slug Ride 2/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "j90ojk.Slug-Ride-2";
+				PRODUCT_BUNDLE_IDENTIFIER = AliBuilt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Slug Ride 2/Slug Ride 2-Bridging-Header.h";
@@ -1042,14 +1048,14 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = ZU57MZ4K37;
+				DEVELOPMENT_TEAM = 96A8ZKB2BA;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "Slug Ride 2/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "j90ojk.Slug-Ride-2";
+				PRODUCT_BUNDLE_IDENTIFIER = AliBuilt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Slug Ride 2/Slug Ride 2-Bridging-Header.h";

@@ -13,4 +13,5 @@ target 'Slug Ride 2' do
     pod 'QRCode'
     pod 'FloatRatingView', '~> 2.0.0'
     pod 'SlideMenuControllerSwift'
+    pod 'BraintreeDropIn'
 end
