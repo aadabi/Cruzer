@@ -593,7 +593,9 @@ extension AppleMapsViewController : CLLocationManagerDelegate {
         print(location.speed)
         
         self.mapView.showsUserLocation = true
-        
+        ////////////
+        //Code for updating route
+        ////////////
         // Updating current instruction
         if self.myRoute.steps.count > self.curr {
             print("Check")

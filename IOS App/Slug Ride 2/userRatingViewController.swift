@@ -49,21 +49,21 @@ class userRatingViewController: UIViewController, FloatRatingViewDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        avPlayer.play()
-        paused = false
+        //avPlayer.play()
+        //paused = false
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        avPlayer.pause()
-        paused = true
+        //avPlayer.pause()
+        //paused = true
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.userName.text = appDelegate.ratingList[counter]
-
+ /*
         if let theURL: NSURL = Bundle.main.url(forResource: "rating", withExtension: "mp4")! as NSURL{
             avPlayer = AVPlayer(url: theURL as URL)
             
@@ -71,7 +71,7 @@ class userRatingViewController: UIViewController, FloatRatingViewDelegate {
         
         
         
-        
+       
         //AV player settings
         avPlayerLayer = AVPlayerLayer(player: avPlayer)
         avPlayerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
@@ -91,11 +91,12 @@ class userRatingViewController: UIViewController, FloatRatingViewDelegate {
                                                name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
                                                object: avPlayer.currentItem)
         
-
+        */
         /** Note: With the exception of contentMode, all of these
          properties can be set directly in Interface builder **/
 
         // Required float rating view params
+        view.backgroundColor = UIColor(r: 227, g: 226, b: 191)
         self.floatRatingView.emptyImage = UIImage(named: "StarEmpty")
         self.floatRatingView.fullImage = UIImage(named: "StarFull")
         // Optional params
@@ -170,11 +171,12 @@ class userRatingViewController: UIViewController, FloatRatingViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    /*
     //Repeat the video at the end
     func playerItemDidReachEnd(notification: Notification) {
         let p: AVPlayerItem = notification.object as! AVPlayerItem
         p.seek(to: kCMTimeZero)
-    }
+    }*/
     
     // MARK: FloatRatingViewDelegate
     

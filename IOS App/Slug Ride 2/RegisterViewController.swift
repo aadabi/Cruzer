@@ -39,28 +39,30 @@ class RegisterViewController : UIViewController{
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    /*
     func playerItemDidReachEnd(notification: Notification) {
         let p: AVPlayerItem = notification.object as! AVPlayerItem
         p.seek(to: kCMTimeZero)
-    }
+    }*/
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        avPlayer.play()
-        paused = false
+        self.navigationController?.isNavigationBarHidden = false
+        //avPlayer.play()
+        //paused = false
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        avPlayer.pause()
-        paused = true
+        //avPlayer.pause()
+        //paused = true
         self.navigationController?.isNavigationBarHidden = true
     }
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        /*
         //Video File used
         if let theURL: NSURL = Bundle.main.url(forResource: "ridervid2", withExtension: "mp4")! as NSURL{
             avPlayer = AVPlayer(url: theURL as URL)
@@ -82,7 +84,8 @@ class RegisterViewController : UIViewController{
                                                selector: #selector(playerItemDidReachEnd(notification:)),
                                                name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
                                                object: avPlayer.currentItem)
-        
+        */
+        view.backgroundColor = UIColor(r: 227, g: 226, b: 191)
         self.navigationController?.isNavigationBarHidden = false
         
     }
@@ -174,15 +177,7 @@ class RegisterViewController : UIViewController{
     //Set all the fields to false after finishing
     func RegisterDone()
     {
-        email_register.isEnabled = false
-        password_register.isEnabled = false
-        firstname_register.isEnabled = false
-        lastname_register.isEnabled = false
-        password_verify.isEnabled = false
-        
-        submit_register.isEnabled = false
-        
-        
-        submit_register.setTitle("Registered!", for: .normal)
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! userRatingViewController
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
