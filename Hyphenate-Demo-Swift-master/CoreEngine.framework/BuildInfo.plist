@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>GitBranch</key>
+	<string>release/1.11.4</string>
+	<key>GitBuildNumber</key>
+	<string>1145</string>
+	<key>GitDate</key>
+	<string>Mon May 22 19:42:55 2017 +0530</string>
+	<key>GitHash</key>
+	<string>d6096f6</string>
+	<key>GitNumModified</key>
+	<string>2</string>
+	<key>GitVersionTag</key>
+	<string>1.29.0</string>
+</dict>
+</plist>

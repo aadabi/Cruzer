@@ -12,6 +12,9 @@
 		5B001C321F6E761800ED455B /* MapQuestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B001C311F6E761800ED455B /* MapQuestViewController.swift */; };
 		5B001C361F6E777300ED455B /* yourImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5B001C351F6E777300ED455B /* yourImage.jpg */; };
 		5B001C381F6E7C3900ED455B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B001C371F6E7C3900ED455B /* MenuViewController.swift */; };
+		5B001C3A1F6E902B00ED455B /* ArityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B001C391F6E902A00ED455B /* ArityViewController.swift */; };
+		5B001C3C1F6E936900ED455B /* CoreEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B001C3B1F6E936800ED455B /* CoreEngine.framework */; };
+		5B001C3D1F6E936A00ED455B /* CoreEngine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B001C3B1F6E936800ED455B /* CoreEngine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		672BE66FDFF04D2E7D8741AD /* Pods_Hyphenate_Demo_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C955AB940CDDDC270F02086 /* Pods_Hyphenate_Demo_Swift.framework */; };
 		9011DF451EEEBEA400C43D05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9011DF441EEEBEA400C43D05 /* AppDelegate.swift */; };
 		9011DF4A1EEEBEA400C43D05 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9011DF481EEEBEA400C43D05 /* Main.storyboard */; };
@@ -399,6 +402,20 @@
 		90FB78991EF7EE9B00B02F60 /* EMEmojiEmoticons.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FB78961EF7EE9B00B02F60 /* EMEmojiEmoticons.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		5B001C3E1F6E936B00ED455B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5B001C3D1F6E936A00ED455B /* CoreEngine.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		299C482D5D0A4D8D7E358C06 /* Pods-Hyphenate-Demo-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hyphenate-Demo-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hyphenate-Demo-Swift/Pods-Hyphenate-Demo-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		2C955AB940CDDDC270F02086 /* Pods_Hyphenate_Demo_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hyphenate_Demo_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -407,6 +424,8 @@
 		5B001C311F6E761800ED455B /* MapQuestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapQuestViewController.swift; sourceTree = "<group>"; };
 		5B001C351F6E777300ED455B /* yourImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = yourImage.jpg; sourceTree = "<group>"; };
 		5B001C371F6E7C3900ED455B /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		5B001C391F6E902A00ED455B /* ArityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArityViewController.swift; sourceTree = "<group>"; };
+		5B001C3B1F6E936800ED455B /* CoreEngine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CoreEngine.framework; sourceTree = "<group>"; };
 		9011DF411EEEBEA400C43D05 /* Hyphenate-Demo-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hyphenate-Demo-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9011DF441EEEBEA400C43D05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9011DF491EEEBEA400C43D05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -827,6 +846,7 @@
 				672BE66FDFF04D2E7D8741AD /* Pods_Hyphenate_Demo_Swift.framework in Frameworks */,
 				90749EDD1EF90E5B00D3A065 /* libopencore-amrwb.a in Frameworks */,
 				90749EDC1EF90E5B00D3A065 /* libopencore-amrnb.a in Frameworks */,
+				5B001C3C1F6E936900ED455B /* CoreEngine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -853,6 +873,7 @@
 		9011DF381EEEBEA400C43D05 = {
 			isa = PBXGroup;
 			children = (
+				5B001C3B1F6E936800ED455B /* CoreEngine.framework */,
 				9011DF431EEEBEA400C43D05 /* Hyphenate-Demo-Swift */,
 				9011DF421EEEBEA400C43D05 /* Products */,
 				57677B3185BE2F10E5AD0D1D /* Pods */,
@@ -876,6 +897,7 @@
 				9011DF5C1EEEC02E00C43D05 /* Storyboards */,
 				9011DF561EEEC00800C43D05 /* Code */,
 				9011DF441EEEBEA400C43D05 /* AppDelegate.swift */,
+				5B001C391F6E902A00ED455B /* ArityViewController.swift */,
 				5B001C2B1F6E62BE00ED455B /* LoginViewController.swift */,
 				5B001C2D1F6E6CC100ED455B /* DriverViewController.swift */,
 				5B001C311F6E761800ED455B /* MapQuestViewController.swift */,
@@ -1613,6 +1635,7 @@
 				9011DF3F1EEEBEA400C43D05 /* Resources */,
 				5DC49C31E157DBED55969C35 /* [CP] Embed Pods Frameworks */,
 				3D20CFBE5A5A6C83003022E2 /* [CP] Copy Pods Resources */,
+				5B001C3E1F6E936B00ED455B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2118,6 +2141,7 @@
 				901D8D071F0F3998009D6644 /* EMSettingsViewController.swift in Sources */,
 				90749ED31EF90E5B00D3A065 /* EMAudioRecorderUtil.m in Sources */,
 				5B001C321F6E761800ED455B /* MapQuestViewController.swift in Sources */,
+				5B001C3A1F6E902B00ED455B /* ArityViewController.swift in Sources */,
 				90FB78851EF78EB000B02F60 /* EMMessageTextView.swift in Sources */,
 				908324EA1EEFE5F000811A97 /* EMMainViewController.swift in Sources */,
 				906AD6451EFB836D004CCCAE /* EMChatBaseBubbleView.swift in Sources */,
@@ -2262,6 +2286,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = ZU57MZ4K37;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Hyphenate-Demo-Swift/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2287,6 +2315,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = ZU57MZ4K37;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Hyphenate-Demo-Swift/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

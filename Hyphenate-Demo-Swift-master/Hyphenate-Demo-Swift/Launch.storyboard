@@ -254,6 +254,17 @@
                                     <action selector="HideFunction:" destination="aG6-k6-dIT" eventType="touchUpInside" id="yt6-iq-l5B"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="sHy-3T-Z96">
+                                <rect key="frame" x="313" y="517" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aso-VF-hM6">
+                                <rect key="frame" x="0.0" y="64" width="375" height="21"/>
+                                <color key="backgroundColor" red="0.88996034859999995" green="0.88609272240000003" blue="0.74841755629999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.001883967081" green="0.27543160319999999" blue="0.065926723179999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e6E-8B-YQG">
                                 <rect key="frame" x="171" y="373" width="33" height="30"/>
                                 <state key="normal" title="Chat">
@@ -268,6 +279,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="e6E-8B-YQG" firstAttribute="top" secondItem="3mi-tk-VSJ" secondAttribute="bottom" constant="65" id="4B7-Pc-FNU"/>
+                            <constraint firstItem="Aso-VF-hM6" firstAttribute="top" secondItem="4Lo-FJ-E76" secondAttribute="bottom" id="7ZD-6g-AfH"/>
                             <constraint firstItem="3mi-tk-VSJ" firstAttribute="centerX" secondItem="asF-jO-40z" secondAttribute="centerX" id="8j2-DU-Eo9"/>
                             <constraint firstItem="Zf8-ef-MvP" firstAttribute="centerX" secondItem="asF-jO-40z" secondAttribute="centerX" id="Clo-Bf-rWJ"/>
                             <constraint firstItem="Zf8-ef-MvP" firstAttribute="bottom" secondItem="ivg-WU-BTh" secondAttribute="bottom" id="DZD-Cn-T5J"/>
@@ -276,12 +288,14 @@
                             <constraint firstItem="ivg-WU-BTh" firstAttribute="centerY" secondItem="asF-jO-40z" secondAttribute="centerY" id="Iaz-Fo-B83"/>
                             <constraint firstAttribute="trailing" secondItem="RLm-za-hWc" secondAttribute="trailing" id="Kfz-8c-9kD"/>
                             <constraint firstItem="a72-vH-1Hc" firstAttribute="centerY" secondItem="asF-jO-40z" secondAttribute="centerY" id="LfZ-eD-h5S"/>
+                            <constraint firstItem="Aso-VF-hM6" firstAttribute="leading" secondItem="asF-jO-40z" secondAttribute="leading" id="LzM-JY-1rX"/>
                             <constraint firstItem="3mi-tk-VSJ" firstAttribute="top" secondItem="a72-vH-1Hc" secondAttribute="top" id="NUc-YP-Fdd"/>
                             <constraint firstItem="oVM-xc-FVQ" firstAttribute="top" secondItem="Ca3-dO-gHU" secondAttribute="bottom" id="NXQ-0E-TCd"/>
                             <constraint firstItem="Ca3-dO-gHU" firstAttribute="top" secondItem="RLm-za-hWc" secondAttribute="bottom" id="O7U-8d-5Mz"/>
                             <constraint firstAttribute="trailing" secondItem="Ca3-dO-gHU" secondAttribute="trailing" id="amQ-lB-P3b"/>
                             <constraint firstItem="RLm-za-hWc" firstAttribute="leading" secondItem="asF-jO-40z" secondAttribute="leading" id="deg-mI-uHh"/>
                             <constraint firstItem="a72-vH-1Hc" firstAttribute="centerX" secondItem="asF-jO-40z" secondAttribute="centerX" id="kmB-xO-Z9i"/>
+                            <constraint firstAttribute="trailing" secondItem="Aso-VF-hM6" secondAttribute="trailing" id="lFb-sZ-v2v"/>
                             <constraint firstItem="RLm-za-hWc" firstAttribute="top" secondItem="4Lo-FJ-E76" secondAttribute="bottom" id="mr4-U1-wYb"/>
                             <constraint firstItem="e6E-8B-YQG" firstAttribute="centerX" secondItem="3mi-tk-VSJ" secondAttribute="centerX" id="riG-gm-dsS"/>
                             <constraint firstItem="Ca3-dO-gHU" firstAttribute="leading" secondItem="asF-jO-40z" secondAttribute="leading" id="rxv-tt-Jcu"/>
@@ -298,14 +312,16 @@
                         <outlet property="HideButton" destination="Zf8-ef-MvP" id="Tsk-fV-ZAE"/>
                         <outlet property="PersonImage" destination="3mi-tk-VSJ" id="qvf-Lc-HE1"/>
                         <outlet property="QRImage" destination="a72-vH-1Hc" id="k6a-IJ-kzO"/>
+                        <outlet property="arityScore" destination="Aso-VF-hM6" id="ced-Pp-S3O"/>
                         <outlet property="backgroundLabel" destination="RLm-za-hWc" id="9kJ-Vh-hxH"/>
                         <outlet property="dirLabel" destination="Ca3-dO-gHU" id="uAj-0W-JD4"/>
                         <outlet property="mapView" destination="asF-jO-40z" id="B7T-Fb-lnb"/>
+                        <outlet property="tripIndicator" destination="sHy-3T-Z96" id="Djf-yW-Tkt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gEa-FE-uDq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4287" y="247"/>
+            <point key="canvasLocation" x="4285.6000000000004" y="246.9265367316342"/>
         </scene>
     </scenes>
     <resources>

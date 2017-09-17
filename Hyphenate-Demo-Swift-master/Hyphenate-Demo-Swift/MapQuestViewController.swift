@@ -9,16 +9,18 @@ import UIKit
 import Mapbox
 import SwiftyJSON
 import AVFoundation
+import CoreEngine
 
 struct dir {
     let coords: CLLocationCoordinate2D
     let narative: String
 }
 
-class MapQuestViewController: UIViewController, MGLMapViewDelegate, UISearchBarDelegate {
+class MapQuestViewController: UIViewController, MGLMapViewDelegate, UISearchBarDelegate, DEMDrivingEngineDelegate, DEMDrivingEngineDataSource {
     @IBOutlet var mapView : MGLMapView!
     fileprivate var searchController: UISearchController!
     
+    @IBOutlet weak var arityScore: UILabel!
     @IBOutlet weak var QRImage: UIImageView!
     @IBOutlet weak var backgroundLabel: UILabel!
     @IBOutlet weak var dirLabel: UILabel!
@@ -30,6 +32,7 @@ class MapQuestViewController: UIViewController, MGLMapViewDelegate, UISearchBarD
     @IBOutlet weak var PersonImage: UIImageView!
     @IBOutlet weak var ChatButton: UIButton!
     @IBOutlet weak var HideButton: UIButton!
+    @IBOutlet weak var tripIndicator: UIActivityIndicatorView!
     
     //////////////////////////////////
     //Load Code
@@ -37,13 +40,13 @@ class MapQuestViewController: UIViewController, MGLMapViewDelegate, UISearchBarD
     override func viewDidLoad() {
         super.viewDidLoad()
         print("check")
-
+        self.arityScore.isHidden = true
         self.view.addSubview(navBar)
         self.AnnotationLabel.isHidden = true
         self.PersonImage.isHidden = true
         self.ChatButton.isHidden = true
         self.HideButton.isHidden = true
-        
+        self.tripIndicator.isHidden = true
         mapView.delegate = self
         //mapView?.mapType = .normal
         self.dirLabel.isHidden = true
@@ -58,6 +61,20 @@ class MapQuestViewController: UIViewController, MGLMapViewDelegate, UISearchBarD
         
         let searchButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search, target: self, action: #selector(MapQuestViewController.searchButtonAction(_:)))
         self.navigationItem.rightBarButtonItem = searchButton
+        
+        //Arity stuff down here
+        // using core engine setup
+        setupCoreEngine()
+        
+        
+        // register the view controller as a listener
+        //registerDriveEventListener()
+        // configure Driving Engine
+        //configureDrivingEngine()
+
+        //let sharedEngine = DEMDrivingEngineManager.sharedManager() as! DEMDrivingEngineManager
+        //sharedEngine.startEngine()
+        
     }
     
     
@@ -135,7 +152,22 @@ class MapQuestViewController: UIViewController, MGLMapViewDelegate, UISearchBarD
     //Error Message Code
     //////////////////////////////////
     func errorMessage(err :String) {
-        let alert = UIAlertController(title: "Login Error", message: err, preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Arity Report", message: err, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title:"Ok",style: UIAlertActionStyle.default, handler:
+            {action in
+                
+                //set timer for polling again because rider was declined
+                //self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.pollforRequests(_:)), userInfo: nil, repeats: true)
+        }
+        ))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    //////////////////////////////////
+    //Error Message Code
+    //////////////////////////////////
+    func errorMessage2(err :String) {
+        let alert = UIAlertController(title: "Arity Safe Alert", message: err, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title:"Ok",style: UIAlertActionStyle.default, handler:
             {action in
                 
@@ -293,6 +325,9 @@ class MapQuestViewController: UIViewController, MGLMapViewDelegate, UISearchBarD
         }
     }
     
+    var severity : String = ""
+    var accType : String = ""
+    
     func postDone() {
         navigationItem.titleView = nil
         let appDelegate = UIApplication.shared.delegate as! AppDelegate        
@@ -301,10 +336,52 @@ class MapQuestViewController: UIViewController, MGLMapViewDelegate, UISearchBarD
         //self.navigationItem.rightBarButtonItem = backButton2
         
         
+        //Arity Danger Code
+        let geovar = "LINESTRING(-122.38975524902344%2037.774187545982066,-122.40983963012695%2037.808508255745316)"
+        let radvar = 0.001
+        let url = NSURL(string: "https://api-beta.arity.com/safeAlert/v1/location?geometry=" + geovar + "&radius=\(radvar)")!
+        let request = NSMutableURLRequest(url: url as URL)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        //request.httpBody = jsonData
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest){
+            data, response, error in
+            if let httpResponse = response as? HTTPURLResponse{
+                print(httpResponse.statusCode)
+                if(httpResponse.statusCode != 200){
+                    print("error")
+                    return
+                }
+            }
+            //print("success1")
+            guard error == nil else{
+                print(error!)
+                return
+            }
+            //print("success2")
+            guard let data = data else {
+                print("Data Empty")
+                return
+            }
+            //print("success3")
+            let json = JSON(data: data)
+            self.severity = json["safeAlertList"]["safeAlertItem"][0]["severity"].string!
+            self.accType = json["safeAlertList"]["safeAlertItem"][0]["safeAlertType"].string!
+            self.errorMessage(err: self.severity + " risk of " + self.accType + " up ahead")
+            
+            //DispatchQueue.main.async(execute: self.postReport)
+            //DispatchQueue.main.async(execute: self.postDone)
+        }
+        task.resume()
+
+        
+        
+        
+        
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.pollforUsers(_:)), userInfo: nil, repeats: false)
     }
-    
-    
+
     
     var updateAnnotationArray : [MGLPointAnnotation] = []
     var annotationArray : [MGLPointAnnotation] = []
@@ -357,6 +434,9 @@ class MapQuestViewController: UIViewController, MGLMapViewDelegate, UISearchBarD
                 //Clears previous markers
                 self.updateAnnotationArray.removeAll()
                 let userss = json["user_list"].array
+                self.score = json["tagscore"].int!
+                
+                //print("Arity TagScore:\(json["tagscore"].int)")
                 for user in userss! {
                     if user["user_email"].string != appDelegate.user_email {
                         let annotation = MGLPointAnnotation()
@@ -370,6 +450,7 @@ class MapQuestViewController: UIViewController, MGLMapViewDelegate, UISearchBarD
                         }
                         //marker.snippet = "Destination: \(user["destination_longitude"] as! Double)"
                         self.updateAnnotationArray.append(annotation)
+                        
                     }
                     
                 }
@@ -383,7 +464,12 @@ class MapQuestViewController: UIViewController, MGLMapViewDelegate, UISearchBarD
         
     }
     
+    var score = 0
+    
     func updateInfo() {
+        self.arityScore.text = "Arity TagScore:\(self.score)"
+        self.mapView.bringSubview(toFront: self.arityScore)
+        self.arityScore.isHidden = false
         //updates new markers
         //print("check")
         //var region = mapView.region
@@ -512,5 +598,224 @@ class MapQuestViewController: UIViewController, MGLMapViewDelegate, UISearchBarD
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    //Arity code down here
+    func setupCoreEngine() {
+        
+        //creates a singleton instance of the DEMDrivingEngineManager
+        let sharedEngine  = DEMDrivingEngineManager.sharedManager() as! DEMDrivingEngineManager
+        
+        //creates a singleton instance of the DEMConfiguration with default configuration
+        let engineConfiguration = DEMConfiguration.sharedManager() as DEMConfiguration
+        
+        /* OPTIONAL : Can set properties of DEMConfiguration as below, with valid values, else default configuration would be set */
+        engineConfiguration.enableDeveloperMode = true
+        // To detect speeding violation
+        engineConfiguration.speedLimit = 40
+        // To collect trip's raw data on device storage in developer mode
+        engineConfiguration.enableRawDataCollection = false
+        //  if webservices enabled/true, engine will submit the trip summary to Arity server
+        engineConfiguration.enableWebServices = false
+        
+        /* Sets tunable configuration parameters within the engine as per the Configuration object passed */
+        //An error will thrown for any invalid value passed
+        //please check the range of values for each property in DEMConfiguration.h file
+        
+        sharedEngine.setConfiguration(engineConfiguration)
+       
+        // Sets the delegate which delivers the engine outputs
+        sharedEngine.delegate = self
+        
+        // Registers for  all the events
+        registerForAllEvents()
+        
+        /* Registers for just individual Event capture: Example Braking as below*/
+        //registerForBrakingEvent()
+        
+        /* Sets the applications desired path for log file collection,Overrides the default path*/
+        //sharedEngine.setApplicationPath("**Application path **")
+        
+        // start Engine
+        sharedEngine.startEngine()
+    }
+    // Register to capture all events
+    func registerForAllEvents()  {
+        let sharedEngine  = DEMDrivingEngineManager.sharedManager() as! DEMDrivingEngineManager
+        // The below registers  for all the events
+        sharedEngine.register(for: DEMEventCaptureMask.all)
+    }
     
+    // Register for braking events only
+    func registerForBrakingEvent()  {
+        let sharedEngine  = DEMDrivingEngineManager.sharedManager() as! DEMDrivingEngineManager
+        // Individual events can also be registered as done below for braking
+        sharedEngine.register(for: DEMEventCaptureMask.brakingDetected)
+    }
+    
+    // MARK: DEMDrivingEngineDelegate - Required methods
+    
+    // Delegate will be fired when trip starts
+    //
+    func didStartTripRecording(_ drivingEngine: DEMDrivingEngineManager!) -> String! {
+        tripIndicator.startAnimating()
+        // It should return a unique tripID (40characters) , else SDK would generate a unique tripID from its end.
+        return "";
+    }
+    
+    // Delegate  will be fired when trip is completed
+    func didStopTripRecording(_ drivingEngine: DEMDrivingEngineManager!)
+    {
+        tripIndicator.stopAnimating()
+    }
+    
+    // Delegate will be fired at every 5 miles and at the end of the trip, if driveCompletionFlag= true, DEMTripInfo object will contain the entire trip data and trip is considered as completed
+    func drivingEngine(_ drivingEngine: DEMDrivingEngineManager!, didSaveTripInformation trip: DEMTripInfo!, driveStatus driveCompletionFlag: Bool){
+        //SDK is not completely compliant to Swift 3.0, hence some of the properties appear as implicitly unwrapped optionals in the Swift code
+        if (driveCompletionFlag == true) {
+            // Few DEMTripInfo object properties
+            print("#tripID :",trip.tripID)
+            print("#startBatteryLevel:",trip.startBatteryLevel)
+            print("#endBatterylevel :",trip.endBatteryLevel)
+            print("#startLocation :",trip.startLocation)
+            print("#endLocation :",trip.endLocation)
+            print("#startTime :",trip.startTime)
+            print("#endTime :",trip.endTime)
+            print("#distanceCovered :",trip.distanceCovered)
+            print("#duration :",trip.duration)
+            print("#averageSpeed :",trip.averageSpeed)
+            print("#maximumSpeed :",trip.maximumSpeed)
+            print("#terminationId :",trip.terminationId)
+            print("#speedingCount :",trip.speedingCount)
+            
+            // Dima's arity server API code here
+            // Compose JSON here
+            // Data being sent to the server is:
+            // tripID - string, startLocation - string, endLocation - string,
+            // maximumSpeed - float, speedingCount - int, distanceCovered - float
+            //
+            
+            let dict = ["user_email":"od1@ucsc.edu",
+                        "tripid":trip.tripID,
+                        "startlocation":trip.startLocation,
+                        "endlocation":trip.endLocation,
+                        "maximumspeed":trip.maximumSpeed,
+                        "speedingcount":trip.speedingCount,
+                        "distancecovered":trip.distanceCovered] as [String: Any]
+            if let jsonData = try? JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted){
+                print("success")
+                //SUBJECT TO URL CHANGE!!!!!
+                let url = NSURL(string: "http://138.68.252.198:8000/rideshare/get_arity_trip_data/")!
+                let request = NSMutableURLRequest(url: url as URL)
+                request.httpMethod = "POST"
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.httpBody = jsonData
+                
+                let task = URLSession.shared.dataTask(with: request as URLRequest){
+                    data, response, error in
+                    if let httpResponse = response as? HTTPURLResponse{
+                        print(httpResponse.statusCode)
+                        if(httpResponse.statusCode != 200){
+                            print("error")
+                            return
+                        }
+                    }
+                    print("success1")
+                    guard error == nil else{
+                        print(error!)
+                        return
+                    }
+                    print("success2")
+                    guard data != nil else{
+                        print("data is empty")
+                        return
+                    }
+                    print("success3")
+                    //let json = try! JSONSerialization.jsonObject(with: data, options: []) as AnyObject
+                    //print(json)
+                }
+                task.resume()
+            }
+            print("SDK data sent to reciever")
+            //Dima Arity end
+        }
+    }
+    
+    // Delegate will be fired when trip is invalid , i.e does not meet the requirement for a valid trip i.e minimumDistance or minimumDuration have not been met
+    func didStopInvalidTripRecording(_ drivingEngine: DEMDrivingEngineManager!){
+        
+    }
+    
+    // MARK: DEMDrivingEngineDelegate - Optional methods
+    
+    // Delegate will be fired whenever any error/warning occurs in SDK
+    func drivingEngine(_ drivingEngine: DEMDrivingEngineManager!, didErrorOccur errorInfo: DEMError!) {
+        let errorString = errorInfo.category
+        print("Error Category:%@",errorString!)
+        let errorCodeString = errorInfo.errorCode
+        let stringErrorCode = String(errorCodeString)
+        print("Error Code:%@",stringErrorCode)
+        //errorInf.additionalInfo will return NSDictionary having key value pair
+        // LocalizedDescription is the key which has the error descripton against it
+        let errorDescription: String? = errorInfo.additionalInfo?.value(forKey: "LocalizedDescription") as! String?
+        print("Error Description:%@",errorDescription!)
+    }
+    
+    // Delegate method will be fired when it detects start of a speeding event, DEMEventInfo will have values only till this point
+    func drivingEngine(_ drivingEngine: DEMDrivingEngineManager!, didDetectStartOfSpeeding overSpeedingEvent: DEMEventInfo!) {
+        self.errorMessage(err: "Reduce your speed!")
+        
+    }
+    
+    // Delegate method will be fired when it detects the end  of speeding event, DEMEventInfo will contain the complete event details
+    func drivingEngine(_ drivingEngine: DEMDrivingEngineManager!, didDetectEndOfSpeeding overSpeedingEvent: DEMEventInfo!) {
+        
+    }
+    
+    // Delegate method will be fired when it detects  an acceleration event,DEMEventInfo will have event details
+    func drivingEngine(_ drivingEngine: DEMDrivingEngineManager!, didDetectAcceleration accelerationEvent: DEMEventInfo!) {
+        
+    }
+    
+    // Delegate method will be fired when it detects  an braking event,DEMEventInfo will have event details
+    func drivingEngine(_ drivingEngine: DEMDrivingEngineManager!, didDetectBraking brakingEvent: DEMEventInfo!) {
+        
+    }
+    
+    // Delegate method will be fired when there is a change in GPS horizontalAccuracy, this would be notified irrespective of trip in progress or not
+    func didDetectGpsAccuracyChange(_ level: DEMGpsAccuracy) {
+        
+    }
+    
+    // Delegate method will be fired  with tripInfo Object when trip is started , The following propeties would contain  values at trip start : tripID, startLocation, startTime and startBatteryLevel
+    func didStartTripRecording(with tripInfo: DEMTripInfo!) {
+        //SDK is not completely compliant to Swift 3.0, hence some of the properties appear as implicitly unwrapped optionals in the Swift code, hence the if check
+        if(tripInfo.tripID != nil)
+        {
+            print("# TripID :%@",tripInfo.tripID)
+        }
+        print("# startBatteryLevel : ",tripInfo.startBatteryLevel)
+        print("# EndBatteryLevel : ",tripInfo.endBatteryLevel)
+        print("# StartLocation : ",tripInfo.startLocation)
+        if(tripInfo.endLocation != nil){
+            print("# EndLocation :",tripInfo.endLocation)
+        }
+        print("# StartTime : ",tripInfo.startTime)
+        if(tripInfo.endTime != nil){
+            print("EndTime : ",tripInfo.endTime)
+        }
+        print("# DistanceCovered :",tripInfo.distanceCovered)
+        print("# Duration :%f",tripInfo.duration)
+        print("# Average Speed :",tripInfo.averageSpeed)
+        print("# Maximum Speed :",tripInfo.maximumSpeed)
+    }
+    
+    // MARK:  Optional Datasource for Driving engine manager,
+    /* Optional : sets the meta data (any additional data to trip info)
+           additional data will be uploaded to server and it will be part of DEMTripInfo */
+    func metaData(forCurrentTrip drivingEngine: DEMDrivingEngineManager!) -> String! {
+        
+        return "Send the meta data here - max allowed is 4096 characters (underscore discarded). This is trip specific"
+    
+    // MARK: Mock button action
+    }
+
 }
