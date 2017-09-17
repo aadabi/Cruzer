@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSPhotoLibraryUsageDescription - 2</key>
+	<string>Your photo library is needed to choose a photo</string>
+	<key>NSCameraUsageDescription - 2</key>
+	<string>The camera is needed to scan QR codes</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This App wants to use your location</string>
+	<key>NSLocationAlwaysUsageDescription - 2</key>
+	<string></string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Speech recognition will be used to determine which words you speak into this device&apos;s microphone.</string>
+	<key>NSMicrophoneUsageDescription - 2</key>
+	<string>Your microphone will be used to record your speech when you press the &quot;Start Recording&quot; button.</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Hyphenate need your Camera</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Hyphenate need your Location</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Hyphenate need your Microphone</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Hyphenate need your Photo</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
+	<key>MQApplicationKey</key>
+	<string>PZQhkAK5GPYCKyWy6kA8ZSbAhjA5W0of</string>
+	<key>MGLMapboxAccessToken</key>
+	<string>pk.eyJ1IjoiYW5kcmV3amRhdG8iLCJhIjoiY2o3bzVnNncxMW50MzJ4bGF3N2EyMnh1NSJ9.zC27KW4dZgfQBGeVM7_5cA</string>
+	<key>NSAppTransportSecurity - 2</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+</dict>
+</plist>
