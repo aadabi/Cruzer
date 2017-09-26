@@ -35,4 +35,5 @@ urlpatterns = [
 	url(r'^rideshare/goal_info/$', views.goal_info),
 	url(r'^rideshare/forgot_password/$', views.forgot_password),
 	url(r'^rideshare/get_auth_token/$', rest_framework_views.obtain_auth_token, name='get_auth_token'),
+    url(r'^rideshare/get_arity_trip_data/$', views.get_arity_trip_data),
 ]

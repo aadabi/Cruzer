@@ -15,6 +15,13 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
 
+class UserPhoto(models.Model):
+	name = models.CharField(max_length=200)
+	image = models.ImageField(upload_to="media/images/", null=True, blank=True)
+	
+	def __str__(self):
+		return "{}".format(self.name)
+		
 class ActiveRide(models.Model):
 	driver_email = models.CharField(max_length=100)
 	def __str__(self):
@@ -40,18 +47,32 @@ class UserProfile(models.Model):
 	destination_latitude = models.FloatField(max_length=500,default=0)
 	world = models.ForeignKey(WorldInstance, on_delete=models.DO_NOTHING,null=True, blank=True)
 	active_ride = models.ForeignKey(ActiveRide, on_delete=models.DO_NOTHING,null=True,blank=True)
+	#arity_ride = models.ForeignKey(ArityRide, on_delete=models.DO_NOTHING,null=True,blank=True)
 	#user info about car
 	user_car = models.CharField(max_length=100, blank=True, null=True)
 	car_color = models.CharField(max_length=100, blank=True, null=True)
 	car_capacity = models.IntegerField(blank=True, null=True)
 	driver_license = models.CharField(max_length=100, blank=True, null=True)
+	#safety score form 1-10
+	tag_score = models.IntegerField(default=5)
 	def __str__(self):
 		return self.email
+
+class ArityRide(models.Model):
+	email = models.CharField(max_length=100)
+	tripid = models.CharField(max_length=200)
+	startlocation = models.CharField(max_length=100)
+	endlocation = models.CharField(max_length=100)
+	maximumspeed = models.FloatField(max_length=100,default=0)
+	speedingcount = models.IntegerField()
+	distancecovered = models.FloatField(max_length=100,default=0)
+	user = models.ForeignKey(UserProfile, on_delete=models.DO_NOTHING,null=True,blank=True)		
 	
 class RideHistory(models.Model):
 	user = models.ForeignKey(UserProfile, on_delete=models.DO_NOTHING,null=True,blank=True)
 	as_driver = models.BooleanField(default=False)
 	rating = models.FloatField(max_length=100,null=True,blank=True)
+	arity_ride = models.ForeignKey(ArityRide, on_delete=models.DO_NOTHING,null=True,blank=True)
 
 """
 API: Goal Information
