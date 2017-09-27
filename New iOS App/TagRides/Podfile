@@ -1,0 +1,25 @@
+#platform :ios, '9.0'
+
+source 'https://github.com/CocoaPods/Specs.git'
+target 'TagRides' do
+    use_frameworks!
+    
+
+    pod 'Alamofire', '~> 4.5'
+    pod "ChatSDKCore", :path => "../ChatSDK/ChatSDKCore"
+    pod "ChatSDKUI", :path => "../ChatSDK/ChatSDKUI"
+    pod "ChatSDKCoreData", :path => "../ChatSDK/ChatSDKCoreData" 
+    pod "Firebase/Auth"  
+    pod "Firebase/Database"  
+    pod "Firebase/Messaging"  
+    pod "Firebase/Storage"  
+    pod 'IQKeyboardManagerSwift', '4.0.10' 
+    pod 'SwiftyJSON'
+    pod 'LBTAComponents', '~> 0.1.9'
+    pod 'QRCodeReader.swift'
+    pod 'QRCode'
+    pod 'FloatRatingView', '~> 2.0.0'
+    pod 'SideMenu'
+    pod 'SlideMenuControllerSwift'
+    pod 'BraintreeDropIn'
+end

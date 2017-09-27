@@ -1,0 +1,6 @@
+framework module Pods_TagRides {
+  umbrella header "Pods-TagRides-umbrella.h"
+
+  export *
+  module * { export * }
+}
