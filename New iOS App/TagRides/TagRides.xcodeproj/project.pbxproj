@@ -30,6 +30,12 @@
 		5B3DA5BA1F7B092800EB8D89 /* ChangeLicenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3DA5B91F7B092800EB8D89 /* ChangeLicenseViewController.swift */; };
 		5B3DA5BC1F7B0C5700EB8D89 /* EditDriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3DA5BB1F7B0C5700EB8D89 /* EditDriverViewController.swift */; };
 		5B3DA5C01F7B4BDA00EB8D89 /* LeaderboardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3DA5BF1F7B4BDA00EB8D89 /* LeaderboardsViewController.swift */; };
+		5B5F1F1A1F7B6A5D006FF1F4 /* BFirebaseSocialLoginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5F1F0F1F7B6A5D006FF1F4 /* BFirebaseSocialLoginHandler.m */; };
+		5B5F1F1B1F7B6A5D006FF1F4 /* BFirebaseSocialLoginModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5F1F111F7B6A5D006FF1F4 /* BFirebaseSocialLoginModule.m */; };
+		5B5F1F1C1F7B6A5D006FF1F4 /* BGoogleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5F1F131F7B6A5D006FF1F4 /* BGoogleHelper.m */; };
+		5B5F1F1D1F7B6A5D006FF1F4 /* BGoogleLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5F1F151F7B6A5D006FF1F4 /* BGoogleLoginViewController.m */; };
+		5B5F1F1E1F7B6A5D006FF1F4 /* BGoogleLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B5F1F161F7B6A5D006FF1F4 /* BGoogleLoginViewController.xib */; };
+		5B5F1F1F1F7B6A5D006FF1F4 /* icn_200_google@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B5F1F171F7B6A5D006FF1F4 /* icn_200_google@3x.png */; };
 		5BCFC3F51F79CDF7001C95AC /* FloatRatingViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCFC3F21F79CDF7001C95AC /* FloatRatingViewDelegate.swift */; };
 		5BCFC3F61F79CDF7001C95AC /* QRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCFC3F31F79CDF7001C95AC /* QRReaderViewController.swift */; };
 		5BCFC3F71F79CDF7001C95AC /* QRViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCFC3F41F79CDF7001C95AC /* QRViewerViewController.swift */; };
@@ -115,6 +121,18 @@
 		5B3DA5B91F7B092800EB8D89 /* ChangeLicenseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeLicenseViewController.swift; sourceTree = "<group>"; };
 		5B3DA5BB1F7B0C5700EB8D89 /* EditDriverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDriverViewController.swift; sourceTree = "<group>"; };
 		5B3DA5BF1F7B4BDA00EB8D89 /* LeaderboardsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardsViewController.swift; sourceTree = "<group>"; };
+		5B5F1F0E1F7B6A5D006FF1F4 /* BFirebaseSocialLoginHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseSocialLoginHandler.h; sourceTree = "<group>"; };
+		5B5F1F0F1F7B6A5D006FF1F4 /* BFirebaseSocialLoginHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseSocialLoginHandler.m; sourceTree = "<group>"; };
+		5B5F1F101F7B6A5D006FF1F4 /* BFirebaseSocialLoginModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFirebaseSocialLoginModule.h; sourceTree = "<group>"; };
+		5B5F1F111F7B6A5D006FF1F4 /* BFirebaseSocialLoginModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFirebaseSocialLoginModule.m; sourceTree = "<group>"; };
+		5B5F1F121F7B6A5D006FF1F4 /* BGoogleHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGoogleHelper.h; sourceTree = "<group>"; };
+		5B5F1F131F7B6A5D006FF1F4 /* BGoogleHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGoogleHelper.m; sourceTree = "<group>"; };
+		5B5F1F141F7B6A5D006FF1F4 /* BGoogleLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGoogleLoginViewController.h; sourceTree = "<group>"; };
+		5B5F1F151F7B6A5D006FF1F4 /* BGoogleLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGoogleLoginViewController.m; sourceTree = "<group>"; };
+		5B5F1F161F7B6A5D006FF1F4 /* BGoogleLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BGoogleLoginViewController.xib; sourceTree = "<group>"; };
+		5B5F1F171F7B6A5D006FF1F4 /* icn_200_google@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icn_200_google@3x.png"; sourceTree = "<group>"; };
+		5B5F1F181F7B6A5D006FF1F4 /* PGoogleLoginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGoogleLoginDelegate.h; sourceTree = "<group>"; };
+		5B5F1F191F7B6A5D006FF1F4 /* SocialLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialLogin.h; sourceTree = "<group>"; };
 		5BCFC3F21F79CDF7001C95AC /* FloatRatingViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatRatingViewDelegate.swift; sourceTree = "<group>"; };
 		5BCFC3F31F79CDF7001C95AC /* QRReaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRReaderViewController.swift; sourceTree = "<group>"; };
 		5BCFC3F41F79CDF7001C95AC /* QRViewerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRViewerViewController.swift; sourceTree = "<group>"; };
@@ -237,6 +255,18 @@
 		5BFF69F21F7998D900C682F3 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				5B5F1F0E1F7B6A5D006FF1F4 /* BFirebaseSocialLoginHandler.h */,
+				5B5F1F0F1F7B6A5D006FF1F4 /* BFirebaseSocialLoginHandler.m */,
+				5B5F1F101F7B6A5D006FF1F4 /* BFirebaseSocialLoginModule.h */,
+				5B5F1F111F7B6A5D006FF1F4 /* BFirebaseSocialLoginModule.m */,
+				5B5F1F121F7B6A5D006FF1F4 /* BGoogleHelper.h */,
+				5B5F1F131F7B6A5D006FF1F4 /* BGoogleHelper.m */,
+				5B5F1F141F7B6A5D006FF1F4 /* BGoogleLoginViewController.h */,
+				5B5F1F151F7B6A5D006FF1F4 /* BGoogleLoginViewController.m */,
+				5B5F1F161F7B6A5D006FF1F4 /* BGoogleLoginViewController.xib */,
+				5B5F1F171F7B6A5D006FF1F4 /* icn_200_google@3x.png */,
+				5B5F1F181F7B6A5D006FF1F4 /* PGoogleLoginDelegate.h */,
+				5B5F1F191F7B6A5D006FF1F4 /* SocialLogin.h */,
 				5B3DA5981F7A1EAD00EB8D89 /* BFirebaseAuthenticationHandler.h */,
 				5B3DA5991F7A1EAD00EB8D89 /* BFirebaseAuthenticationHandler.m */,
 				5B3DA59A1F7A1EAD00EB8D89 /* BFirebaseBlockingHandler.h */,
@@ -433,8 +463,10 @@
 			files = (
 				5B3DA57E1F7A1DE600EB8D89 /* ChatSDKFirebaseAdapter in Resources */,
 				5BFF69C41F79923500C682F3 /* LaunchScreen.storyboard in Resources */,
+				5B5F1F1F1F7B6A5D006FF1F4 /* icn_200_google@3x.png in Resources */,
 				5BFF69C11F79923500C682F3 /* Assets.xcassets in Resources */,
 				5BFF6A071F79C75D00C682F3 /* yourImage.jpg in Resources */,
+				5B5F1F1E1F7B6A5D006FF1F4 /* BGoogleLoginViewController.xib in Resources */,
 				5BFF69BF1F79923500C682F3 /* Main.storyboard in Resources */,
 				5B3DA5B11F7A20C100EB8D89 /* GoogleService-Info.plist in Resources */,
 			);
@@ -481,9 +513,13 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-TagRides/Pods-TagRides-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_ROOT}/TwitterKit/TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -499,6 +535,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-TagRides/Pods-TagRides-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Braintree/Braintree.framework",
 				"${BUILT_PRODUCTS_DIR}/BraintreeDropIn/BraintreeDropIn.framework",
 				"${BUILT_PRODUCTS_DIR}/ChatSDKCore/ChatSDKCore.framework",
@@ -506,8 +543,11 @@
 				"${BUILT_PRODUCTS_DIR}/ChatSDKUI/ChatSDKUI.framework",
 				"${BUILT_PRODUCTS_DIR}/CountryPicker/CountryPicker.framework",
 				"${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FloatRatingView/FloatRatingView.framework",
 				"${BUILT_PRODUCTS_DIR}/FrameAccessor/FrameAccessor.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
@@ -532,6 +572,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Braintree.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BraintreeDropIn.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChatSDKCore.framework",
@@ -539,8 +580,11 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChatSDKUI.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CountryPicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateTools.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FloatRatingView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FrameAccessor.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
@@ -597,8 +641,11 @@
 				5B3DA5BA1F7B092800EB8D89 /* ChangeLicenseViewController.swift in Sources */,
 				5BCFC3FD1F79D1DF001C95AC /* LocationSearchTable.swift in Sources */,
 				5BFF6A051F79BC7100C682F3 /* SlideMenuViewController.swift in Sources */,
+				5B5F1F1A1F7B6A5D006FF1F4 /* BFirebaseSocialLoginHandler.m in Sources */,
+				5B5F1F1D1F7B6A5D006FF1F4 /* BGoogleLoginViewController.m in Sources */,
 				5B3DA5A91F7A1EAD00EB8D89 /* BFirebaseBlockingHandler.m in Sources */,
 				5BFF69FE1F799A4500C682F3 /* RegisterViewController.swift in Sources */,
+				5B5F1F1B1F7B6A5D006FF1F4 /* BFirebaseSocialLoginModule.m in Sources */,
 				5BFF6A011F79A6CB00C682F3 /* DriverViewController.swift in Sources */,
 				5BCFC3F91F79CE13001C95AC /* AppleMapsViewController.swift in Sources */,
 				5BCFC4011F79DF78001C95AC /* QRCodeDisplayViewController.swift in Sources */,
@@ -606,6 +653,7 @@
 				5BCFC3FF1F79DBA2001C95AC /* userRatingViewController.swift in Sources */,
 				5BCFC3FB1F79CE74001C95AC /* TransistionViewController.swift in Sources */,
 				5B3DA5931F7A1E9E00EB8D89 /* BFirebaseNetworkAdapter.m in Sources */,
+				5B5F1F1C1F7B6A5D006FF1F4 /* BGoogleHelper.m in Sources */,
 				5BFF69EA1F7992A100C682F3 /* SWRevealViewController.m in Sources */,
 				5B3DA5AB1F7A1EAD00EB8D89 /* BFirebaseLastOnlineHandler.m in Sources */,
 				5BCFC3F71F79CDF7001C95AC /* QRViewerViewController.swift in Sources */,

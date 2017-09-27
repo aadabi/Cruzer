@@ -15,6 +15,12 @@ PODS:
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
   - Alamofire (4.5.1)
+  - Bolts (1.8.4):
+    - Bolts/AppLinks (= 1.8.4)
+    - Bolts/Tasks (= 1.8.4)
+  - Bolts/AppLinks (1.8.4):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.8.4)
   - Braintree/Card (4.9.0):
     - Braintree/Core
   - Braintree/Core (4.9.0)
@@ -46,6 +52,11 @@ PODS:
     - VENTokenField (~> 2.0)
   - CountryPicker (1.3)
   - DateTools (1.7.0)
+  - Fabric (1.6.13)
+  - FBSDKCoreKit (4.26.0):
+    - Bolts (~> 1.7)
+  - FBSDKLoginKit (4.26.0):
+    - FBSDKCoreKit
   - Firebase/Auth (4.1.1):
     - Firebase/Core
     - FirebaseAuth (= 4.1.1)
@@ -91,6 +102,11 @@ PODS:
     - GTMSessionFetcher/Core (~> 1.1)
   - FloatRatingView (2.0)
   - FrameAccessor (1.3.2)
+  - GoogleSignIn (4.1.0):
+    - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
+    - GoogleToolboxForMac/NSString+URLArguments (~> 2.1)
+    - GTMOAuth2 (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
   - GoogleToolboxForMac/DebugUtils (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
   - GoogleToolboxForMac/Defines (2.1.1)
@@ -103,7 +119,13 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.1)
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.1)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
+  - GTMOAuth2 (1.1.4):
+    - GTMSessionFetcher (~> 1.1)
+  - GTMSessionFetcher (1.1.11):
+    - GTMSessionFetcher/Full (= 1.1.11)
   - GTMSessionFetcher/Core (1.1.11)
+  - GTMSessionFetcher/Full (1.1.11):
+    - GTMSessionFetcher/Core (= 1.1.11)
   - IQKeyboardManagerSwift (4.0.10)
   - LBTAComponents (0.1.9)
   - leveldb-library (1.18.3)
@@ -126,6 +148,10 @@ PODS:
   - StaticDataTableViewController (2.0.5)
   - SwiftyJSON (3.1.4)
   - TOCropViewController (2.1.0)
+  - TwitterCore (2.3.0):
+    - Fabric
+  - TwitterKit (2.3.0):
+    - TwitterCore (= 2.3.0)
   - VENTokenField (2.5.2):
     - FrameAccessor (~> 1.0)
 
@@ -135,11 +161,13 @@ DEPENDENCIES:
   - ChatSDKCore (from `../ChatSDK/ChatSDKCore`)
   - ChatSDKCoreData (from `../ChatSDK/ChatSDKCoreData`)
   - ChatSDKUI (from `../ChatSDK/ChatSDKUI`)
+  - FBSDKLoginKit
   - Firebase/Auth
   - Firebase/Database
   - Firebase/Messaging
   - Firebase/Storage
   - FloatRatingView (~> 2.0.0)
+  - GoogleSignIn
   - IQKeyboardManagerSwift (= 4.0.10)
   - LBTAComponents (~> 0.1.9)
   - QRCode
@@ -147,6 +175,7 @@ DEPENDENCIES:
   - SideMenu
   - SlideMenuControllerSwift
   - SwiftyJSON
+  - TwitterKit (= 2.3)
 
 EXTERNAL SOURCES:
   ChatSDKCore:
@@ -159,6 +188,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   Braintree: 9d9992b4104a184da3c71f6455840b5e63ecea97
   BraintreeDropIn: 0ff4879547af66dae814911992e01324975d556d
   ChatSDKCore: 02bd19f048d2f9bf48755f0029a8de92406f9c87
@@ -166,6 +196,9 @@ SPEC CHECKSUMS:
   ChatSDKUI: 2dd8ceede4465f8210c6564b3e75626035cca976
   CountryPicker: 664c26411d833bb068c80beb15dc951eadde2911
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
+  Fabric: 2fb5676bc811af011a04513451f463dac6803206
+  FBSDKCoreKit: c8b8582311ec11b145451d8b9717dc6cc2ae5a76
+  FBSDKLoginKit: f3f03b94c21eb834af243c0a881d48641f47ca60
   Firebase: 052c0de688fc87b414996eea13e223dd9fee3fa2
   FirebaseAnalytics: 76f754d37ca5b04f36856729b6af3ca0152d1069
   FirebaseAuth: f8b07aa83de60d606b4eadd81484b3ac2097ea3e
@@ -176,7 +209,9 @@ SPEC CHECKSUMS:
   FirebaseStorage: 661fc1f8d4131891d256b62e82a45ace8b3f0c3b
   FloatRatingView: 857ab8f10040d06a42fc979f486c8f9fecd2f2e5
   FrameAccessor: 0f7ba6ce37be9a5d0302a27c731dca70af8d438b
+  GoogleSignIn: 8c599fc10d25b2af86a3f82fd9631e863f2b1400
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
+  GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
   GTMSessionFetcher: 5ad62e8200fa00ed011fe5e08d27fef72c5b1429
   IQKeyboardManagerSwift: 75ba21a23794a1e6b6fe6d9a267ea17f80e06771
   LBTAComponents: 9a5d314080d1f80208062ccc81a2d25225c5f572
@@ -194,8 +229,10 @@ SPEC CHECKSUMS:
   StaticDataTableViewController: 7ea8d7bc8c7f0a4e9255a320224462c7346c1d4a
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   TOCropViewController: f88194a084f6afe1fd6f21a3f0edda7dd097e38b
+  TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
+  TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
   VENTokenField: 5a19b838fb97f040e3d4c93f584b4adeaf3fc1ee
 
-PODFILE CHECKSUM: 40eea7b22cf3d2cd3ca8e55f60b68a6bc9b3d3ed
+PODFILE CHECKSUM: 6706df5dee4034ab75a3b7022e568a0e9c866552
 
 COCOAPODS: 1.3.1

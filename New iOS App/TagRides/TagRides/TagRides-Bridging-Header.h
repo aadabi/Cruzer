@@ -4,3 +4,4 @@
 
 #import "SWRevealViewController.h"
 #import "ChatFirebaseAdapter.h"
+#import "BFirebaseSocialLoginModule.h"

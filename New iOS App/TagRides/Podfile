@@ -4,7 +4,9 @@ source 'https://github.com/CocoaPods/Specs.git'
 target 'TagRides' do
     use_frameworks!
     
-
+    pod 'TwitterKit', '2.3'
+    pod 'GoogleSignIn'
+    pod 'FBSDKLoginKit'
     pod 'Alamofire', '~> 4.5'
     pod "ChatSDKCore", :path => "../ChatSDK/ChatSDKCore"
     pod "ChatSDKUI", :path => "../ChatSDK/ChatSDKUI"
