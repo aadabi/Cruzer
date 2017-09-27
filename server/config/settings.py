@@ -34,6 +34,13 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'slugrideucsc@gmail.com'
 EMAIL_HOST_PASSWORD = 'catcharide'
 
+BRAINTREE_MERCHANT_ID = '4h4ptsnrxgcp6pc6'
+BRAINTREE_PUBLIC_KEY = '<pz889hctntf57kpq'
+BRAINTREE_PRIVATE_KEY = '7eed8f10bdd9bbb0b2d5460f8cb961fd'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Application definition
 
 INSTALLED_APPS = [

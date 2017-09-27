@@ -15,6 +15,69 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from django.core.mail import EmailMessage
 
+import braintree
+
+
+@api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
+def get_arity_trip_data(request):
+	jsonobj = json.loads(request.body.decode('utf-8'))
+	user_email = jsonobj['user_email']
+	print(jsonobj)
+	"""
+	user_email":"appDelegate.user_email",
+            "tripid":trip.tripID,
+            "startlocation":trip.startLocation,
+            "endlocation":trip.endLocation,
+            "maximumspeed":trip.maximumSpeed,
+            "speedingcount":trip.speedingCount,
+            "distancecovered":trip.distanceCovered
+	"""
+	tripid = jsonobj['tripid']
+	startlocation = jsonobj['startlocation']
+	endlocation = jsonobj['endlocation']
+	maximumspeed = jsonobj['maximumspeed']
+	speedingcount = jsonobj['speedingcount']
+	distancecovered = jsonobj['distancecovered']
+	try:
+		user = UserProfile.objects.get(email = user_email)
+	except UserProfile.DoesNotExist:
+		user = None
+		return HttpResponse(status=400)
+	arityride = ArityRide.objects.create(email=user_email, tripid=tripid, startlocation = startlocation, endlocation = endlocation, maximumspeed = maximumspeed, speedingcount = speedingcount, distancecovered = distancecovered)
+	arityride.user = user
+	arityride.save()
+	#Section to calculate tagscore
+	user_current_tag_score = user.tag_score
+	total_arity_rides = ArityRide.objects.filter(email=user_email).count() - 1
+	unadjusted_score = user_current_tag_score * total_arity_rides
+	trip_score = 10 - speedingcount
+	if trip_score <= 0:
+		trip_score = 1
+	unadjusted_score = unadjusted_score + trip_score
+	total_arity_rides = total_arity_rides + 1
+	adjusted_score = unadjusted_score / total_arity_rides
+	user.tag_score = adjusted_score
+	print("trip score: " + str(trip_score) + "   unadjusted_score" + str(unadjusted_score) + "   total_arity_rides"  + str(total_arity_rides) + "   adjusted_score" + str(adjusted_score))
+	user.save()
+	#End tagscore
+	return HttpResponse(status=200)
+
+#Double check active rides, make sure if its only 1 rider or multiple, when multiple admin page has to be update better
+#than it cuurently does
+
+#Need to add time related things
+#Timeout if nothing is happening
+#Timeout/end ride if the ride doesn't show up. Depends on 
+#Need to add logout remove from map, check code to see if its there.
+#Persistent Login and Logout
+#Lat and Long related things, like directions order, and 1 mile radius
+#Change the points requirements to payment, so just get rid of there.
+
+#Make sure rider is taken off when ride is finished, but not driver.
+
+
 """
 API: Goal Information
 POST NEW API
@@ -202,6 +265,9 @@ def account_info(request):
 	objret['user_car'] = user.user_car
 	objret['car_color'] = user.car_color
 	objret['car_capacity'] = user.car_capacity
+	"""
+	objret['']
+	"""
 	objfin = json.dumps(objret)
 	return HttpResponse(objfin, status=200, content_type='application/json')
 
@@ -375,6 +441,7 @@ def query_ride(request):
 	# }
 	objfinaldict = {}
 	objfinaldict = {"user_points":userprofile.point_count}
+	objfinaldict = {"tagscore":userprofile.tag_score}
 	objlist = []
 	#Norcal is the default for now because we are launching in Santa Cruz. When we expand this needs to be changed based on location
 	for obj in WorldInstance.objects.get(region="Norcal").userprofile_set.all():
@@ -389,7 +456,7 @@ def query_ride(request):
 		objlist.append(objiter)
 	objfinaldict['user_list'] = objlist
 	objret = json.dumps(objfinaldict)
-	#print(objret)
+	print("tagscore" + str(userprofile.tag_score))
 	return HttpResponse(objret, status=200, content_type='application/json')
 
 @api_view(['POST'])
