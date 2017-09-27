@@ -14,24 +14,75 @@ from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from django.core.mail import EmailMessage
-from .forms import UploadFileForm
+from .forms import *
 from .models import UserPhoto
 
 import braintree
 
-@api_view(['POST'])
+@api_view(['GET'])
 @authentication_classes([])
 @permission_classes([])
+def get_license_photo(request):
+	form = DownloadFileForm(request.GET)
+	if form.is_valid():
+		user_email = form.cleaned_data.get('user_email')
+		try:
+			user = UserProfile.objects.get(email = user_email)
+		except UserProfile.DoesNotExist:
+			user = None
+			return HttpResponse(status=400)
+		return HttpResponse(user.license_picture.image, content_type="image/jpeg")
+
+@api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
+def get_profile_photo(request):
+	form = DownloadFileForm(request.GET)
+	if form.is_valid():
+		user_email = form.cleaned_data.get('user_email')
+		try:
+			user = UserProfile.objects.get(email = user_email)
+		except UserProfile.DoesNotExist:
+			user = None
+			return HttpResponse(status=400)
+		return HttpResponse(user.profile_picture.image, content_type="image/jpeg")
+
+@api_view(['POST'])
+def upload_profile_license(request):
+	form = UploadFileForm(request.POST, request.FILES)
+	if form.is_valid():
+		user_email = form.cleaned_data.get('user_email')
+		try:
+			user = UserProfile.objects.get(email = user_email)
+		except UserProfile.DoesNotExist:
+			user = None
+			return HttpResponse(status=400)
+		instance = UserLicense(image = request.FILES['image'])
+		instance.save()
+		user.license_picture = instance
+		user.save()
+		instance.name = user.email
+		instance.save()
+		return HttpResponse(status=201)
+	return HttpResponse(status=400)
+
+@api_view(['POST'])
 def upload_profile_photo(request):
-	#form = UploadFileForm(request.POST, request.FILES)
-	print (request.FILES['image'])
-	data = json.loads(request.data)
-	print (data)
-	#print (request)
-	if request.FILES['image'] is not None:
+	form = UploadFileForm(request.POST, request.FILES)
+	if form.is_valid():
+		user_email = form.cleaned_data.get('user_email')
+		try:
+			user = UserProfile.objects.get(email = user_email)
+		except UserProfile.DoesNotExist:
+			user = None
+			return HttpResponse(status=400)
 		instance = UserPhoto(image = request.FILES['image'])
 		instance.save()
-		return HttpResponse(status=200)
+		user.profile_picture = instance
+		user.save()
+		instance.name = user.email
+		instance.save()
+		return HttpResponse(status=201)
 	return HttpResponse(status=400)
 
 

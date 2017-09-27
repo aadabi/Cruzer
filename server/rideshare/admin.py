@@ -54,6 +54,10 @@ class CustomPhoto(admin.ModelAdmin):
 	model = UserPhoto
 	list_display = ('name','image')
 	
+class CustomLicense(admin.ModelAdmin):
+	model = UserLicense
+	list_display = ('name','image')
+	
 admin.site.register(RideHistory, CustomRideHistory)
 admin.site.register(UserProfile, CustomUserProfile)
 admin.site.register(WorldInstance)
@@ -62,3 +66,4 @@ admin.site.register(WeeklyGoals, CustomWeeklyGoals)
 admin.site.register(MonthlyGoals, CustomMonthlyGoals)
 admin.site.register(ArityRide, CustomArityRide)
 admin.site.register(UserPhoto, CustomPhoto)
+admin.site.register(UserLicense, CustomLicense)

@@ -15,9 +15,13 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
 
+class UserLicense(models.Model):
+	name = models.CharField(max_length=200)
+	image = models.ImageField(upload_to="media/images/license", null=True, blank=True)
+		
 class UserPhoto(models.Model):
 	name = models.CharField(max_length=200)
-	image = models.ImageField(upload_to="media/images/", null=True, blank=True)
+	image = models.ImageField(upload_to="media/images/photo", null=True, blank=True)
 	
 	def __str__(self):
 		return "{}".format(self.name)
@@ -55,6 +59,8 @@ class UserProfile(models.Model):
 	driver_license = models.CharField(max_length=100, blank=True, null=True)
 	#safety score form 1-10
 	tag_score = models.IntegerField(default=5)
+	profile_picture = models.ForeignKey(UserPhoto, blank=True, null=True, on_delete=models.DO_NOTHING)
+	license_picture = models.ForeignKey(UserLicense, blank=True, null=True, on_delete=models.DO_NOTHING)
 	def __str__(self):
 		return self.email
 

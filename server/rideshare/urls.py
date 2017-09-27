@@ -37,4 +37,7 @@ urlpatterns = [
 	url(r'^rideshare/get_auth_token/$', rest_framework_views.obtain_auth_token, name='get_auth_token'),
     url(r'^rideshare/get_arity_trip_data/$', views.get_arity_trip_data),
 	url(r'^rideshare/upload_profile_photo/$', views.upload_profile_photo),
+	url(r'^rideshare/upload_profile_license/$', views.upload_profile_license),
+	url(r'^rideshare/get_profile_photo/$', views.get_profile_photo),
+	url(r'^rideshare/get_license_photo/$', views.get_license_photo),
 ]
