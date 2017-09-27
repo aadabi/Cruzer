@@ -50,6 +50,10 @@ class CustomArityRide(admin.ModelAdmin):
 	search_fields = ['user','email','tripid']
 	list_display = ('email','user','startlocation','endlocation','maximumspeed','speedingcount','distancecovered','tripid')
 	
+class CustomPhoto(admin.ModelAdmin):
+	model = UserPhoto
+	list_display = ('name','image')
+	
 admin.site.register(RideHistory, CustomRideHistory)
 admin.site.register(UserProfile, CustomUserProfile)
 admin.site.register(WorldInstance)
@@ -57,4 +61,4 @@ admin.site.register(ActiveRide, CustomActiveRide)
 admin.site.register(WeeklyGoals, CustomWeeklyGoals)
 admin.site.register(MonthlyGoals, CustomMonthlyGoals)
 admin.site.register(ArityRide, CustomArityRide)
-
+admin.site.register(UserPhoto, CustomPhoto)

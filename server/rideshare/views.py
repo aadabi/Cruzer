@@ -14,8 +14,25 @@ from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from django.core.mail import EmailMessage
+from .forms import UploadFileForm
+from .models import UserPhoto
 
 import braintree
+
+@api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
+def upload_profile_photo(request):
+	#form = UploadFileForm(request.POST, request.FILES)
+	print (request.FILES['image'])
+	data = json.loads(request.data)
+	print (data)
+	#print (request)
+	if request.FILES['image'] is not None:
+		instance = UserPhoto(image = request.FILES['image'])
+		instance.save()
+		return HttpResponse(status=200)
+	return HttpResponse(status=400)
 
 
 @api_view(['POST'])
