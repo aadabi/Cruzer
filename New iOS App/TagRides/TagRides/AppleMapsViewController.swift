@@ -13,6 +13,7 @@ import QRCodeReader
 import ChatSDKCore
 import ChatSDKUI
 import ChatSDKCoreData
+import Alamofire
 
 protocol HandleMapSearch: class {
     func dropPinZoomIn(_ placemark:MKPlacemark)
@@ -22,11 +23,19 @@ class customPin: MKPointAnnotation {
     var pinColor: UIColor?
 }
 
+struct getImage {
+    let name: String
+    let loc: CLLocation
+    let email: String
+}
+
 
 class AppleMapsViewController: UIViewController {
     
     var selectedPin: MKPlacemark?
     var resultSearchController: UISearchController!
+    var arr : [getImage] = []
+    
     
     @IBOutlet weak var DirectionsLabel: UILabel!
     
@@ -52,7 +61,7 @@ class AppleMapsViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = backButton
         
         revealViewController().rightViewRevealWidth = 275
-        
+        revealViewController().rearViewRevealWidth = 275
         DirectionsLabel.isHidden = true
         //Load up the Current Location
         locationManager.delegate = self
@@ -152,7 +161,8 @@ class AppleMapsViewController: UIViewController {
                     "location_longitude":(locationManager.location?.coordinate.longitude)!,
                     "destination_latitude": selectedPin.coordinate.latitude ,
                     "destination_longitude":selectedPin.coordinate.longitude,
-                    "driver_status":appDelegate.driver_status] as [String: Any]
+                    "driver_status":appDelegate.driver_status,
+                    "destination_location": selectedPin.title] as [String: Any]
         print(dict)
         if let jsonData = try? JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted){
             print("success")
@@ -265,23 +275,40 @@ class AppleMapsViewController: UIViewController {
                 }
                 //print("success3")
                 let json = try! JSONSerialization.jsonObject(with: data, options: []) as AnyObject
-                //print(json)
+                print(json)
                 
                 //Clears previous markers
                 self.updateAnnotationArray.removeAll()
+                self.arr.removeAll()
                 let userss = json["user_list"] as? [[String: Any]]
                 for user in userss! {
                     if user["user_email"] as! String != appDelegate.user_email {
+                        self.arr.append(getImage(name: (user["user_firstname"] as? String)!,
+                                                 loc: CLLocation(latitude: user["location_latitude"] as! Double,
+                                                                                                  longitude: user["location_longitude"] as! Double),
+                                                 email: (user["user_email"] as? String)!))
                         let annotation = customPin()
                         annotation.coordinate = CLLocationCoordinate2D(latitude: user["location_latitude"] as! Double,
                                                                        longitude: user["location_longitude"] as! Double)
-                        annotation.title = user["user_email"] as? String
+                        annotation.title = user["user_firstname"] as? String
+                        var part1 = ""
+                        var part2 = ""
+                        var part3 = ""
+                        if let test = user["destination_location"] as? String{
+                            part1 = test as! String
+                        }
+                        if let test = user["user_car"] as? String{
+                            part2 = test as! String
+                        }
+                        if let test = user["car_color"] as? String{
+                            part3 = test as! String
+                        }
+                        annotation.subtitle = "\(part1)\n\(part3) \(part2)"
                         if (user["driver_status"] as! Bool == true) {
                             annotation.pinColor = .green
                         } else {
                             annotation.pinColor = .purple
                         }
-                        
                         //marker.snippet = "Destination: \(user["destination_longitude"] as! Double)"
                         self.updateAnnotationArray.append(annotation)
                     }
@@ -297,7 +324,49 @@ class AppleMapsViewController: UIViewController {
         
     }
     
-    var count = 0
+    func getAnnoInfo() {
+        guard let selectedPin = selectedPin else { return }
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.desc_name = selectedPin.title!
+        appDelegate.desc_desc = selectedPin.subtitle!
+        // If you have any autorization headers
+        let headers = [
+            "Authorization": "Token \(appDelegate.token)"
+        ]
+        
+        for arrs in arr {
+            if arrs.name == selectedPin.title {
+                let coordinate = CLLocation(latitude: selectedPin.coordinate.latitude, longitude: selectedPin.coordinate.longitude)
+                if coordinate.distance(from: arrs.loc) == 0 {
+                    let parameters = ["user_email": arrs.email]
+                    
+                    Alamofire.request("http://138.68.252.198:8000/rideshare/get_profile_photo/", method: .get, parameters: parameters, headers: headers ).responseData { (dataResponse) in
+                        
+                        if let data = dataResponse.data {
+                            //self.ImageView.image = UIImage(data: data)
+                            //print(data)
+                            if let image = UIImage (data:data) {
+                                appDelegate.profileImage = image
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        let revealViewController = self.revealViewController()
+        var settingsButton = UIButton(type: .custom)
+        settingsButton.setImage(UIImage(named: "settings_icon")!, for: .normal)
+        settingsButton.addTarget(revealViewController, action: #selector(SWRevealViewController.revealToggle(_:)), for: .touchUpInside)
+        
+        settingsButton.sendActions(for: .touchUpInside)
+        
+        
+        
+    }
+    
+    var count = 9
     
     func updateInfo() {
         //updates new markers
@@ -486,7 +555,7 @@ class AppleMapsViewController: UIViewController {
         myLineRenderer.lineWidth = 3
         
         print(myRoute.steps)
-        self.navigationItem.title = self.myRoute.steps[0].instructions
+        self.DirectionsLabel.text = self.myRoute.steps[0].instructions
         return myLineRenderer
     }
     
@@ -742,9 +811,11 @@ extension AppleMapsViewController: MKMapViewDelegate {
             pinView?.pinTintColor = pin.pinColor
             pinView?.canShowCallout = true
             
-            let leftIconView = UIImageView(frame: CGRect.init(x: 0, y: 0, width: 53, height: 53))
-            leftIconView.image = UIImage(named: "mapspin.png")
-            pinView?.leftCalloutAccessoryView = leftIconView
+            let smallSquare = CGSize(width: 30, height: 30)
+            let button = UIButton(frame: CGRect(origin: CGPoint.zero, size: smallSquare))
+            button.setTitle("Info", for: .normal)
+            button.addTarget(self, action: #selector(AppleMapsViewController.getAnnoInfo), for: .touchUpInside)
+            //pinView?.rightCalloutAccessoryView = button
             return pinView
         } else {
             guard !(annotation is MKUserLocation) else { return nil }

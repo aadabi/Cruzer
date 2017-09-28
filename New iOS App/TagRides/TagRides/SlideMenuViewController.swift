@@ -29,13 +29,10 @@ class SlideMenuViewController : UITableViewController{
         self.tabBarController!.tabBar.isHidden = true
         view.backgroundColor = UIColor(r: 227, g: 226, b: 191)
         
-
         
-        let imageName = "yourImage.jpg"
-        let image = UIImage(named: imageName)
-        self.imgProfile.image = image
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.imgProfile.image = appDelegate.profileImage
         self.Name.text = "\(appDelegate.user_firstname) \(appDelegate.user_lastname)"
         if appDelegate.driver_approval == false {
             self.DriverStatus.text = "Driver: Not Approved"
@@ -134,5 +131,24 @@ class SlideMenuViewController : UITableViewController{
         //let newViewController = storyBoard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
         //self.present(newViewController, animated: true, completion: nil)
     }
+    
+    /*
+    func sendEmail() {
+        let composeVC = MFMailComposeViewController()
+        composeVC.mailComposeDelegate = self
+        // Configure the fields of the interface.
+        composeVC.setToRecipients(["address@example.com"])
+        composeVC.setSubject("Hello!")
+        composeVC.setMessageBody("Hello this is my message body!", isHTML: false)
+        // Present the view controller modally.
+        self.present(composeVC, animated: true, completion: nil)
+    }
+    
+    func mailComposeController(controller: MFMailComposeViewController,
+                               didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        // Check the result or perform other tasks.
+        // Dismiss the mail compose view controller.
+        controller.dismiss(animated: true, completion: nil)
+    }*/
 
 }

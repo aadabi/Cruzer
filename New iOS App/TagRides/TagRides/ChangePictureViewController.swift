@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Alamofire
 
 class ChangePictureViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -45,84 +46,74 @@ class ChangePictureViewController: UIViewController, UIImagePickerControllerDele
     
     func UploadRequest()
     {
-        let url = URL(string: "http://138.68.252.198:8000/rideshare/upload_profile_photo/")
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let image = self.image.image
+        let imgData = UIImageJPEGRepresentation(image!, 0.2)!
         
-        let request = NSMutableURLRequest(url: url!)
-        request.httpMethod = "POST"
+
+        // If you have any autorization headers
+        let headers = [
+            "Authorization": "Token \(appDelegate.token)"
+        ]
+        print("check")
+        let parameters = ["user_email": appDelegate.user_email]
         
-        let boundary = generateBoundaryString()
-        
-        
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        
-        if (image.image == nil)
-        {
-            return
-        }
-        
-        let image_data = UIImagePNGRepresentation(image.image!)
-        
-        
-        if(image_data == nil)
-        {
-            return
-        }
-        
-        
-        let body = NSMutableData()
-        
-        let fname = "test.png"
-        let mimetype = "image/png"
-        
-        
-        body.append("--\(boundary)\r\n".data(using: String.Encoding.utf8)!)
-        body.append("Content-Disposition:form-data; name=\"test\"\r\n\r\n".data(using: String.Encoding.utf8)!)
-        body.append("hi\r\n".data(using: String.Encoding.utf8)!)
-        
-        
-        
-        body.append("--\(boundary)\r\n".data(using: String.Encoding.utf8)!)
-        body.append("Content-Disposition:form-data; name=\"file\"; filename=\"\(fname)\"\r\n".data(using: String.Encoding.utf8)!)
-        body.append("Content-Type: \(mimetype)\r\n\r\n".data(using: String.Encoding.utf8)!)
-        body.append(image_data!)
-        body.append("\r\n".data(using: String.Encoding.utf8)!)
-        
-        
-        body.append("--\(boundary)--\r\n".data(using: String.Encoding.utf8)!)
-        
-        
-        request.httpBody = body as Data
-        
-        
-        
-        let session = URLSession.shared
-        
-        
-        let task = session.dataTask(with: request as URLRequest, completionHandler: {
-            (
-            data, response, error) in
-            
-            guard ((data) != nil), let _:URLResponse = response, error == nil else {
-                print("error")
-                return
-            }
-            
-            if let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-            {
-                print(dataString)
-            }
-            
+        Alamofire.upload(
+            multipartFormData: { multipartFormData in
+                multipartFormData.append(imgData, withName: "image",fileName: "image.jpg", mimeType: "image/jpg")
+                for (key, value) in parameters {
+                    multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
+                }
+        },
+            to:"http://138.68.252.198:8000/rideshare/upload_profile_photo/",
+            headers: headers,
+            encodingCompletion: { encodingResult in
+                switch encodingResult {
+                case .success(let upload, _, _):
+                    upload.responseJSON { response in
+                        debugPrint(response)
+                        postDone()
+                    }
+                case .failure(let encodingError):
+                    print("encoding Error : \(encodingError)")
+                }
         })
         
-        task.resume()
+        func postDone() {
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let newViewController = storyBoard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+            self.present(newViewController, animated: true, completion: nil)
+        }
+        /*let headers = [
+            "Authorization": "Token \(appDelegate.token)"
+        ]
+        print("check")
+        let parameters = ["user_email": appDelegate.user_email]
         
+        Alamofire.upload(multipartFormData: { multipartFormData in
+            multipartFormData.append(imgData, withName: "image",fileName: "image.jpg", mimeType: "image/jpg")
+            for (key, value) in parameters {
+                multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
+            }
+        },
+                         to:"http://138.68.252.198:8000/rideshare/upload_profile_photo/", header: headers)
+        { (result) in
+            switch result {
+            case .success(let upload, _, _):
+                
+                upload.uploadProgress(closure: { (progress) in
+                    print("Upload Progress: \(progress.fractionCompleted)")
+                })
+                
+                upload.responseJSON { response in
+                    print(response.result.value)
+                }
+                
+            case .failure(let encodingError):
+                print(encodingError)
+            }
+        }*/
         
-    }
-    
-    
-    func generateBoundaryString() -> String
-    {
-        return "Boundary-\(UUID().uuidString)"
     }
     
 }

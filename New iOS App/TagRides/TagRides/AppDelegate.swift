@@ -25,7 +25,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var point_count = 100;
     var ratingList = [String]()
     var token = ""
-
+    var profileImage = UIImage()
+    var desc_name: String = ""
+    var desc_desc: String = ""
+    var desc_img = UIImage()
+    
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.sharedManager().enable = true
         BInterfaceManager.shared().a = BDefaultInterfaceAdapter.init()

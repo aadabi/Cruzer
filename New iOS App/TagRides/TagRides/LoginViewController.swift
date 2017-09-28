@@ -10,6 +10,7 @@
 import Foundation
 import UIKit
 import AVFoundation
+import Alamofire
 
 extension UIColor {
     convenience init(r: Int, g: Int, b: Int) {
@@ -28,10 +29,6 @@ class LoginViewController : UIViewController{
     var user_email:String = ""
     var user_firstname:String = ""
     var user_lastname:String = ""
-    //Video Player Variables
-    //var avPlayer: AVPlayer!
-    //var avPlayerLayer: AVPlayerLayer!
-    //var paused: Bool = false
 
     
     /////////////////////////////////////////
@@ -76,37 +73,7 @@ class LoginViewController : UIViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*
-        //Video File that is being played
-        if let theURL: NSURL = Bundle.main.url(forResource: "front", withExtension: "mp4")! as NSURL{
-            avPlayer = AVPlayer(url: theURL as URL)
-        }
-        
-        //Hide Navigation Bar
-        self.navigationController?.isNavigationBarHidden = true
-        
-        //Set Login button atributes
-        self.loginButton.layer.cornerRadius = 10
-        self.loginButton.clipsToBounds = true
-        
-        //AV player settings
-        avPlayerLayer = AVPlayerLayer(player: avPlayer)
-        avPlayerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-    
-        avPlayer.volume = 0
-        avPlayer.actionAtItemEnd = .none
-        
-        
-        avPlayerLayer.frame = view.layer.bounds
-        view.backgroundColor = .clear
-        view.layer.insertSublayer(avPlayerLayer, at: 0)
-        
-        //AV player notifications
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(playerItemDidReachEnd(notification:)),
-                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
-                                               object: avPlayer.currentItem)
-        */
+
         view.backgroundColor = UIColor(r: 227, g: 226, b: 191)
         //view.backgroundColor = UIColor(patternImage: UIImage(named: "Background.jpeg")!)
         self.navigationController?.isNavigationBarHidden = true
@@ -115,17 +82,7 @@ class LoginViewController : UIViewController{
         username_input.text = "od3@ucsc.edu"
         password_input.text = "od3"
         
-        /*
-        let preferences = UserDefaults.standard
-        if preferences.object(forKey: "session") != nil
-        {
-            login_session = preferences.object(forKey: "session") as! String
-            check_session()
-        }
-        else
-        {
-            LoginToDo()
-        }*/
+
     }
     
     //makes top text white
@@ -143,17 +100,7 @@ class LoginViewController : UIViewController{
     /////////////////////////////////////////
 
     @IBAction func login_submit(_ sender: Any) {
-        /*
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.user_email = "od1@ucsc.edu"
-        appDelegate.user_lastname = "od1"
-        appDelegate.user_firstname = "od1"
-        
-        
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyBoard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
-        self.present(newViewController, animated: true, completion: nil)*/
-        
+       
         if(login_button.titleLabel?.text == "Logout")
         {
             let preferences = UserDefaults.standard
@@ -206,7 +153,7 @@ class LoginViewController : UIViewController{
                 if let httpResponse = response as? HTTPURLResponse {
                     print(httpResponse.statusCode)
                     if(httpResponse.statusCode != 200) {
-                        self.errorMessage(err: "Server Down")
+                        DispatchQueue.main.async(execute: self.errorMessage1)
                         return
                     }
                 }
@@ -215,7 +162,7 @@ class LoginViewController : UIViewController{
                     return
                 }
                 guard let data = data else {
-                    self.errorMessage(err: "Data Empty")
+                    //self.errorMessage(err: "Data Empty")
                     return
                 }
                 print(data)
@@ -226,59 +173,7 @@ class LoginViewController : UIViewController{
                 appDelegate.token = json["token"] as! String
                 print(appDelegate.token)
                 DispatchQueue.main.async(execute: self.LoginStart)
-                //Check the JSON data
-                /*
-                if let userEmail = json["email"] as AnyObject? {
-                    guard let b = userEmail as? String
-                        else {
-                            self.errorMessage(err: "Incorrect Login Information")// Was not a string
-                            return // needs a return or break here
-                    }
-                    if b == "" {
-                        self.errorMessage(err: "Incorrect Login Information") // Was not a string
-                        return // needs a return or break here
-                    }
-                    self.user_email = b
-                }
-                if let userfirstname = json["first_name"] as AnyObject? {
-                    guard let b = userfirstname as? String
-                        else {
-                            self.errorMessage(err: "Incorrect Login Information") // Was not a string
-                            return // needs a return or break here
-                    }
-                    if b == "" {
-                        self.errorMessage(err: "Incorrect Login Information") // Was not a string
-                        return // needs a return or break here
-                    }
-                    self.user_firstname = b
-                }
-                if let userfirstname = json["last_name"] as AnyObject? {
-                    guard let b = userfirstname as? String
-                        else {
-                            self.errorMessage(err: "Incorrect Login Information") // Was not a string
-                            return // needs a return or break here
-                    }
-                    if b == "" {
-                        self.errorMessage(err: "Incorrect Login Information") // Was not a string
-                        return // needs a return or break here
-                    }
-                    self.user_lastname = b
-                }
-                //Set the global variables
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDelegate.user_email = self.user_email
-                appDelegate.user_lastname = self.user_lastname
-                appDelegate.user_firstname = self.user_firstname
-                appDelegate.point_count = (json["point_count"] as? Int)!
-                appDelegate.driver_approval = (json["driver_approval"] as? Bool)!
-                
 
-
-                DispatchQueue.main.async(execute: self.LoginDone)
-                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let newViewController = storyBoard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
-                self.present(newViewController, animated: true, completion: nil)
- */
             }
             
             task.resume()
@@ -313,7 +208,7 @@ class LoginViewController : UIViewController{
                 if let httpResponse = response as? HTTPURLResponse {
                     print(httpResponse.statusCode)
                     if(httpResponse.statusCode != 200) {
-                        self.errorMessage(err: "Server Down")
+                        DispatchQueue.main.async(execute: self.errorMessage1)
                         return
                     }
                 }
@@ -322,7 +217,7 @@ class LoginViewController : UIViewController{
                     return
                 }
                 guard let data = data else {
-                    self.errorMessage(err: "Data Empty")
+                    //self.errorMessage(err: "Data Empty")
                     return
                 }
                 print(data)
@@ -334,11 +229,11 @@ class LoginViewController : UIViewController{
                  if let userEmail = json["email"] as AnyObject? {
                  guard let b = userEmail as? String
                  else {
-                 self.errorMessage(err: "Incorrect Login Information")// Was not a string
+                 DispatchQueue.main.async(execute: self.errorMessage2)// Was not a string
                  return // needs a return or break here
                  }
                  if b == "" {
-                 self.errorMessage(err: "Incorrect Login Information") // Was not a string
+                 DispatchQueue.main.async(execute: self.errorMessage2) // Was not a string
                  return // needs a return or break here
                  }
                  self.user_email = b
@@ -346,11 +241,11 @@ class LoginViewController : UIViewController{
                  if let userfirstname = json["first_name"] as AnyObject? {
                  guard let b = userfirstname as? String
                  else {
-                 self.errorMessage(err: "Incorrect Login Information") // Was not a string
+                 DispatchQueue.main.async(execute: self.errorMessage2) // Was not a string
                  return // needs a return or break here
                  }
                  if b == "" {
-                 self.errorMessage(err: "Incorrect Login Information") // Was not a string
+                 DispatchQueue.main.async(execute: self.errorMessage2) // Was not a string
                  return // needs a return or break here
                  }
                  self.user_firstname = b
@@ -358,11 +253,11 @@ class LoginViewController : UIViewController{
                  if let userfirstname = json["last_name"] as AnyObject? {
                  guard let b = userfirstname as? String
                  else {
-                 self.errorMessage(err: "Incorrect Login Information") // Was not a string
+                 DispatchQueue.main.async(execute: self.errorMessage2) // Was not a string
                  return // needs a return or break here
                  }
                  if b == "" {
-                 self.errorMessage(err: "Incorrect Login Information") // Was not a string
+                 DispatchQueue.main.async(execute: self.errorMessage2) // Was not a string
                  return // needs a return or break here
                  }
                  self.user_lastname = b
@@ -374,14 +269,17 @@ class LoginViewController : UIViewController{
                  appDelegate.user_firstname = self.user_firstname
                  appDelegate.point_count = (json["point_count"] as? Int)!
                  appDelegate.driver_approval = (json["driver_approval"] as? Bool)!
-                
+                 print(json["user_approved"])
                  
-                 
-                 DispatchQueue.main.async(execute: self.LoginDone)
-                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                 let newViewController = storyBoard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
-                 self.present(newViewController, animated: true, completion: nil)
-                 self.currentTask?.cancel()
+                if json["user_approved"] as? Bool == false {
+                    self.errorMessage(err: "You have not been approved yet, check your email for more information")
+                } else {
+                    DispatchQueue.main.async(execute: self.LoginDone)
+                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let newViewController = storyBoard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+                    self.present(newViewController, animated: true, completion: nil)
+                }
+                self.currentTask?.cancel()
  
             }
             
@@ -391,17 +289,33 @@ class LoginViewController : UIViewController{
         }
     }
     
-    
-    func errorMessage(err :String) {
-        let alert = UIAlertController(title: "Login Error", message: err, preferredStyle: UIAlertControllerStyle.alert)
+    func errorMessage2() {
+        let alert = UIAlertController(title: "Login Error", message: "Incorrect Login", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title:"Ok",style: UIAlertActionStyle.default, handler:
-        {action in
-        
-        //set timer for polling again because rider was declined
-        //self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.pollforRequests(_:)), userInfo: nil, repeats: true)
+            {action in
+                
+                //set timer for polling again because rider was declined
+                //self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.pollforRequests(_:)), userInfo: nil, repeats: true)
         }
         ))
         self.present(alert, animated: true, completion: nil)
+    }
+
+    
+    func errorMessage1() {
+        let alert = UIAlertController(title: "Login Error", message: "Request failed please try again ", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title:"Ok",style: UIAlertActionStyle.default, handler:
+            {action in
+                
+                //set timer for polling again because rider was declined
+                //self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.pollforRequests(_:)), userInfo: nil, repeats: true)
+        }
+        ))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func errorMessage(err :String) {
+
     }
     
     
@@ -413,6 +327,26 @@ class LoginViewController : UIViewController{
         password_input.isEnabled = false
         
         login_button.isEnabled = true
+        print("check123")
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        // If you have any autorization headers
+        let headers = [
+            "Authorization": "Token \(appDelegate.token)"
+        ]
+        
+        let parameters = ["user_email": appDelegate.user_email]
+        
+        Alamofire.request("http://138.68.252.198:8000/rideshare/get_profile_photo/", method: .get, parameters: parameters, headers: headers ).responseData { (dataResponse) in
+            
+            if let data = dataResponse.data {
+                //self.ImageView.image = UIImage(data: data)
+                //print(data)
+                if let image = UIImage (data:data) {
+                    appDelegate.profileImage = UIImage(data: data)!
+                }
+            }
+        }
+        
         
         
         login_button.setTitle("Logout", for: .normal)

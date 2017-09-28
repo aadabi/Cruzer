@@ -32,7 +32,7 @@
 
 import UIKit
 import AVFoundation
-
+import Alamofire
 class userRatingViewController: UIViewController, FloatRatingViewDelegate {
     
     //Variables used for the AV functionality
@@ -41,6 +41,7 @@ class userRatingViewController: UIViewController, FloatRatingViewDelegate {
     var paused: Bool = false
 
     
+    @IBOutlet weak var imageProfile: UIImageView!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet var floatRatingView: FloatRatingView!
     
@@ -63,6 +64,22 @@ class userRatingViewController: UIViewController, FloatRatingViewDelegate {
         super.viewDidLoad()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.userName.text = appDelegate.ratingList[counter]
+        let headers = [
+            "Authorization": "Token \(appDelegate.token)"
+        ]
+        
+        let parameters = ["user_email": appDelegate.ratingList[counter]]
+        
+        Alamofire.request("http://138.68.252.198:8000/rideshare/get_profile_photo/", method: .get, parameters: parameters, headers: headers ).responseData { (dataResponse) in
+            
+            if let data = dataResponse.data {
+                //self.ImageView.image = UIImage(data: data)
+                //print(data)
+                if let image = UIImage (data:data) {
+                    self.imageProfile.image = image
+                }
+            }
+        }
  /*
         if let theURL: NSURL = Bundle.main.url(forResource: "rating", withExtension: "mp4")! as NSURL{
             avPlayer = AVPlayer(url: theURL as URL)
@@ -163,6 +180,22 @@ class userRatingViewController: UIViewController, FloatRatingViewDelegate {
             self.present(newViewController, animated: true, completion: nil)
         } else {
             self.userName.text = appDelegate.ratingList[counter]
+            let headers = [
+                "Authorization": "Token \(appDelegate.token)"
+            ]
+            
+            let parameters = ["user_email": appDelegate.ratingList[counter]]
+            
+            Alamofire.request("http://138.68.252.198:8000/rideshare/get_profile_photo/", method: .get, parameters: parameters, headers: headers ).responseData { (dataResponse) in
+                
+                if let data = dataResponse.data {
+                    //self.ImageView.image = UIImage(data: data)
+                    //print(data)
+                    if let image = UIImage (data:data) {
+                        self.imageProfile.image = image
+                    }
+                }
+            }
         }
     }
     

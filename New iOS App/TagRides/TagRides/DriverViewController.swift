@@ -56,10 +56,20 @@ class DriverViewController: UIViewController {
     
     @IBAction func DriverMove(_ sender: Any) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.driver_status = true;
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyBoard.instantiateViewController(withIdentifier: "TransitionViewController") as! TransitionViewController
-        self.present(newViewController, animated: true, completion: nil)
+        if (appDelegate.driver_approval == true) {
+            appDelegate.driver_status = true;
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let newViewController = storyBoard.instantiateViewController(withIdentifier: "TransitionViewController") as! TransitionViewController
+            self.present(newViewController, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Driver Not Approved", message: "Please go to Add Driver Info and send us a picture of your driver license for approval", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title:"Ok",style: UIAlertActionStyle.default, handler:
+                {action in
+            }
+            ))
+            self.present(alert, animated: true, completion: nil)
+        }
+
         
     }
     

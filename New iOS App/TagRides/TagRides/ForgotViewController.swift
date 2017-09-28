@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Alamofire
 
 class ForgotViewController : UIViewController{
     
@@ -38,7 +39,7 @@ class ForgotViewController : UIViewController{
                     if let httpResponse = response as? HTTPURLResponse {
                         print(httpResponse.statusCode)
                         if(httpResponse.statusCode != 201) {
-                            self.errorMessage(err: "Server Down")
+                            DispatchQueue.main.async(execute: self.errorMessage)
                             return
                         }
                     }
@@ -47,7 +48,7 @@ class ForgotViewController : UIViewController{
                         return
                     }
                     guard let data = data else {
-                        self.errorMessage(err: "Data Empty")
+                        //self.errorMessage(err: "Data Empty")
                         return
                     }
                     
@@ -63,8 +64,8 @@ class ForgotViewController : UIViewController{
         }
     }
     
-    func errorMessage(err :String) {
-        let alert = UIAlertController(title: "Login Error", message: err, preferredStyle: UIAlertControllerStyle.alert)
+    func errorMessage() {
+        let alert = UIAlertController(title: "Forgot Error", message: "Request Failed please try again", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title:"Ok",style: UIAlertActionStyle.default, handler:
             {action in
                 
@@ -76,7 +77,8 @@ class ForgotViewController : UIViewController{
     }
     
     func forgotDone() {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-        self.navigationController?.pushViewController(vc, animated: true)
+        email.isEnabled = false
+        submitButton.isEnabled = false
+        submitButton.setTitle("Submitted!", for: .normal)
     }
 }

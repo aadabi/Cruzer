@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 import AVFoundation
-
+import Alamofire
 class RegisterViewController : UIViewController{
     
     
@@ -128,6 +128,11 @@ class RegisterViewController : UIViewController{
     //Main Registration Function
     func register_now(email:String, password:String, firstname:String, lastname:String)
     {
+        
+
+        
+        
+        print("check1")
         //Observe Login page to understand what is going on here
         let dict = ["first_name":firstname, "last_name":lastname, "email":email, "password":password, "share_code":""] as [String: Any]
         if let jsonData = try? JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted) {
@@ -141,35 +146,49 @@ class RegisterViewController : UIViewController{
                 if let httpResponse = response as? HTTPURLResponse {
                     print(httpResponse.statusCode)
                     if(httpResponse.statusCode != 201) {
-                        self.errorMessage(err: "Server Down")
+                        DispatchQueue.main.async(execute: self.errorMessage1)
                         return
                     }
                 }
+                print("check2")
                 guard error == nil else {
                     print(error!)
                     return
                 }
+                print("check3")
                 guard let data = data else {
-                    self.errorMessage(err: "Data Empty")
+                    //self.errorMessage(err: "Data Empty")
                     return
                 }
-                
+                print("check4")
                 
                 //let json = try! JSONSerialization.jsonObject(with: data, options: [])
                 //print(json)
                 DispatchQueue.main.async(execute: self.RegisterDone)
 
             }
-            
+            print("check5")
             task.resume()
             
         }
     }
     
+    func errorMessage1() {
+        let alert = UIAlertController(title: "Registration Error", message: "Registration Failed Try Again", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title:"Ok",style: UIAlertActionStyle.default, handler:
+            {action in}
+        ))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     func errorMessage(err :String) {
         let alert = UIAlertController(title: "Registration Error", message: err, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title:"Ok",style: UIAlertActionStyle.default, handler:
-            {action in}
+            {action in
+                
+                //set timer for polling again because rider was declined
+                //self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.pollforRequests(_:)), userInfo: nil, repeats: true)
+        }
         ))
         self.present(alert, animated: true, completion: nil)
     }
@@ -177,7 +196,13 @@ class RegisterViewController : UIViewController{
     //Set all the fields to false after finishing
     func RegisterDone()
     {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-        self.navigationController?.pushViewController(vc, animated: true)
+        
+        email_register.isEnabled = false
+        firstname_register.isEnabled = false
+        lastname_register.isEnabled = false
+        password_register.isEnabled = false
+        password_verify.isEnabled = false
+        submit_register.isEnabled = false
+        submit_register.setTitle("Submitted!", for: .normal)
     }
 }
