@@ -35,10 +35,6 @@ class ChangePictureViewController: UIViewController, UIImagePickerControllerDele
         
         image.image = info[UIImagePickerControllerOriginalImage] as? UIImage
         self.dismiss(animated: true, completion: nil)
-    }
-    
-    
-    @IBAction func upload_request(_ sender: AnyObject) {
         UploadRequest()
     }
     

@@ -79,8 +79,8 @@ class LoginViewController : UIViewController{
         self.navigationController?.isNavigationBarHidden = true
         
         //Delete Later
-        username_input.text = "od3@ucsc.edu"
-        password_input.text = "od3"
+        //username_input.text = "od3@ucsc.edu"
+        //password_input.text = "od3"
         
 
     }
