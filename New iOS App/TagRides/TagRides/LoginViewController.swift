@@ -272,7 +272,7 @@ class LoginViewController : UIViewController{
                  print(json["user_approved"])
                  
                 if json["user_approved"] as? Bool == false {
-                    self.errorMessage(err: "You have not been approved yet, check your email for more information")
+                    DispatchQueue.main.async(execute: self.errorMessage3)
                 } else {
                     DispatchQueue.main.async(execute: self.LoginDone)
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -291,6 +291,18 @@ class LoginViewController : UIViewController{
     
     func errorMessage2() {
         let alert = UIAlertController(title: "Login Error", message: "Incorrect Login", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title:"Ok",style: UIAlertActionStyle.default, handler:
+            {action in
+                
+                //set timer for polling again because rider was declined
+                //self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.pollforRequests(_:)), userInfo: nil, repeats: true)
+        }
+        ))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func errorMessage3() {
+        let alert = UIAlertController(title: "Login Error", message: "You have not been approved yet, check your email for more information", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title:"Ok",style: UIAlertActionStyle.default, handler:
             {action in
                 

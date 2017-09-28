@@ -44,7 +44,7 @@ class EditDriverViewController: UIViewController {
         
         
         
-        let dict = ["password": "",
+        let dict = ["user_email": appDelegate.user_email, "password": "",
                     "first_name": "",
                     "last_name": "",
                     "user_car": color,
@@ -65,7 +65,7 @@ class EditDriverViewController: UIViewController {
                 data, response, error in
                 if let httpResponse = response as? HTTPURLResponse{
                     print(httpResponse.statusCode)
-                    if(httpResponse.statusCode != 200){
+                    if(httpResponse.statusCode != 201){
                         print("error")
                         return
                     }

@@ -63,12 +63,12 @@ class userRatingViewController: UIViewController, FloatRatingViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        self.userName.text = appDelegate.ratingList[counter]
+        self.userName.text = appDelegate.newRatingList[counter].name
         let headers = [
             "Authorization": "Token \(appDelegate.token)"
         ]
         
-        let parameters = ["user_email": appDelegate.ratingList[counter]]
+        let parameters = ["user_email": appDelegate.newRatingList[counter].email]
         
         Alamofire.request("http://138.68.252.198:8000/rideshare/get_profile_photo/", method: .get, parameters: parameters, headers: headers ).responseData { (dataResponse) in
             
@@ -136,7 +136,7 @@ class userRatingViewController: UIViewController, FloatRatingViewDelegate {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         print("check")
         print(self.floatRatingView.rating)
-        let dict = ["user_email":appDelegate.ratingList[counter], "rating": self.floatRatingView.rating] as [String: Any]
+        let dict = ["user_email":appDelegate.newRatingList[counter].email, "rating": self.floatRatingView.rating] as [String: Any]
         print(dict)
         if let jsonData = try? JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted){
             print("success")
@@ -173,18 +173,18 @@ class userRatingViewController: UIViewController, FloatRatingViewDelegate {
 
         counter+=1
         
-        if counter == appDelegate.ratingList.count {
-            appDelegate.ratingList.removeAll()
+        if counter == appDelegate.newRatingList.count {
+            appDelegate.newRatingList.removeAll()
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let newViewController = storyBoard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
             self.present(newViewController, animated: true, completion: nil)
         } else {
-            self.userName.text = appDelegate.ratingList[counter]
+            self.userName.text = appDelegate.newRatingList[counter].name
             let headers = [
                 "Authorization": "Token \(appDelegate.token)"
             ]
             
-            let parameters = ["user_email": appDelegate.ratingList[counter]]
+            let parameters = ["user_email": appDelegate.newRatingList[counter].email]
             
             Alamofire.request("http://138.68.252.198:8000/rideshare/get_profile_photo/", method: .get, parameters: parameters, headers: headers ).responseData { (dataResponse) in
                 

@@ -26,9 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var ratingList = [String]()
     var token = ""
     var profileImage = UIImage()
-    var desc_name: String = ""
-    var desc_desc: String = ""
-    var desc_img = UIImage()
+    var newRatingList = [getImage]()
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {

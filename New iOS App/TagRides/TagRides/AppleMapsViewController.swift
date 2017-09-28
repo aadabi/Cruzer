@@ -21,11 +21,11 @@ protocol HandleMapSearch: class {
 
 class customPin: MKPointAnnotation {
     var pinColor: UIColor?
+    var email: String = ""
 }
 
 struct getImage {
     let name: String
-    let loc: CLLocation
     let email: String
 }
 
@@ -212,11 +212,11 @@ class AppleMapsViewController: UIViewController {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if (appDelegate.driver_status == false) {
-            let QRButton = UIBarButtonItem(title: "QR Code Scan", style: UIBarButtonItemStyle.plain, target: self, action: #selector(AppleMapsViewController.scanInModalAction(_:)))
+            let QRButton = UIBarButtonItem(title: "Register Driver", style: UIBarButtonItemStyle.plain, target: self, action: #selector(AppleMapsViewController.scanInModalAction(_:)))
             self.navigationItem.rightBarButtonItem = QRButton
         } else {
 
-            let QRButton = UIBarButtonItem(title: "Display QR Code", style: UIBarButtonItemStyle.plain, target: revealViewController(), action: #selector(SWRevealViewController.rightRevealToggle(_:)))
+            let QRButton = UIBarButtonItem(title: "Register Rider", style: UIBarButtonItemStyle.plain, target: revealViewController(), action: #selector(SWRevealViewController.rightRevealToggle(_:)))
             
             view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
             
@@ -283,10 +283,6 @@ class AppleMapsViewController: UIViewController {
                 let userss = json["user_list"] as? [[String: Any]]
                 for user in userss! {
                     if user["user_email"] as! String != appDelegate.user_email {
-                        self.arr.append(getImage(name: (user["user_firstname"] as? String)!,
-                                                 loc: CLLocation(latitude: user["location_latitude"] as! Double,
-                                                                                                  longitude: user["location_longitude"] as! Double),
-                                                 email: (user["user_email"] as? String)!))
                         let annotation = customPin()
                         annotation.coordinate = CLLocationCoordinate2D(latitude: user["location_latitude"] as! Double,
                                                                        longitude: user["location_longitude"] as! Double)
@@ -309,6 +305,7 @@ class AppleMapsViewController: UIViewController {
                         } else {
                             annotation.pinColor = .purple
                         }
+                        annotation.email = user["user_email"] as! String
                         //marker.snippet = "Destination: \(user["destination_longitude"] as! Double)"
                         self.updateAnnotationArray.append(annotation)
                     }
@@ -321,48 +318,6 @@ class AppleMapsViewController: UIViewController {
             }
             task.resume()
         }
-        
-    }
-    
-    func getAnnoInfo() {
-        guard let selectedPin = selectedPin else { return }
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.desc_name = selectedPin.title!
-        appDelegate.desc_desc = selectedPin.subtitle!
-        // If you have any autorization headers
-        let headers = [
-            "Authorization": "Token \(appDelegate.token)"
-        ]
-        
-        for arrs in arr {
-            if arrs.name == selectedPin.title {
-                let coordinate = CLLocation(latitude: selectedPin.coordinate.latitude, longitude: selectedPin.coordinate.longitude)
-                if coordinate.distance(from: arrs.loc) == 0 {
-                    let parameters = ["user_email": arrs.email]
-                    
-                    Alamofire.request("http://138.68.252.198:8000/rideshare/get_profile_photo/", method: .get, parameters: parameters, headers: headers ).responseData { (dataResponse) in
-                        
-                        if let data = dataResponse.data {
-                            //self.ImageView.image = UIImage(data: data)
-                            //print(data)
-                            if let image = UIImage (data:data) {
-                                appDelegate.profileImage = image
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        let revealViewController = self.revealViewController()
-        var settingsButton = UIButton(type: .custom)
-        settingsButton.setImage(UIImage(named: "settings_icon")!, for: .normal)
-        settingsButton.addTarget(revealViewController, action: #selector(SWRevealViewController.revealToggle(_:)), for: .touchUpInside)
-        
-        settingsButton.sendActions(for: .touchUpInside)
-        
-        
         
     }
     
@@ -602,15 +557,20 @@ class AppleMapsViewController: UIViewController {
                 print("success3")
                 let json = try! JSONSerialization.jsonObject(with: data, options: []) as AnyObject
                 print(json)
-                appDelegate.ratingList.removeAll()
-                let userss = json["user_emails"] as? [String]
+                //appDelegate.ratingList.removeAll()
+                appDelegate.newRatingList.removeAll()
+                let userss = json["user_emails"] as? [[String: Any]]
                 var count = 0
                 for user in userss! {
                     count = 1
-                    appDelegate.ratingList.append(user)
+                    //appDelegate.ratingList.append(user)
+                    var email = user["user_email"] as? String
+                    var firstname = user["user_firstname"] as? String
+                        appDelegate.newRatingList.append(getImage(name: firstname!, email: email!))
                 }
                 print (count)
-                print(appDelegate.ratingList)
+                //print(appDelegate.ratingList)
+                print(appDelegate.newRatingList)
                 if count != 0 {
                     DispatchQueue.main.async(execute: self.gotoRating)
                 } else {
@@ -811,10 +771,28 @@ extension AppleMapsViewController: MKMapViewDelegate {
             pinView?.pinTintColor = pin.pinColor
             pinView?.canShowCallout = true
             
-            let smallSquare = CGSize(width: 30, height: 30)
-            let button = UIButton(frame: CGRect(origin: CGPoint.zero, size: smallSquare))
-            button.setTitle("Info", for: .normal)
-            button.addTarget(self, action: #selector(AppleMapsViewController.getAnnoInfo), for: .touchUpInside)
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            // If you have any autorization headers
+            let headers = [
+                "Authorization": "Token \(appDelegate.token)"
+            ]
+            let parameters = ["user_email": pin.email]
+            
+            Alamofire.request("http://138.68.252.198:8000/rideshare/get_profile_photo/", method: .get, parameters: parameters, headers: headers ).responseData { (dataResponse) in
+                
+                if let data = dataResponse.data {
+                    //self.ImageView.image = UIImage(data: data)
+                    //print(data)
+                    if let image = UIImage (data:data) {
+                        let leftIconView = UIImageView(frame: CGRect.init(x: 0, y: 0, width: 53, height: 53))
+                        leftIconView.image = image
+                        pinView?.leftCalloutAccessoryView = leftIconView
+                    }
+                }
+            }
+
+            
+
             //pinView?.rightCalloutAccessoryView = button
             return pinView
         } else {

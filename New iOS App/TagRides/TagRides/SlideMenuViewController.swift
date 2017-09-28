@@ -12,6 +12,7 @@ import SwiftyJSON
 import ChatSDKCore
 import ChatSDKUI
 import ChatSDKCoreData
+import SafariServices
 
 class SlideMenuViewController : UITableViewController{
     var window: UIWindow?
@@ -151,4 +152,8 @@ class SlideMenuViewController : UITableViewController{
         controller.dismiss(animated: true, completion: nil)
     }*/
 
+    @IBAction func ContactUsButton(_ sender: Any) {
+        let svc = SFSafariViewController(url: URL(string:"http://tagrides.com/")!)
+        self.present(svc, animated: true, completion: nil)
+    }
 }
