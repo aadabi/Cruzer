@@ -20,7 +20,7 @@ class ChangePictureViewController: UIViewController, UIImagePickerControllerDele
     }
     
     
-    @IBAction func selectPicture(_ sender: AnyObject) {
+    func selectPicture(_ sender: AnyObject) {
         
         let ImagePicker = UIImagePickerController()
         ImagePicker.delegate = self
@@ -80,35 +80,6 @@ class ChangePictureViewController: UIViewController, UIImagePickerControllerDele
             let newViewController = storyBoard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
             self.present(newViewController, animated: true, completion: nil)
         }
-        /*let headers = [
-            "Authorization": "Token \(appDelegate.token)"
-        ]
-        print("check")
-        let parameters = ["user_email": appDelegate.user_email]
-        
-        Alamofire.upload(multipartFormData: { multipartFormData in
-            multipartFormData.append(imgData, withName: "image",fileName: "image.jpg", mimeType: "image/jpg")
-            for (key, value) in parameters {
-                multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
-            }
-        },
-                         to:"http://138.68.252.198:8000/rideshare/upload_profile_photo/", header: headers)
-        { (result) in
-            switch result {
-            case .success(let upload, _, _):
-                
-                upload.uploadProgress(closure: { (progress) in
-                    print("Upload Progress: \(progress.fractionCompleted)")
-                })
-                
-                upload.responseJSON { response in
-                    print(response.result.value)
-                }
-                
-            case .failure(let encodingError):
-                print(encodingError)
-            }
-        }*/
         
     }
     

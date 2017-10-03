@@ -8,13 +8,14 @@
 
 import Foundation
 import UIKit
+import Alamofire
 
-class EditAccountInformationViewController: UIViewController {
+class EditAccountInformationViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var firstName: UITextField!
     @IBOutlet weak var lastName: UITextField!
-    @IBOutlet weak var Password: UITextField!
-    @IBOutlet weak var VeriPassword: UITextField!
+    //@IBOutlet weak var Password: UITextField!
+    //@IBOutlet weak var VeriPassword: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,13 +50,14 @@ class EditAccountInformationViewController: UIViewController {
         if let text = lastName.text, !text.isEmpty {
             last = lastName.text!
         }
+        /*
         if let text = Password.text, !text.isEmpty {
             if (Password.text == VeriPassword.text) {
                 pass = Password.text!
             } else {
                 errorMessage(err: "Passwords Do not Match")
             }
-        }
+        }*/
 
         
         
@@ -109,5 +111,94 @@ class EditAccountInformationViewController: UIViewController {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let newViewController = storyBoard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
         self.present(newViewController, animated: true, completion: nil)
+    }
+    
+    var image = UIImage()
+    
+    func selectPicture() {
+        
+        let ImagePicker = UIImagePickerController()
+        ImagePicker.delegate = self
+        ImagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        
+        self.present(ImagePicker, animated: true, completion: nil)
+        
+        
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        image = (info[UIImagePickerControllerOriginalImage] as? UIImage)!
+        self.dismiss(animated: true, completion: nil)
+        UploadRequest()
+    }
+    
+    
+    
+    func UploadRequest()
+    {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let image = self.image
+        let imgData = UIImageJPEGRepresentation(image, 0.2)!
+        
+        
+        // If you have any autorization headers
+        let headers = [
+            "Authorization": "Token \(appDelegate.token)"
+        ]
+        print("check")
+        let parameters = ["user_email": appDelegate.user_email]
+        
+        Alamofire.upload(
+            multipartFormData: { multipartFormData in
+                multipartFormData.append(imgData, withName: "image",fileName: "image.jpg", mimeType: "image/jpg")
+                for (key, value) in parameters {
+                    multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
+                }
+        },
+            to:"http://138.68.252.198:8000/rideshare/upload_profile_photo/",
+            headers: headers,
+            encodingCompletion: { encodingResult in
+                switch encodingResult {
+                case .success(let upload, _, _):
+                    upload.responseJSON { response in
+                        debugPrint(response)
+                        self.postDone1()
+                    }
+                case .failure(let encodingError):
+                    print("encoding Error : \(encodingError)")
+                }
+        })
+        
+    }
+    
+    func postDone1() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        // If you have any autorization headers
+        let headers = [
+            "Authorization": "Token \(appDelegate.token)"
+        ]
+        
+        let parameters = ["user_email": appDelegate.user_email]
+        
+        Alamofire.request("http://138.68.252.198:8000/rideshare/get_profile_photo/", method: .get, parameters: parameters, headers: headers ).responseData { (dataResponse) in
+            
+            if let data = dataResponse.data {
+                //self.ImageView.image = UIImage(data: data)
+                //print(data)
+                if let image = UIImage (data:data) {
+                    appDelegate.profileImage = UIImage(data: data)!
+                }
+            }
+        }
+        
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let newViewController = storyBoard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+        self.present(newViewController, animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func Upload(_ sender: Any) {
+        selectPicture()
     }
 }

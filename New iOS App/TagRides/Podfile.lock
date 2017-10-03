@@ -21,20 +21,20 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - Braintree/Card (4.9.0):
+  - Braintree/Card (4.9.4):
     - Braintree/Core
-  - Braintree/Core (4.9.0)
-  - Braintree/UnionPay (4.9.0):
+  - Braintree/Core (4.9.4)
+  - Braintree/UnionPay (4.9.4):
     - Braintree/Card
     - Braintree/Core
-  - BraintreeDropIn (5.2.2):
-    - BraintreeDropIn/DropIn (= 5.2.2)
-  - BraintreeDropIn/DropIn (5.2.2):
+  - BraintreeDropIn (5.2.3):
+    - BraintreeDropIn/DropIn (= 5.2.3)
+  - BraintreeDropIn/DropIn (5.2.3):
     - Braintree/Card (~> 4.0)
     - Braintree/Core (~> 4.0)
     - Braintree/UnionPay (~> 4.0)
     - BraintreeDropIn/UIKit
-  - BraintreeDropIn/UIKit (5.2.2)
+  - BraintreeDropIn/UIKit (5.2.3)
   - ChatSDKCore (4.2.5):
     - AFNetworking (~> 3.1.0)
     - Reachability (~> 3.0)
@@ -53,50 +53,49 @@ PODS:
   - CountryPicker (1.3)
   - DateTools (1.7.0)
   - Fabric (1.6.13)
-  - FBSDKCoreKit (4.26.0):
+  - FBSDKCoreKit (4.27.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.26.0):
+  - FBSDKLoginKit (4.27.0):
     - FBSDKCoreKit
-  - Firebase/Auth (4.1.1):
+  - Firebase/Auth (4.2.0):
     - Firebase/Core
-    - FirebaseAuth (= 4.1.1)
-  - Firebase/Core (4.1.1):
+    - FirebaseAuth (= 4.2.0)
+  - Firebase/Core (4.2.0):
     - FirebaseAnalytics (= 4.0.3)
-    - FirebaseCore (= 4.0.6)
-  - Firebase/Database (4.1.1):
+    - FirebaseCore (= 4.0.7)
+  - Firebase/Database (4.2.0):
     - Firebase/Core
-    - FirebaseDatabase (= 4.0.2)
-  - Firebase/Messaging (4.1.1):
+    - FirebaseDatabase (= 4.0.3)
+  - Firebase/Messaging (4.2.0):
     - Firebase/Core
-    - FirebaseMessaging (= 2.0.2)
-  - Firebase/Storage (4.1.1):
+    - FirebaseMessaging (= 2.0.3)
+  - Firebase/Storage (4.2.0):
     - Firebase/Core
-    - FirebaseStorage (= 2.0.1)
+    - FirebaseStorage (= 2.0.2)
   - FirebaseAnalytics (4.0.3):
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - nanopb (~> 0.3)
-  - FirebaseAuth (4.1.1):
+  - FirebaseAuth (4.2.0):
     - FirebaseAnalytics (~> 4.0)
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseCore (4.0.6):
+  - FirebaseCore (4.0.7):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - nanopb (~> 0.3)
-  - FirebaseDatabase (4.0.2):
+  - FirebaseDatabase (4.0.3):
     - FirebaseAnalytics (~> 4.0)
     - FirebaseCore (~> 4.0)
     - leveldb-library (~> 1.18)
-  - FirebaseInstanceID (2.0.2):
-    - FirebaseCore (~> 4.0)
-  - FirebaseMessaging (2.0.2):
+  - FirebaseInstanceID (2.0.3)
+  - FirebaseMessaging (2.0.3):
     - FirebaseAnalytics (~> 4.0)
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
     - Protobuf (~> 3.1)
-  - FirebaseStorage (2.0.1):
+  - FirebaseStorage (2.0.2):
     - FirebaseAnalytics (~> 4.0)
     - FirebaseCore (~> 4.0)
     - GTMSessionFetcher/Core (~> 1.1)
@@ -119,14 +118,14 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.1)
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.1)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
-  - GTMOAuth2 (1.1.4):
+  - GTMOAuth2 (1.1.5):
     - GTMSessionFetcher (~> 1.1)
-  - GTMSessionFetcher (1.1.11):
-    - GTMSessionFetcher/Full (= 1.1.11)
-  - GTMSessionFetcher/Core (1.1.11)
-  - GTMSessionFetcher/Full (1.1.11):
-    - GTMSessionFetcher/Core (= 1.1.11)
-  - IQKeyboardManagerSwift (4.0.10)
+  - GTMSessionFetcher (1.1.12):
+    - GTMSessionFetcher/Full (= 1.1.12)
+  - GTMSessionFetcher/Core (1.1.12)
+  - GTMSessionFetcher/Full (1.1.12):
+    - GTMSessionFetcher/Core (= 1.1.12)
+  - IQKeyboardManagerSwift (5.0.3)
   - LBTAComponents (0.1.9)
   - leveldb-library (1.18.3)
   - MBProgressHUD (1.0.0)
@@ -143,7 +142,7 @@ PODS:
   - SDWebImage (4.1.0):
     - SDWebImage/Core (= 4.1.0)
   - SDWebImage/Core (4.1.0)
-  - SideMenu (2.3.3)
+  - SideMenu (3.0.2)
   - SlideMenuControllerSwift (3.0.2)
   - StaticDataTableViewController (2.0.5)
   - SwiftKeychainWrapper (3.0.1)
@@ -169,10 +168,10 @@ DEPENDENCIES:
   - Firebase/Storage
   - FloatRatingView (~> 2.0.0)
   - GoogleSignIn
-  - IQKeyboardManagerSwift (= 4.0.10)
+  - IQKeyboardManagerSwift
   - LBTAComponents (~> 0.1.9)
   - QRCode
-  - QRCodeReader.swift
+  - QRCodeReader.swift (= 7.5.1)
   - SideMenu
   - SlideMenuControllerSwift
   - SwiftKeychainWrapper
@@ -191,31 +190,31 @@ SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  Braintree: 9d9992b4104a184da3c71f6455840b5e63ecea97
-  BraintreeDropIn: 0ff4879547af66dae814911992e01324975d556d
+  Braintree: de7e58b8df95bf6514813cbc510578e3737b1c3b
+  BraintreeDropIn: 20109bea730b9bd31d71792ca84545265b7d27e4
   ChatSDKCore: 02bd19f048d2f9bf48755f0029a8de92406f9c87
   ChatSDKCoreData: 1b81fff83cfee24debfa3ef55ef5d731edb590e0
   ChatSDKUI: 2dd8ceede4465f8210c6564b3e75626035cca976
   CountryPicker: 664c26411d833bb068c80beb15dc951eadde2911
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Fabric: 2fb5676bc811af011a04513451f463dac6803206
-  FBSDKCoreKit: c8b8582311ec11b145451d8b9717dc6cc2ae5a76
-  FBSDKLoginKit: f3f03b94c21eb834af243c0a881d48641f47ca60
-  Firebase: 052c0de688fc87b414996eea13e223dd9fee3fa2
+  FBSDKCoreKit: ebc6c5f5b3f0e72396041050e2266781a38ac587
+  FBSDKLoginKit: 887be4b7452e1c5a3cc4485ce152529965a0c41e
+  Firebase: 9548cae14d69718add12d75a5b312893f7ef89c7
   FirebaseAnalytics: 76f754d37ca5b04f36856729b6af3ca0152d1069
-  FirebaseAuth: f8b07aa83de60d606b4eadd81484b3ac2097ea3e
-  FirebaseCore: 28def3c643989c97ea5a69ea5000f5fa9902b9fd
-  FirebaseDatabase: 4d1a10639a42cae26e094296951b53c689e5e191
-  FirebaseInstanceID: c4c7fca62c7b7330caee5da04f19a37ea37bb1c1
-  FirebaseMessaging: 85af6c27188538b3a6f7dfd0b3b0596358cb0c39
-  FirebaseStorage: 661fc1f8d4131891d256b62e82a45ace8b3f0c3b
+  FirebaseAuth: 22f8a5170f31d1f111141950590f071f35df3229
+  FirebaseCore: 9a6cc1e3eaf75905390f9220596ad4fd8f92faee
+  FirebaseDatabase: 03940adcac54ce30db06f1fc2136f8581734ce2c
+  FirebaseInstanceID: a4fc702b5a026f7322964376047f1a3f1f7cc6ff
+  FirebaseMessaging: eaf1bfff0193170c04ea3ba3bfe983f68f893118
+  FirebaseStorage: 0cca42d9b889a0227c3a50121f45a4469fc9eb27
   FloatRatingView: 857ab8f10040d06a42fc979f486c8f9fecd2f2e5
   FrameAccessor: 0f7ba6ce37be9a5d0302a27c731dca70af8d438b
   GoogleSignIn: 8c599fc10d25b2af86a3f82fd9631e863f2b1400
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
-  GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
-  GTMSessionFetcher: 5ad62e8200fa00ed011fe5e08d27fef72c5b1429
-  IQKeyboardManagerSwift: 75ba21a23794a1e6b6fe6d9a267ea17f80e06771
+  GTMOAuth2: be83fd28d63ae3087e7d351b1f39c1a7e24ab6e7
+  GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
+  IQKeyboardManagerSwift: e257e513744cf32123eca7061272acea0246fc83
   LBTAComponents: 9a5d314080d1f80208062ccc81a2d25225c5f572
   leveldb-library: 10fb39c39e243db4af1828441162405bbcec1404
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
@@ -226,7 +225,7 @@ SPEC CHECKSUMS:
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   RXPromise: b1e6d6d747db2e0dc53f11ba2a0fbff2456d25e5
   SDWebImage: 0e435c14e402a6730315a0fb79f95e68654d55a4
-  SideMenu: a447554ae5c982e8077666389e1c8b0c8656e065
+  SideMenu: 8fe957e0f5dcf1a1175c8ba5d47978d4eb2a89da
   SlideMenuControllerSwift: 16001e1fd9963fd089fa6c91dbe18d4c148f0ce9
   StaticDataTableViewController: 7ea8d7bc8c7f0a4e9255a320224462c7346c1d4a
   SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
@@ -236,6 +235,6 @@ SPEC CHECKSUMS:
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
   VENTokenField: 5a19b838fb97f040e3d4c93f584b4adeaf3fc1ee
 
-PODFILE CHECKSUM: 7f630520c1843bae25f6fe44700da82e86297c7e
+PODFILE CHECKSUM: 842f85e5f4637c21a41598bed94b730d9a261ad4
 
 COCOAPODS: 1.3.1

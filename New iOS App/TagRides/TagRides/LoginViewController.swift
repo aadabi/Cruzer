@@ -276,9 +276,6 @@ class LoginViewController : UIViewController{
                  appDelegate.user_firstname = self.user_firstname
                  appDelegate.point_count = (json["point_count"] as? Int)!
                  appDelegate.driver_approval = (json["driver_approval"] as? Bool)!
-                 KeychainWrapper.standard.set(self.user_email, forKey: "TagRidesUsername")
-                 KeychainWrapper.standard.set(self.pass, forKey: "TagRidesPassword")
-                
                  print(json["user_approved"])
                  
                 if json["user_approved"] as? Bool == false {
@@ -345,6 +342,8 @@ class LoginViewController : UIViewController{
     //Check Login stuff
     func LoginDone()
     {
+        KeychainWrapper.standard.set(self.user_email, forKey: "TagRidesUsername")
+        KeychainWrapper.standard.set(self.pass, forKey: "TagRidesPassword")
         username_input.isEnabled = false
         password_input.isEnabled = false
         

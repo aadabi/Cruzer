@@ -36,7 +36,6 @@
 		5B5F1F1D1F7B6A5D006FF1F4 /* BGoogleLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5F1F151F7B6A5D006FF1F4 /* BGoogleLoginViewController.m */; };
 		5B5F1F1E1F7B6A5D006FF1F4 /* BGoogleLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B5F1F161F7B6A5D006FF1F4 /* BGoogleLoginViewController.xib */; };
 		5B5F1F1F1F7B6A5D006FF1F4 /* icn_200_google@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B5F1F171F7B6A5D006FF1F4 /* icn_200_google@3x.png */; };
-		5B5F1F211F7CAB9F006FF1F4 /* IQKeyboardManagerSwift in Resources */ = {isa = PBXBuildFile; fileRef = 5B5F1F201F7CAB9E006FF1F4 /* IQKeyboardManagerSwift */; };
 		5B5F1F231F7CAD6E006FF1F4 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5F1F221F7CAD6E006FF1F4 /* StartViewController.swift */; };
 		5BCFC3F51F79CDF7001C95AC /* FloatRatingViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCFC3F21F79CDF7001C95AC /* FloatRatingViewDelegate.swift */; };
 		5BCFC3F61F79CDF7001C95AC /* QRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCFC3F31F79CDF7001C95AC /* QRReaderViewController.swift */; };
@@ -136,7 +135,6 @@
 		5B5F1F171F7B6A5D006FF1F4 /* icn_200_google@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icn_200_google@3x.png"; sourceTree = "<group>"; };
 		5B5F1F181F7B6A5D006FF1F4 /* PGoogleLoginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGoogleLoginDelegate.h; sourceTree = "<group>"; };
 		5B5F1F191F7B6A5D006FF1F4 /* SocialLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialLogin.h; sourceTree = "<group>"; };
-		5B5F1F201F7CAB9E006FF1F4 /* IQKeyboardManagerSwift */ = {isa = PBXFileReference; lastKnownFileType = folder; path = IQKeyboardManagerSwift; sourceTree = "<group>"; };
 		5B5F1F221F7CAD6E006FF1F4 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		5BCFC3F21F79CDF7001C95AC /* FloatRatingViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatRatingViewDelegate.swift; sourceTree = "<group>"; };
 		5BCFC3F31F79CDF7001C95AC /* QRReaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRReaderViewController.swift; sourceTree = "<group>"; };
@@ -203,7 +201,6 @@
 		5BFF69AD1F79923400C682F3 = {
 			isa = PBXGroup;
 			children = (
-				5B5F1F201F7CAB9E006FF1F4 /* IQKeyboardManagerSwift */,
 				5BFF69B81F79923500C682F3 /* TagRides */,
 				5BFF69CD1F79923600C682F3 /* TagRidesTests */,
 				5BFF69D81F79923600C682F3 /* TagRidesUITests */,
@@ -476,7 +473,6 @@
 				5B5F1F1F1F7B6A5D006FF1F4 /* icn_200_google@3x.png in Resources */,
 				5BFF69C11F79923500C682F3 /* Assets.xcassets in Resources */,
 				5BFF6A071F79C75D00C682F3 /* yourImage.jpg in Resources */,
-				5B5F1F211F7CAB9F006FF1F4 /* IQKeyboardManagerSwift in Resources */,
 				5B5F1F1E1F7B6A5D006FF1F4 /* BGoogleLoginViewController.xib in Resources */,
 				5BFF69BF1F79923500C682F3 /* Main.storyboard in Resources */,
 				5B3DA5B11F7A20C100EB8D89 /* GoogleService-Info.plist in Resources */,
