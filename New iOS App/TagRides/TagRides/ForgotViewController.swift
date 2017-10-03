@@ -27,7 +27,8 @@ class ForgotViewController : UIViewController{
     
     @IBAction func Submit(_ sender: Any) {
         if let text = email.text, !text.isEmpty {
-            let dict = ["email":email.text] as [String: Any]
+            let dict = ["user_email":email.text] as [String: Any]
+            
             if let jsonData = try? JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted) {
                 let url = NSURL(string: "http://138.68.252.198:8000/rideshare/forgot_password/")!
                 let request = NSMutableURLRequest(url: url as URL)
@@ -38,7 +39,7 @@ class ForgotViewController : UIViewController{
                 let task = URLSession.shared.dataTask(with: request as URLRequest) { data, response, error in
                     if let httpResponse = response as? HTTPURLResponse {
                         print(httpResponse.statusCode)
-                        if(httpResponse.statusCode != 201) {
+                        if(httpResponse.statusCode != 200) {
                             DispatchQueue.main.async(execute: self.errorMessage)
                             return
                         }

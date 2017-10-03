@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         BInterfaceManager.shared().a = BDefaultInterfaceAdapter.init()
         BNetworkManager.shared().a = BFirebaseNetworkAdapter.init()
         BStorageManager.shared().a = BCoreDataManager.init()
-        
+ 
         let mainViewController = BAppTabBarController.init(nibName: nil, bundle: nil)
         BNetworkManager.shared().a.auth().setChallenge(BLoginViewController.init(nibName: nil, bundle: nil));
         

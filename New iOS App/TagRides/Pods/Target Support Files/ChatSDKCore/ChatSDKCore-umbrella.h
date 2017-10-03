@@ -86,6 +86,7 @@
 #import "NSBundle+ChatCore.h"
 #import "PInterfaceFacade.h"
 #import "BCoreUtilities.h"
+#import "BNotificationObserverList.h"
 #import "NSObject+Meta.h"
 #import "PHasMeta.h"
 

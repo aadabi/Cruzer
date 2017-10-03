@@ -11,6 +11,7 @@ import Foundation
 import UIKit
 import AVFoundation
 import Alamofire
+import SwiftKeychainWrapper
 
 extension UIColor {
     convenience init(r: Int, g: Int, b: Int) {
@@ -77,6 +78,12 @@ class LoginViewController : UIViewController{
         view.backgroundColor = UIColor(r: 227, g: 226, b: 191)
         //view.backgroundColor = UIColor(patternImage: UIImage(named: "Background.jpeg")!)
         self.navigationController?.isNavigationBarHidden = true
+        if let username: String = KeychainWrapper.standard.string(forKey: "TagRidesUsername") as? String {
+            if let password: String = KeychainWrapper.standard.string(forKey: "TagRidesPassword") as? String{
+                login_now(username: username, password: password)
+            }
+        }
+        
         
         //Delete Later
         //username_input.text = "od3@ucsc.edu"
@@ -269,6 +276,9 @@ class LoginViewController : UIViewController{
                  appDelegate.user_firstname = self.user_firstname
                  appDelegate.point_count = (json["point_count"] as? Int)!
                  appDelegate.driver_approval = (json["driver_approval"] as? Bool)!
+                 KeychainWrapper.standard.set(self.user_email, forKey: "TagRidesUsername")
+                 KeychainWrapper.standard.set(self.pass, forKey: "TagRidesPassword")
+                
                  print(json["user_approved"])
                  
                 if json["user_approved"] as? Bool == false {

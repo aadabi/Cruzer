@@ -13,6 +13,7 @@ import ChatSDKCore
 import ChatSDKUI
 import ChatSDKCoreData
 import SafariServices
+import SwiftKeychainWrapper
 
 class SlideMenuViewController : UITableViewController{
     var window: UIWindow?
@@ -155,5 +156,9 @@ class SlideMenuViewController : UITableViewController{
     @IBAction func ContactUsButton(_ sender: Any) {
         let svc = SFSafariViewController(url: URL(string:"http://tagrides.com/")!)
         self.present(svc, animated: true, completion: nil)
+    }
+    @IBAction func logoutButton(_ sender: Any) {
+        KeychainWrapper.standard.removeObject(forKey: "TagRidesUsername")
+        KeychainWrapper.standard.removeObject(forKey: "TagRidesPassword")
     }
 }

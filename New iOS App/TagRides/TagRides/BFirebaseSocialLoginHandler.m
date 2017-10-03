@@ -18,6 +18,8 @@
 
 #import "BGoogleHelper.h"
 
+
+
 @implementation BFirebaseSocialLoginHandler
 
 -(id) init {
@@ -26,23 +28,23 @@
             [FBSDKAppEvents activateApp];
         }];
         
-
+        
     }
     return self;
 }
 
 -(void) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
+    
     // Set up Google
-//    NSError* configureError;
-//    [[GGLContext sharedInstance] configureWithError: &configureError];
-//    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
-
+    //    NSError* configureError;
+    //    [[GGLContext sharedInstance] configureWithError: &configureError];
+    //    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
+    
     [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
-
+    
     [[Twitter sharedInstance] startWithConsumerKey:[BSettingsManager twitterApiKey]
                                     consumerSecret:[BSettingsManager twitterSecret]];
-
+    
 }
 
 -(void) applicationDidBecomeActive: (UIApplication *) application {
@@ -83,12 +85,12 @@
         [promise rejectWithReason:error];
         return Nil;
     });
-
+    
     return promise;
 }
 
 -(RXPromise *) loginWithTwitter {
-   
+    
     RXPromise * promise = [RXPromise new];
     [[Twitter sharedInstance] logInWithCompletion:^(TWTRSession *session, NSError *error) {
         if (!error) {
@@ -99,7 +101,7 @@
         }
     }];
     return promise;
-
+    
 }
 
 -(RXPromise *) loginWithFacebook {
@@ -110,7 +112,7 @@
         [promise resolveWithResult:[FBSDKAccessToken currentAccessToken].tokenString];
     }
     else {
-                
+        
         // TODO: Check this
         FBSDKLoginManager * manager = [[FBSDKLoginManager alloc] init];
         [manager logInWithReadPermissions:@[] handler:^(FBSDKLoginManagerLoginResult * result, NSError * error) {
@@ -124,7 +126,7 @@
     }
     
     return promise;
-
+    
 }
 
 @end

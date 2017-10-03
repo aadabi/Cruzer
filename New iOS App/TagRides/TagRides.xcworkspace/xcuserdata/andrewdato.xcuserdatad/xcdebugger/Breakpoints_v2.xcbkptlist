@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TagRides/AppDelegate.swift"
-            timestampString = "528097729.49124"
+            timestampString = "528689695.232856"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "22"
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TagRides/SlideMenuViewController.swift"
-            timestampString = "528321690.462424"
+            timestampString = "528686353.38481"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "ButtonPressed(sender:)"
             landmarkType = "7">
          </BreakpointContent>
