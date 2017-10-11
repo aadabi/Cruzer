@@ -57,11 +57,11 @@ class AppleMapsViewController: UIViewController, QRCodeReaderViewControllerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        
+    
         let backButton = UIBarButtonItem(title: "< Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(AppleMapsViewController.backButtonAction(_:)))
-        backButton.imageInsets = UIEdgeInsetsMake(0, -13.7, 0, 0)
-        self.navigationItem.leftBarButtonItem = backButton
         
+        self.navigationItem.leftBarButtonItem = backButton
+        view.backgroundColor = UIColor(r: 227, g: 226, b: 191)
         revealViewController().rightViewRevealWidth = 275
         revealViewController().rearViewRevealWidth = 275
         DirectionsLabel.isHidden = true
@@ -87,7 +87,7 @@ class AppleMapsViewController: UIViewController, QRCodeReaderViewControllerDeleg
         definesPresentationContext = true
         locationSearchTable.mapView = mapView
         locationSearchTable.handleMapSearchDelegate = self
-        
+        self.muted.isHidden = true
 
     }
     
@@ -210,6 +210,7 @@ class AppleMapsViewController: UIViewController, QRCodeReaderViewControllerDeleg
     //Process after the function is done
     //////////////////////////////////
     func postDone() {
+        
         navigationItem.titleView = nil
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -229,6 +230,7 @@ class AppleMapsViewController: UIViewController, QRCodeReaderViewControllerDeleg
         self.navigationItem.leftBarButtonItem = backButton
         
         self.DirectionsLabel.isHidden = false
+        self.muted.isHidden = false
         
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.pollforUsers(_:)), userInfo: nil, repeats: false)
     }
@@ -607,6 +609,18 @@ class AppleMapsViewController: UIViewController, QRCodeReaderViewControllerDeleg
         
     }
     
+    @IBOutlet weak var muted: UIButton!
+    var mutes = false
+    @IBAction func mute(_ sender: Any) {
+        if mutes == false {
+            mutes = true
+            muted.setTitle("Unmute", for: .normal)
+        } else {
+            mutes = false
+            muted.setTitle("Mute", for: .normal)
+        }
+    }
+    
     func gotoRating() {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "userRatingViewController") as! userRatingViewController
         self.navigationController?.pushViewController(vc, animated: true)
@@ -740,7 +754,7 @@ extension AppleMapsViewController : CLLocationManagerDelegate {
         ////////////
         // Updating current instruction
         if self.myRoute.steps.count > self.curr {
-            print("Check")
+            print("Checkers")
             // Getting the coordinates in the polyline
             let poly = self.myRoute.steps[self.curr].polyline
             let coordsPointer = UnsafeMutablePointer<CLLocationCoordinate2D>.allocate(capacity: poly.pointCount)
@@ -756,11 +770,18 @@ extension AppleMapsViewController : CLLocationManagerDelegate {
             let location2 = CLLocation(latitude: point.latitude, longitude: point.longitude)            
             
             // If the current location is less than 50 meters from the end of the route step, announce the instruction
+            print(Int((location.distance(from: location2))))
             if  Int((location.distance(from: location2))) < 50 {
+                print("Checking")
                 if (madefar) {
                     let utterance = AVSpeechUtterance(string: navigationItem.title!)
                     utterance.rate = 0.5
-                    self.synthesizer.speak(utterance)
+                    print("What if")
+                    print(self.mutes)
+                    if self.mutes == false {
+                        print("check4")
+                        self.synthesizer.speak(utterance)
+                    }
                     self.madefar  = false
                 }
             }
@@ -792,7 +813,12 @@ extension AppleMapsViewController : CLLocationManagerDelegate {
                 
                 // Speaking the next step
                 utterance.rate = 0.5
-                self.synthesizer.speak(utterance)
+                print("What if 2")
+                print(self.mutes)
+                if self.mutes == false {
+                    print("check3")
+                    self.synthesizer.speak(utterance)
+                }
                 self.DirectionsLabel.text = self.myRoute.steps[self.curr].instructions
                 
                 // Updating to the next step

@@ -918,10 +918,25 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6MP-2W-rBU">
+                                <rect key="frame" x="304" y="643" width="71" height="24"/>
+                                <color key="backgroundColor" red="0.001883967081" green="0.27543160319999999" blue="0.065926723179999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="71" id="8Bq-QH-alo"/>
+                                </constraints>
+                                <state key="normal" title="Mute">
+                                    <color key="titleColor" red="0.88996034859999995" green="0.88609272240000003" blue="0.74841755629999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="mute:" destination="BOb-gf-57S" eventType="touchUpInside" id="nsM-gU-b7F"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="K4K-Jg-VdI" firstAttribute="top" secondItem="6MP-2W-rBU" secondAttribute="bottom" id="0Iu-e0-Nnh"/>
                             <constraint firstItem="hpV-32-veD" firstAttribute="leading" secondItem="6lP-Lk-N0R" secondAttribute="leading" id="8YK-my-Yfb"/>
+                            <constraint firstAttribute="trailing" secondItem="6MP-2W-rBU" secondAttribute="trailing" id="Qqx-F8-pXw"/>
                             <constraint firstAttribute="trailing" secondItem="hpV-32-veD" secondAttribute="trailing" id="RXQ-Hi-tzM"/>
                             <constraint firstAttribute="trailing" secondItem="hpV-32-veD" secondAttribute="trailing" id="SId-wv-P6e"/>
                             <constraint firstItem="aZc-Ab-0lV" firstAttribute="leading" secondItem="6lP-Lk-N0R" secondAttribute="leading" id="TeX-A1-x4l"/>
@@ -937,6 +952,7 @@
                     <connections>
                         <outlet property="DirectionsLabel" destination="hpV-32-veD" id="nYM-7k-fAl"/>
                         <outlet property="mapView" destination="aZc-Ab-0lV" id="LDA-n5-JC4"/>
+                        <outlet property="muted" destination="6MP-2W-rBU" id="8sg-7t-Ota"/>
                         <outlet property="previewView" destination="6lP-Lk-N0R" id="doo-hJ-qOt"/>
                     </connections>
                 </viewController>
