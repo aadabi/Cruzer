@@ -15,11 +15,13 @@ import ChatSDKCoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
+    var start = false 
     var window: UIWindow?
     var user_email:String = "temp" //Global Variable for User Email Addresssaadd
     var user_firstname:String = "temp" //Global Variable for User First Name
     var user_lastname:String = "temp" //Global Variable for Usedr Last Name
+    var user_pass: String = "temp" //Global Variable for User Password
     var driver_status = true
     var driver_approval = false
     var point_count = 100;
@@ -27,7 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var token = ""
     var profileImage = UIImage()
     var newRatingList = [getImage]()
-    
+    var rider_email = ""
+    var rider_name = ""
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.sharedManager().enable = true

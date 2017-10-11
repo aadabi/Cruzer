@@ -22,6 +22,7 @@ protocol HandleMapSearch: class {
 class customPin: MKPointAnnotation {
     var pinColor: UIColor?
     var email: String = ""
+    var status: Bool = false
 }
 
 struct getImage {
@@ -30,7 +31,7 @@ struct getImage {
 }
 
 
-class AppleMapsViewController: UIViewController {
+class AppleMapsViewController: UIViewController, QRCodeReaderViewControllerDelegate {
     
     var selectedPin: MKPlacemark?
     var resultSearchController: UISearchController!
@@ -58,6 +59,7 @@ class AppleMapsViewController: UIViewController {
         mapView.delegate = self
         
         let backButton = UIBarButtonItem(title: "< Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(AppleMapsViewController.backButtonAction(_:)))
+        backButton.imageInsets = UIEdgeInsetsMake(0, -13.7, 0, 0)
         self.navigationItem.leftBarButtonItem = backButton
         
         revealViewController().rightViewRevealWidth = 275
@@ -286,25 +288,30 @@ class AppleMapsViewController: UIViewController {
                         let annotation = customPin()
                         annotation.coordinate = CLLocationCoordinate2D(latitude: user["location_latitude"] as! Double,
                                                                        longitude: user["location_longitude"] as! Double)
-                        annotation.title = user["user_firstname"] as? String
+                        let title = user["user_firstname"] as! String
                         var part1 = ""
                         var part2 = ""
                         var part3 = ""
                         if let test = user["destination_location"] as? String{
-                            part1 = test as! String
+                            part1 = test
                         }
                         if let test = user["user_car"] as? String{
-                            part2 = test as! String
+                            part2 = test
                         }
                         if let test = user["car_color"] as? String{
-                            part3 = test as! String
+                            part3 = test
                         }
                         annotation.subtitle = "\(part1)\n\(part3) \(part2)"
                         if (user["driver_status"] as! Bool == true) {
+                            annotation.status = true
                             annotation.pinColor = .green
+                            annotation.title = "Driver: " + title
                         } else {
+                            annotation.status = false
                             annotation.pinColor = .purple
+                            annotation.title = "Rider: \(title)"
                         }
+                        //jump1
                         annotation.email = user["user_email"] as! String
                         //marker.snippet = "Destination: \(user["destination_longitude"] as! Double)"
                         self.updateAnnotationArray.append(annotation)
@@ -312,7 +319,10 @@ class AppleMapsViewController: UIViewController {
                     
                 }
                 
-                
+                if json["notification"] as! Bool == true {
+                    self.noti = true
+                    self.notiName = json["Driver_Name"] as! String
+                }
                 DispatchQueue.main.async(execute: self.updateInfo)
                 //DispatchQueue.main.async(execute: self.postDone)
             }
@@ -322,10 +332,22 @@ class AppleMapsViewController: UIViewController {
     }
     
     var count = 9
-    
+    var noti = false
+    var notiName = ""
     func updateInfo() {
         //updates new markers
         //print("check")
+        
+        if noti == true {
+            let alert = UIAlertController(title: "Driver Tag", message: "\(notiName) has shown interest in picking you up", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title:"Ok",style: UIAlertActionStyle.default, handler:
+                {action in
+            }
+            ))
+            self.present(alert, animated: true, completion: nil)
+            noti = false
+        }
+        
         count += 1
         if (count == 10) {
             var region = mapView.region
@@ -412,7 +434,7 @@ class AppleMapsViewController: UIViewController {
     
     func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
         reader.stopScanning()
-        
+        print("check 2")
         dismiss(animated: true) { [weak self] in
             
             
@@ -493,9 +515,11 @@ class AppleMapsViewController: UIViewController {
     }
     
     func readerDidCancel(_ reader: QRCodeReaderViewController) {
+        print("check 1")
         reader.stopScanning()
-        
+        print("check 2")
         dismiss(animated: true, completion: nil)
+        print("check 3")
     }
 
     ////////////////////////////////
@@ -634,8 +658,58 @@ class AppleMapsViewController: UIViewController {
         //let newViewController = storyBoard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
         //self.present(newViewController, animated: true, completion: nil)
     }
-
+    func notify() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let dict = ["user_email": appDelegate.user_email,
+                    "rider_email": appDelegate.rider_email] as [String: Any]
+        print(dict)
+        if let jsonData = try? JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted){
+            print("success")
+            //SUBJECT TO URL CHANGE!!!!!
+            let url = NSURL(string: "http://138.68.252.198:8000/rideshare/notify_rider/")!
+            let request = NSMutableURLRequest(url: url as URL)
+            request.httpMethod = "POST"
+            request.setValue("Token \(appDelegate.token)", forHTTPHeaderField: "Authorization")
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = jsonData
+            
+            let task = URLSession.shared.dataTask(with: request as URLRequest){
+                data, response, error in
+                if let httpResponse = response as? HTTPURLResponse{
+                    print(httpResponse.statusCode)
+                    if(httpResponse.statusCode != 201){
+                        print("error")
+                        return
+                    }
+                }
+                print("success1")
+                guard error == nil else{
+                    print(error!)
+                    return
+                }
+                print("success2")
+                guard data != nil else{
+                    print("data is empty")
+                    return
+                }
+                print("success3")
+                //let json = try! JSONSerialization.jsonObject(with: data, options: []) as AnyObject
+                //print(json)
+                DispatchQueue.main.async(execute: self.notifyDone)
+            }
+            task.resume()
+        }
+    }
     
+    func notifyDone() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let alert = UIAlertController(title: "Rider Tagged", message: "\(appDelegate.rider_name) has been notified of your interest to pick them up", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title:"Ok",style: UIAlertActionStyle.default, handler:
+            {action in
+        }
+        ))
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 extension AppleMapsViewController : CLLocationManagerDelegate {
@@ -758,9 +832,10 @@ extension AppleMapsViewController: HandleMapSearch {
 }
 
 extension AppleMapsViewController: MKMapViewDelegate {
-    
+    //jump2
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?{
         //print("Check1")
+        
         if let pin = annotation as? customPin {
             guard !(annotation is MKUserLocation) else { return nil }
             let reuseId = "pin"
@@ -770,8 +845,22 @@ extension AppleMapsViewController: MKMapViewDelegate {
             }
             pinView?.pinTintColor = pin.pinColor
             pinView?.canShowCallout = true
+
+            
             
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            if appDelegate.driver_status == true {
+                if pin.status == false {
+                    appDelegate.rider_email = pin.email
+                    appDelegate.rider_name = pin.title!
+                    let smallSquare = CGSize(width: 30, height: 30)
+                    let button = UIButton(frame: CGRect(origin: CGPoint.zero, size: smallSquare))
+                    button.setBackgroundImage(UIImage(named: "Tag"), for: UIControlState())
+                    button.addTarget(self, action: #selector(AppleMapsViewController.notify), for: .touchUpInside)
+                    pinView?.rightCalloutAccessoryView = button
+                }
+            }
             // If you have any autorization headers
             let headers = [
                 "Authorization": "Token \(appDelegate.token)"
@@ -790,8 +879,6 @@ extension AppleMapsViewController: MKMapViewDelegate {
                     }
                 }
             }
-
-            
 
             //pinView?.rightCalloutAccessoryView = button
             return pinView

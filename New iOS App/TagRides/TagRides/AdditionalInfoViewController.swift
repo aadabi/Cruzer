@@ -17,9 +17,9 @@ class AdditionalInforViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-         self.picture.image = appDelegate.profileImage
-         view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+         //let appDelegate = UIApplication.shared.delegate as! AppDelegate
+         //self.picture.image = appDelegate.profileImage
+         //view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
     }
     
 }

@@ -75,8 +75,9 @@ class LeaderboardsViewController : UITableViewController{
             }
             print("success3")
             let json = JSON(data: data)
+            print(json	)
             for user in json.array! {
-                self.arr.append(leaderUser(user_email: user["user_email"].string!, user_lastname: user["user_lastname"].string!, point_count: user["point_count"].int!, user_firstname: user["user_firstname"].string!))
+                self.arr.append(leaderUser(user_email: user["user_email"].string!, user_lastname: user["user_lastname"].string!, point_count: user["user_points"].int!, user_firstname: user["user_firstname"].string!))
             }
             print(self.arr)
             DispatchQueue.main.async(execute: self.gatherDone)

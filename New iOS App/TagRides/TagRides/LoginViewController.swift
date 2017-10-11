@@ -81,6 +81,7 @@ class LoginViewController : UIViewController{
         if let username: String = KeychainWrapper.standard.string(forKey: "TagRidesUsername") as? String {
             if let password: String = KeychainWrapper.standard.string(forKey: "TagRidesPassword") as? String{
                 login_now(username: username, password: password)
+                
             }
         }
         
@@ -272,6 +273,7 @@ class LoginViewController : UIViewController{
                  //Set the global variables
                 
                  appDelegate.user_email = self.user_email
+                 appDelegate.user_pass = self.pass
                  appDelegate.user_lastname = self.user_lastname
                  appDelegate.user_firstname = self.user_firstname
                  appDelegate.point_count = (json["point_count"] as? Int)!
@@ -342,31 +344,14 @@ class LoginViewController : UIViewController{
     //Check Login stuff
     func LoginDone()
     {
-        KeychainWrapper.standard.set(self.user_email, forKey: "TagRidesUsername")
-        KeychainWrapper.standard.set(self.pass, forKey: "TagRidesPassword")
+        //KeychainWrapper.standard.set(self.user_email, forKey: "TagRidesUsername")
+        //KeychainWrapper.standard.set(self.pass, forKey: "TagRidesPassword")
         username_input.isEnabled = false
         password_input.isEnabled = false
         
         login_button.isEnabled = true
         print("check123")
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        // If you have any autorization headers
-        let headers = [
-            "Authorization": "Token \(appDelegate.token)"
-        ]
-        
-        let parameters = ["user_email": appDelegate.user_email]
-        
-        Alamofire.request("http://138.68.252.198:8000/rideshare/get_profile_photo/", method: .get, parameters: parameters, headers: headers ).responseData { (dataResponse) in
-            
-            if let data = dataResponse.data {
-                //self.ImageView.image = UIImage(data: data)
-                //print(data)
-                if let image = UIImage (data:data) {
-                    appDelegate.profileImage = UIImage(data: data)!
-                }
-            }
-        }
+
         
         
         

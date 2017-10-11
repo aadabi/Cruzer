@@ -19,7 +19,7 @@ target 'TagRides' do
     pod 'IQKeyboardManagerSwift'
     pod 'SwiftyJSON'
     pod 'LBTAComponents', '~> 0.1.9'
-    pod 'QRCodeReader.swift', '7.5.1'
+    pod 'QRCodeReader.swift', '~> 7.5.1'
     pod 'QRCode'
     pod 'FloatRatingView', '~> 2.0.0'
     pod 'SideMenu'

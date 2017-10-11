@@ -10,12 +10,40 @@
 import UIKit
 import AVFoundation
 import SlideMenuControllerSwift
+import SwiftKeychainWrapper
+import Alamofire
 
 class DriverViewController: UIViewController {
 
     @IBOutlet weak var SlideMenu: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if (appDelegate.start == false) {
+            KeychainWrapper.standard.set(appDelegate.user_email, forKey: "TagRidesUsername")
+            KeychainWrapper.standard.set(appDelegate.user_pass, forKey: "TagRidesPassword")
+            appDelegate.start = true
+
+            // If you have any autorization headers
+            let headers = [
+                "Authorization": "Token \(appDelegate.token)"
+            ]
+            
+            let parameters = ["user_email": appDelegate.user_email]
+            
+            Alamofire.request("http://138.68.252.198:8000/rideshare/get_profile_photo/", method: .get, parameters: parameters, headers: headers ).responseData { (dataResponse) in
+                
+                if let data = dataResponse.data {
+                    //self.ImageView.image = UIImage(data: data)
+                    //print(data)
+                    if let image = UIImage (data:data) {
+                        appDelegate.profileImage = UIImage(data: data)!
+                    }
+                }
+            }
+            
+        }
+
         view.backgroundColor = UIColor(r: 227, g: 226, b: 191)
         self.tabBarController!.tabBar.isHidden = true
         self.navigationController?.isNavigationBarHidden = false

@@ -157,8 +157,11 @@ class SlideMenuViewController : UITableViewController{
         let svc = SFSafariViewController(url: URL(string:"http://tagrides.com/")!)
         self.present(svc, animated: true, completion: nil)
     }
+    
     @IBAction func logoutButton(_ sender: Any) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         KeychainWrapper.standard.removeObject(forKey: "TagRidesUsername")
         KeychainWrapper.standard.removeObject(forKey: "TagRidesPassword")
+        appDelegate.start = false
     }
 }
