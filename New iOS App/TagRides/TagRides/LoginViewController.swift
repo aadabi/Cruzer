@@ -61,6 +61,7 @@ class LoginViewController : UIViewController{
     /////////////////////////////////////////
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
         //avPlayer.play() //Plays the video
         //paused = false //Pauses when starts
     }
@@ -74,7 +75,7 @@ class LoginViewController : UIViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.navigationController?.isNavigationBarHidden = true
         view.backgroundColor = UIColor(r: 227, g: 226, b: 191)
         //view.backgroundColor = UIColor(patternImage: UIImage(named: "Background.jpeg")!)
         self.navigationController?.isNavigationBarHidden = true

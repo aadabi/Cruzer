@@ -50,6 +50,7 @@ class userRatingViewController: UIViewController, FloatRatingViewDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
         //avPlayer.play()
         //paused = false
     }
@@ -62,6 +63,7 @@ class userRatingViewController: UIViewController, FloatRatingViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.isNavigationBarHidden = true
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.userName.text = appDelegate.newRatingList[counter].name
         let headers = [
@@ -76,7 +78,8 @@ class userRatingViewController: UIViewController, FloatRatingViewDelegate {
                 //self.ImageView.image = UIImage(data: data)
                 //print(data)
                 if let image = UIImage (data:data) {
-                    self.imageProfile.image = image
+                    self.imageProfile.image = self.round(image: image)
+                    
                 }
             }
         }
@@ -196,6 +199,29 @@ class userRatingViewController: UIViewController, FloatRatingViewDelegate {
                     }
                 }
             }
+        }
+    }
+    
+    func round(image: UIImage) -> UIImage {
+        let imageWidth = image.size.width
+        let imageHeight = image.size.height
+        
+        let diameter = min(imageWidth, imageHeight)
+        let isLandscape = imageWidth > imageHeight
+        
+        let xOffset = isLandscape ? (imageWidth - diameter) / 2 : 0
+        let yOffset = isLandscape ? 0 : (imageHeight - diameter) / 2
+        
+        let imageSize = CGSize(width: diameter, height: diameter)
+        
+        return UIGraphicsImageRenderer(size: imageSize).image { _ in
+            
+            let ovalPath = UIBezierPath(ovalIn: CGRect(origin: .zero, size: imageSize))
+            ovalPath.addClip()
+            image.draw(at: CGPoint(x: -xOffset, y: -yOffset))
+            UIColor(r: 0, g: 63, b: 14).setStroke()
+            ovalPath.lineWidth = diameter / 50
+            ovalPath.stroke()
         }
     }
     

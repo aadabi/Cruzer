@@ -1119,7 +1119,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username Here" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nhy-Q2-vuw">
-                                <rect key="frame" x="114.5" y="28" width="148.5" height="27"/>
+                                <rect key="frame" x="113.5" y="28" width="149" height="27"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <color key="textColor" red="0.001883967081" green="0.27543160319999999" blue="0.065926723179999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1879,12 +1879,12 @@
     <resources>
         <image name="Driver Icon" width="128" height="128"/>
         <image name="Rider Icon" width="128" height="128"/>
-        <image name="StarEmpty" width="22" height="22"/>
-        <image name="StarFull" width="22" height="22"/>
+        <image name="StarEmpty" width="128" height="128"/>
+        <image name="StarFull" width="128" height="128"/>
         <image name="Transparent Logo" width="274" height="132"/>
         <image name="menu" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="2TZ-G4-lHU"/>
+        <segue reference="wHB-d6-AUK"/>
     </inferredMetricsTieBreakers>
 </document>
