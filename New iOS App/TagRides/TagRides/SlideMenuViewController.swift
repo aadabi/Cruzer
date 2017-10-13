@@ -34,7 +34,7 @@ class SlideMenuViewController : UITableViewController{
         
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        self.imgProfile.image = appDelegate.profileImage
+        self.imgProfile.image = self.round(image: appDelegate.profileImage)
         self.Name.text = "\(appDelegate.user_firstname) \(appDelegate.user_lastname)"
         if appDelegate.driver_approval == false {
             self.DriverStatus.text = "Driver: Not Approved"
@@ -152,6 +152,29 @@ class SlideMenuViewController : UITableViewController{
         // Dismiss the mail compose view controller.
         controller.dismiss(animated: true, completion: nil)
     }*/
+    
+    func round(image: UIImage) -> UIImage {
+        let imageWidth = image.size.width
+        let imageHeight = image.size.height
+        
+        let diameter = min(imageWidth, imageHeight)
+        let isLandscape = imageWidth > imageHeight
+        
+        let xOffset = isLandscape ? (imageWidth - diameter) / 2 : 0
+        let yOffset = isLandscape ? 0 : (imageHeight - diameter) / 2
+        
+        let imageSize = CGSize(width: diameter, height: diameter)
+        
+        return UIGraphicsImageRenderer(size: imageSize).image { _ in
+            
+            let ovalPath = UIBezierPath(ovalIn: CGRect(origin: .zero, size: imageSize))
+            ovalPath.addClip()
+            image.draw(at: CGPoint(x: -xOffset, y: -yOffset))
+            UIColor(r: 0, g: 63, b: 14).setStroke()
+            ovalPath.lineWidth = diameter / 50
+            ovalPath.stroke()
+        }
+    }
 
     @IBAction func ContactUsButton(_ sender: Any) {
         let svc = SFSafariViewController(url: URL(string:"http://tagrides.com/")!)
