@@ -139,6 +139,13 @@ class LoginViewController : UIViewController{
     //Login Function
     func login_now(username:String, password:String)
     {
+        username_input.isEnabled = false
+        password_input.isEnabled = false
+        
+        login_button.isEnabled = false
+        //print("check123")
+        
+        login_button.setTitle("Logging In...", for: .normal)
         //let session = URLSession.shared
         //Set the login dictoinary
         user = username
@@ -186,7 +193,13 @@ class LoginViewController : UIViewController{
             }
             
             task.resume()
+            username_input.isEnabled = true
+            password_input.isEnabled = true
             
+            login_button.isEnabled = true
+            //print("check123")
+            
+            login_button.setTitle("Login", for: .normal)
         }
 
     }
@@ -294,7 +307,13 @@ class LoginViewController : UIViewController{
             }
             
             currentTask?.resume()
+            username_input.isEnabled = true
+            password_input.isEnabled = true
             
+            login_button.isEnabled = true
+            //print("check123")
+            
+            login_button.setTitle("Login", for: .normal)
             
         }
     }
@@ -337,7 +356,15 @@ class LoginViewController : UIViewController{
     }
     
     func errorMessage(err :String) {
-
+        let alert = UIAlertController(title: "Login Error", message: err, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title:"Ok",style: UIAlertActionStyle.default, handler:
+            {action in
+                
+                //set timer for polling again because rider was declined
+                //self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.pollforRequests(_:)), userInfo: nil, repeats: true)
+        }
+        ))
+        self.present(alert, animated: true, completion: nil)
     }
     
     
@@ -350,8 +377,8 @@ class LoginViewController : UIViewController{
         username_input.isEnabled = false
         password_input.isEnabled = false
         
-        login_button.isEnabled = true
-        print("check123")
+        login_button.isEnabled = false
+        //print("check123")
 
         
         

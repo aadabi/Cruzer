@@ -129,8 +129,6 @@ class RegisterViewController : UIViewController{
     func register_now(email:String, password:String, firstname:String, lastname:String)
     {
         
-
-        
         
         print("check1")
         //Observe Login page to understand what is going on here
