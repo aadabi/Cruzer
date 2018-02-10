@@ -1,0 +1,14 @@
+local postgres stuff
+
+to start server: 
+$ sudo service postgresql start
+
+then to log in:
+$ psql -U nick -d test1 -h 127.0.0.1 -W
+
+user: nick
+pass: //ask for it
+database: test1
+
+to connect to database:
+\c test1
