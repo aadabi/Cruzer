@@ -4,7 +4,6 @@ import (
     "database/sql"
     "errors"
     "time"
-    "fmt"
 
 
 )
@@ -23,8 +22,12 @@ type User struct {
 
 // CreateAccount PUT to create user account
 func (usr *User) CreateAccount(db *sql.DB) error {
-    err := db.QueryRow(
-        `INSERT INTO users(data) VALUES('{"id": ?,"utype": ?, "gpsLong": ?, "gpsLat": ?, "points": ?, "time": ?}')`, usr.id, usr.utype, usr.gpsLong, usr.gpsLat, usr.points, usr.time).Scan(&usr.id, &usr.utype, &usr.gpsLong, &usr.gpsLat, &usr.points, &usr.time)
+
+    // to run on test table
+    err := db.QueryRow(`INSERT INTO users(test) VALUES('{"id": ?,"utype": ?, "gpsLong": ?, "gpsLat": ?, "points": ?, "time": ?}')`, usr.id, usr.utype, usr.gpsLong, usr.gpsLat, usr.points, usr.time).Scan(&usr.id, &usr.utype, &usr.gpsLong, &usr.gpsLat, &usr.points, &usr.time)
+
+    // to run on users table
+    //err := db.QueryRow(`INSERT INTO users(data) VALUES('{"id": ?,"utype": ?, "gpsLong": ?, "gpsLat": ?, "points": ?, "time": ?}')`, usr.id, usr.utype, usr.gpsLong, usr.gpsLat, usr.points, usr.time).Scan(&usr.id, &usr.utype, &usr.gpsLong, &usr.gpsLat, &usr.points, &usr.time)
 
     if err != nil {
         return err
@@ -37,7 +40,12 @@ func (usr *User) CreateAccount(db *sql.DB) error {
 func (usr *User) GetAccountInfo(db *sql.DB) error {
     //err := db.QueryRow(`SELECT * FROM users WHERE data->'id'=$1`, usr.id).Scan(&usr.id)
     //fmt.Println("usr.id is: ", usr.id, "error is: ", err)
-    return db.QueryRow(`SELECT * FROM users WHERE data->'id'=$1`, usr.id).Scan(&usr.id)
+
+    // to run on test table
+    return db.QueryRow(`SELECT * FROM test WHERE data->'id'=$1`, usr.id).Scan(&usr.id)
+
+    // to run on users table
+    //return db.QueryRow(`SELECT * FROM users WHERE data->'id'=$1`, usr.id).Scan(&usr.id)
 }
 
 // EditAccountInfo POST to update user information
@@ -47,7 +55,12 @@ func (usr *User) EditAccountInfo(db *sql.DB) error {
 
 // DeleteAccount DELETE to delete user account
 func (usr *User) DeleteAccount(db *sql.DB) error {
-    _, err := db.Exec("DELETE FROM users WHERE id=$1", usr.id)
+
+    // to run on test table
+    _, err := db.Exec("DELETE FROM test WHERE id=$1", usr.id)
+
+    // to run on users table
+    //_, err := db.Exec("DELETE FROM users WHERE id=$1", usr.id)
 
     return err
 }

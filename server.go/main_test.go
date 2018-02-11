@@ -16,10 +16,12 @@ var a main.Server
 
 const tableCreationQuery = "SET search_path to public;CREATE TABLE IF NOT EXISTS users(data jsonb);"
 
+const testTableCreationQuery = "SET search_path to public;CREATE TABLE IF NOT EXISTS test(data jsonb);"
+
 // helper functions
 
 func ensureTableExists() {
-    if _, err := a.DB.Exec(tableCreationQuery); err != nil {
+    if _, err := a.DB.Exec(testTableCreationQuery); err != nil {
         log.Fatal(err)
     }
 }
