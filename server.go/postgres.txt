@@ -1,3 +1,12 @@
+installing:
+https://www.postgresql.org/download/
+
+set up:
+https://linode.com/docs/databases/postgresql/how-to-install-postgresql-on-ubuntu-16-04/
+need to create new user
+createuser <user> --pwprompt
+GRANT ALL ON <table name> TO <user>;
+
 local postgres stuff
 
 to start server: 
@@ -12,3 +21,18 @@ database: test1
 
 to connect to database:
 \c test1
+
+giving privleges:
+--ACCESS DB
+REVOKE CONNECT ON DATABASE dbname FROM PUBLIC;
+GRANT  CONNECT ON DATABASE dbname  TO user;
+
+--ACCESS SCHEMA
+REVOKE ALL     ON SCHEMA public FROM PUBLIC;
+GRANT  USAGE   ON SCHEMA public  TO user;
+
+--ACCESS TABLES
+REVOKE ALL ON ALL TABLES IN SCHEMA public FROM PUBLIC ;
+GRANT SELECT                         ON ALL TABLES IN SCHEMA public TO read_only ;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO read_write ;
+GRANT ALL                            ON ALL TABLES IN SCHEMA public TO admin ;

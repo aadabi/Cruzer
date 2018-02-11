@@ -1,8 +1,9 @@
-DROP SCHEMA test1schema CASCADE;
-CREATE SCHEMA test1schema;
-ALTER ROLE nick SET SEARCH_PATH to test1schema;
+DROP SCHEMA sampletestschm CASCADE;
+CREATE SCHEMA sampletestschm;
+ALTER ROLE nick SET SEARCH_PATH to sampletestschm;
 
 -- json object of users
-CREATE TABLE users (
+-- jsonb is faster to parse than json
+CREATE TABLE IF NOT EXISTS users (
     data jsonb
 );
