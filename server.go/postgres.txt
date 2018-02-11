@@ -13,14 +13,14 @@ to start server:
 $ sudo service postgresql start
 
 then to log in:
-$ psql -U nick -d test1 -h 127.0.0.1 -W
+$ psql -U nick -d sampletest -h 127.0.0.1 -W
 
 user: nick
 pass: //ask for it
-database: test1
+database: sampletest
 
 to connect to database:
-\c test1
+\c sampletest
 
 giving privleges:
 --ACCESS DB

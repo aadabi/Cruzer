@@ -44,18 +44,6 @@ func checkResponseCode(t *testing.T, expected, actual int) {
 
 // test functions
 
-func TestEmptyTable(t *testing.T) {
-    clearTable()
-
-    req, _ := http.NewRequest("GET", "/user", nil)
-    response := executeRequest(req)
-
-    checkResponseCode(t, http.StatusOK, response.Code)
-
-    if body := response.Body.String(); body != "" {
-        t.Errorf("Expected an empty array. Got %s", body)
-    }
-}
 
 func TestGetNonExistentUser(t *testing.T) {
     clearTable()
@@ -67,7 +55,7 @@ func TestGetNonExistentUser(t *testing.T) {
 
     var m map[string]string
     json.Unmarshal(response.Body.Bytes(), &m)
-    if m["error"] != "User not found." {
+    if m["error"] != "User not found" {
         t.Errorf("Expected the 'error' key of the response to be set to 'User not found'. Got '%s'", m["error"])
     }
 }
@@ -85,7 +73,7 @@ func TestCreateUser(t *testing.T) {
     var m map[string]interface{}
     json.Unmarshal(response.Body.Bytes(), &m)
 
-    if m["id"] != 12345 {
+    if m["id"] != 12345.0 {
         t.Errorf("Expected user id to be '12345'. Got '%v'", m["id"])
     }
 
@@ -101,7 +89,7 @@ func TestCreateUser(t *testing.T) {
         t.Errorf("Expected gps lattitude to be '21.3342'. Got '%v'", m["gpsLat"])
     }
 
-    if m["points"] != 100 { 
+    if m["points"] != 100.0 { 
         t.Errorf("Expected points to be '100'. Got '%v'", m["points"])
     }
 
@@ -118,7 +106,7 @@ func addUsers(count int) {
 
     // insert dummy data
     for i := 0; i < count; i++ {
-        a.DB.Exec("INSERT INTO users VALUES({id: $1,utype: $2, gpsLong: $3, gpsLat: $3, points: $4, time: $5})", 12344+i, "rider", 23.2123, 21.3342, 100, "now")
+        a.DB.Exec(`INSERT INTO users VALUES('{id: $1,utype: $2, gpsLong: $3, gpsLat: $3, points: $4, time: $5}')`, i, "rider", 23.2123, 21.3342, 100, "now")
     }
 }
 
@@ -126,7 +114,7 @@ func TestGetUser(t *testing.T) {
     clearTable()
     addUsers(1)
 
-    req, _ := http.NewRequest("GET", "/user/12345", nil)
+    req, _ := http.NewRequest("GET", "/user/1", nil)
     response := executeRequest(req)
 
     checkResponseCode(t, http.StatusOK, response.Code)
@@ -136,7 +124,7 @@ func TestUpdateUser(t *testing.T) {
     clearTable()
     addUsers(1)
 
-    req, _ := http.NewRequest("GET", "/user/12345", nil)
+    req, _ := http.NewRequest("GET", "/user/1", nil)
     response := executeRequest(req)
 
     var originalUser map[string]interface{}
@@ -152,23 +140,23 @@ func TestUpdateUser(t *testing.T) {
     var m map[string]interface{}
     json.Unmarshal(response.Body.Bytes(), &m)
 
-    if m["id"] != 12345 {
+    if m["id"] != 12345.0 {
         t.Errorf("Expected user id to be '12345'. Got '%v'", m["id"])
     }
 
     if m["utype"] != "driver" {
-        t.Errorf("Expected user utype to be 'rider'. Got '%v'", m["utype"])
+        t.Errorf("Expected user utype to be 'driver'. Got '%v'", m["utype"])
     }
 
     if m["gpsLong"] != 88.2123 {
-        t.Errorf("Expected gps longitutde to be '23.2123'. Got '%v'", m["gpsLong"])
+        t.Errorf("Expected gps longitutde to be '99.2123'. Got '%v'", m["gpsLong"])
     }
 
     if m["gpsLat"] != 99.3342 {
-        t.Errorf("Expected gps lattitude to be '21.3342'. Got '%v'", m["gpsLat"])
+        t.Errorf("Expected gps lattitude to be '88.3342'. Got '%v'", m["gpsLat"])
     }
 
-    if m["points"] != 200 {
+    if m["points"] != 200.0 {
         t.Errorf("Expected points to be '100'. Got '%v'", m["points"])
     }
 
@@ -187,7 +175,6 @@ func TestDeleteUser(t *testing.T) {
 
     req, _ = http.NewRequest("DELETE", "/user/12345", nil)
     response = executeRequest(req)
-
     checkResponseCode(t, http.StatusOK, response.Code)
 
     req, _ = http.NewRequest("GET", "/user/12345", nil)
@@ -197,7 +184,7 @@ func TestDeleteUser(t *testing.T) {
 
 func TestMain(m *testing.M) {
     a = main.Server{}
-    a.Initialize("localhost", "nick", "testdb", 5432, "sampletest")
+    a.Initialize("localhost", "nick", "", 5432, "sampletest")
 
     ensureTableExists()
 

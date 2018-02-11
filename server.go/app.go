@@ -6,6 +6,7 @@ import (
     "log"
     "net/http"
     "encoding/json"
+    "strconv"
 
     "github.com/gorilla/mux"
     _ "github.com/lib/pq"
@@ -13,18 +14,21 @@ import (
 
 // setup
 
+// Server with router and database
 type Server struct {
     Router *mux.Router
     DB     *sql.DB
 }
 
-// routes
+// initializeRoutes, creates routes at endpoints
 func (serv *Server) initializeRoutes() {
+    serv.Router.HandleFunc("/", serv.home)
     serv.Router.HandleFunc("/registration", serv.registration).Methods("POST")
+    serv.Router.HandleFunc("/user/{id:[0-9]+}", serv.getAccount).Methods("GET")
     
 }
 
-// initializes database with login
+// Initialize database and server
 func (serv *Server) Initialize(host string, user string, password string, port int, dbname string) {
     connectionString := fmt.Sprintf("host=%s user=%s password=%s port=%d dbname=%s sslmode=disable", host, user, password, port, dbname)
 
@@ -39,12 +43,13 @@ func (serv *Server) Initialize(host string, user string, password string, port i
         panic(err)
     }
 
-    serv.Router = mux.NewRouter()
+    serv.Router = mux.NewRouter().StrictSlash(true)
+    serv.initializeRoutes()
 }
 
-// run server on port addr
-func (serv *Server) Run(addr string) {
-    log.Fatal(http.ListenAndServe(addr, serv.Router))
+// Run server on port (currently hardcoded for local usage)
+func (serv *Server) Run() {
+    log.Fatal(http.ListenAndServe(":8080", serv.Router))
 }
 
 
@@ -68,6 +73,10 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 
 // api calls
 
+func (serv *Server) home(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, "home page")
+}
+
 func (serv *Server) registration(w http.ResponseWriter, r *http.Request) {
     var usr User
     decoder := json.NewDecoder(r.Body)
@@ -84,5 +93,29 @@ func (serv *Server) registration(w http.ResponseWriter, r *http.Request) {
     }
 
     respondWithJSON(w, http.StatusCreated, usr)
+}
+
+func (serv *Server) getAccount(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    id, err := strconv.Atoi(vars["id"])
+    fmt.Println("id is: ",id)
+    if err != nil {
+        respondWithError(w, http.StatusBadRequest, "Invalid user id")
+        return
+    }
+
+    usr := User{id: id}
+    fmt.Println("usr is: ",usr)
+    if err := usr.GetAccountInfo(serv.DB); err != nil {
+        switch err {
+            case sql.ErrNoRows:
+                respondWithError(w, http.StatusNotFound, "User not found")
+            default:
+                respondWithError(w, http.StatusInternalServerError, err.Error())
+        }
+        return
+    }
+
+    respondWithJSON(w, http.StatusOK, usr)
 }
 
