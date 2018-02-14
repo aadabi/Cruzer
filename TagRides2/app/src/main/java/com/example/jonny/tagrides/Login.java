@@ -43,6 +43,9 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         statusTextView = (TextView) findViewById(R.id.status_textview);
         signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(this);
+
+        signOutButton = (Button) findViewById(R.id.signOutButton);
+        signOutButton.setOnClickListener(this);
     }
 
     @Override
@@ -50,6 +53,9 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         switch(v.getId()) {
             case R.id.sign_in_button:
                 signIn();
+                break;
+            case R.id.signOutButton:
+                signOut();
                 break;
         }
     }
@@ -88,6 +94,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Log.d(TAG,"onConnectionFailed:"+connectionResult);
     }
 }
