@@ -25,10 +25,8 @@
 
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".Login">
-
-
-        </activity>
+        <activity android:name=".Login"></activity>
+        <activity android:name=".Pick_RD"/>
     </application>
 
 </manifest>
