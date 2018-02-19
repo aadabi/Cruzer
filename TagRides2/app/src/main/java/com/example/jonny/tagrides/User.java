@@ -131,6 +131,8 @@ public class User{
     }
     public String getExpiration()
     {
+        // wasn't compiling with this
+        //return sdf.format(idExperationDate);
         return Calendar.getInstance().getTime().toString();
     }
     //methods for the user to add a vehicle

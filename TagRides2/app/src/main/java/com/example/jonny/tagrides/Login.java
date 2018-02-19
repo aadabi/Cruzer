@@ -134,25 +134,19 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-
-                            // create database reference
                             DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
 
-                            // instantiate user class
                             User currUser = new User();
 
-                            // set email and name
+                            // set values we know on user model
                             currUser.setUserEmail(user.getEmail());
                             currUser.setName(user.getDisplayName());
+                            currUser.setUserID(user.getUid());
 
-                            // store into database
-                            myRef.child("users").setValue(currUser);
+                            // store in users->uid->user info
+                            myRef.child("users").child(user.getUid()).setValue(currUser);
 
-                            // clear info about current user
-                            currUser.setUserEmail("");
-                            currUser.setName("");
 
-                            //statusTextView.setText("Welcome to Tagrides!\n" + user.getDisplayName());
                             Intent intent = new Intent(Login.this,Pick_RD.class);
                             startActivity(intent);
 
