@@ -29,6 +29,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class Login extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
@@ -132,15 +134,31 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            // create database reference
+                            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+
+                            // instantiate user class
+                            User currUser = new User();
+
+                            // set email and name
+                            currUser.setUserEmail(user.getEmail());
+                            currUser.setName(user.getDisplayName());
+
+                            // store into database
+                            myRef.child("users").setValue(currUser);
+
+                            // clear info about current user
+                            currUser.setUserEmail("");
+                            currUser.setName("");
+
                             //statusTextView.setText("Welcome to Tagrides!\n" + user.getDisplayName());
                             Intent intent = new Intent(Login.this,Pick_RD.class);
                             startActivity(intent);
-                            //updateUI(user);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            //Snackbar.make(findViewById(R.id.activity_login), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-                            //updateUI(null);
                         }
                     }
                 });
