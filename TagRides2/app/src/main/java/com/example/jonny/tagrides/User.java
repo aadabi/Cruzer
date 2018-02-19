@@ -3,6 +3,7 @@ package com.example.jonny.tagrides;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Calendar;
 
 /**
  * Created by jonny on 2/15/2018.
@@ -11,10 +12,11 @@ import java.util.Date;
 public class User{
    //global variables for helper class
     public String userID;
+    public String name;
     public String stateIssuedId;
     public Date idExperationDate;
-    public boolean Driver;
-    public boolean Rider;
+    public boolean driver;
+    public boolean rider;
     public String user_license;
     public String userEmail;
     public float longitude;
@@ -27,12 +29,13 @@ public class User{
 
 
   //constructors
-   public User(String myId, String stateLicense,String idState, Date idExpires, String email )
+   public User(String myId, String name, String stateLicense,String idState, Date idExpires, String email )
    {
        this.userID = myId;
+       this.name = name;
        this.stateIssuedId = idState;
-       this.Driver = false;
-       this.Rider = false;
+       this.driver = false;
+       this.rider = false;
        this.idExperationDate = idExpires;
        this.user_license = stateLicense;
        this.userEmail = email;
@@ -60,13 +63,16 @@ public class User{
    {
        this.userID = id;
    }
+   public void setName(String name) {
+       this.name = name;
+   }
    public void setDriver()
    {
-     this.Driver =true;
+     this.driver =true;
    }
    public void setRider()
    {
-       this.Rider = true;
+       this.rider = true;
    }
    public void setUserEmail(String email)
    {
@@ -99,13 +105,16 @@ public class User{
     {
         return this.userID;
     }
+    public String getName() {
+       return this.name;
+    }
     public boolean getDriver()
     {
-        return this.Driver;
+        return this.driver;
     }
     public boolean getRider()
     {
-        return this.Rider;
+        return this.rider;
     }
     public String getUser_license()
     {
@@ -122,7 +131,9 @@ public class User{
     }
     public String getExpiration()
     {
-        return sdf.format(idExperationDate);
+        // wasn't compiling with this
+        //return sdf.format(idExperationDate);
+        return Calendar.getInstance().getTime().toString();
     }
     //methods for the user to add a vehicle
     public  void setCarMake (String Make)

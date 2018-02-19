@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -29,6 +30,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class Login extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
@@ -133,15 +136,38 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                             Log.d(TAG, "signInWithCredential:success");
                             
                             FirebaseUser user = mAuth.getCurrentUser();
-                            statusTextView.setText("Welcome to Tagrides!\n" + user.getDisplayName());
-                            Intent intent = new Intent(Login.this,MainActivity.class);
-                            startActivity(intent);
-                            //updateUI(user);
+                            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+
+                            User currUser = new User();
+
+                            String currEmail = user.getEmail();
+
+                            if (currEmail.substring(currEmail.length() - 8).equals("ucsc.edu")) {
+
+                                // set values we know on user model
+                                currUser.setUserEmail(user.getEmail());
+                                currUser.setName(user.getDisplayName());
+                                currUser.setUserID(user.getUid());
+
+                                // store in users->uid->user info
+                                myRef.child("users").child(user.getUid()).setValue(currUser);
+
+
+                                Intent intent = new Intent(Login.this,Pick_RD.class);
+                                startActivity(intent);
+
+
+                            } else {
+                                // error message
+                                Toast.makeText(getApplicationContext(), "Please enter a UCSC email" , Toast.LENGTH_SHORT).show();
+                                signOut();
+                                return;
+                            }
+
+                            
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            //Snackbar.make(findViewById(R.id.activity_login), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-                            //updateUI(null);
                         }
                     }
                 });
