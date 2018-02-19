@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class RiderActivity extends Activity {
 
     EditText destinationInput;
@@ -21,6 +24,9 @@ public class RiderActivity extends Activity {
 
     /** Called when the user presses the send button */
     public void sendRideRequest(View view) {
-        Log.v("ride request", destinationInput.getText().toString());
+        FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = currUser.getUid();
+        String destination = destinationInput.getText().toString();
+        Ride ride = new Ride(uid, "", destination);
     }
 }
