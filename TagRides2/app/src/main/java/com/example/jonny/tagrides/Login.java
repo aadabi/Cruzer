@@ -131,9 +131,10 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
+                            
                             FirebaseUser user = mAuth.getCurrentUser();
-                            //statusTextView.setText("Welcome to Tagrides!\n" + user.getDisplayName());
-                            Intent intent = new Intent(Login.this,Pick_RD.class);
+                            statusTextView.setText("Welcome to Tagrides!\n" + user.getDisplayName());
+                            Intent intent = new Intent(Login.this,MainActivity.class);
                             startActivity(intent);
                             //updateUI(user);
                         } else {

@@ -2,8 +2,12 @@ package com.example.jonny.tagrides;
 
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
-public class Pick_RD extends Login{
+import java.text.CollationElementIterator;
+
+public class Pick_RD extends Login {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
