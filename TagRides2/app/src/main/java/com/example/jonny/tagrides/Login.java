@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -138,17 +139,31 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
                             User currUser = new User();
 
-                            // set values we know on user model
-                            currUser.setUserEmail(user.getEmail());
-                            currUser.setName(user.getDisplayName());
-                            currUser.setUserID(user.getUid());
+                            String currEmail = user.getEmail();
 
-                            // store in users->uid->user info
-                            myRef.child("users").child(user.getUid()).setValue(currUser);
+                            if (currEmail.substring(currEmail.length() - 8).equals("ucsc.edu")) {
+
+                                // set values we know on user model
+                                currUser.setUserEmail(user.getEmail());
+                                currUser.setName(user.getDisplayName());
+                                currUser.setUserID(user.getUid());
+
+                                // store in users->uid->user info
+                                myRef.child("users").child(user.getUid()).setValue(currUser);
 
 
-                            Intent intent = new Intent(Login.this,Pick_RD.class);
-                            startActivity(intent);
+                                Intent intent = new Intent(Login.this,Pick_RD.class);
+                                startActivity(intent);
+
+
+                            } else {
+                                // error message
+                                Toast.makeText(getApplicationContext(), "Please enter a UCSC email" , Toast.LENGTH_SHORT).show();
+                                signOut();
+                                return;
+                            }
+
+
 
                         } else {
                             // If sign in fails, display a message to the user.
