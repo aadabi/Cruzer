@@ -9,6 +9,8 @@ import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RiderActivity extends Activity {
 
@@ -28,5 +30,8 @@ public class RiderActivity extends Activity {
         String uid = currUser.getUid();
         String destination = destinationInput.getText().toString();
         Ride ride = new Ride(uid, "", destination);
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+        String rideKey = myRef.child("rides").push().getKey();
+        myRef.child("rides").child(rideKey).setValue(ride);
     }
 }
