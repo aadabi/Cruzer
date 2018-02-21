@@ -51,11 +51,11 @@ public class User{
 
    }
    //setters
-   public void user_latitude(float locationY)
+   public void set_latitude(float locationY)
    {
        this.latitude = locationY;
    }
-   public void user_longitude(float locationX)
+   public void set_longitude(float locationX)
    {
        this.longitude = locationX;
    }
