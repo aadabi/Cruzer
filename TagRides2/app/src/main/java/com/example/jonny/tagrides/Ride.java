@@ -30,17 +30,11 @@ public class Ride
 
     public boolean isRideCompleted() { return this.rideCompleted; }
 
-    public void setRiderID(String id) {
-        this.riderID = id;
-    }
+    public void setRiderID(String id) { this.riderID = id; }
 
-    public void setDriverID(String id) {
-        this.driverID = id;
-    }
+    public void setDriverID(String id) { this.driverID = id; }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
+    public void setDestination(String destination) { this.destination = destination; }
 
     public void setDriverArrived(boolean arrived) { this.driverArrived = arrived; }
 
