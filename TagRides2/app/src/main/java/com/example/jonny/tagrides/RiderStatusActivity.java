@@ -1,5 +1,6 @@
 package com.example.jonny.tagrides;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,7 @@ public class RiderStatusActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rider_status);
 
         statusTextView = (TextView) findViewById(R.id.textView);
+        statusTextView.setText("Matching you with a driver...");
         rideStartButton = (Button) findViewById(R.id.button);
         rideStartButton.setVisibility(View.INVISIBLE);
 
@@ -79,5 +81,8 @@ public class RiderStatusActivity extends AppCompatActivity {
     /** Called when the user presses the "I'm in the car!" button */
     public void startRide(View view) {
         database.child("rides").child(rideID).child("rideInProgress").setValue(true);
+        Intent intent = new Intent(this, RiderInProgressActivity.class);
+        intent.putExtra("RIDE_ID", rideID);
+        startActivity(intent);
     }
 }
