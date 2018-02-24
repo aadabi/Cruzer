@@ -28,9 +28,9 @@ public class RiderActivity extends Activity {
     /** Called when the user presses the send button */
     public void sendRideRequest(View view) {
         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = currUser.getUid();
-        String destination = destinationInput.getText().toString();
-        Ride ride = new Ride(uid, "", destination);
+        Ride ride = new Ride();
+        ride.setRiderID(currUser.getUid());
+        ride.setDestination(destinationInput.getText().toString());
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
         String rideID = myRef.child("rides").push().getKey();
         myRef.child("rides").child(rideID).setValue(ride);

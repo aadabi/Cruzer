@@ -7,13 +7,25 @@ package com.example.jonny.tagrides;
 public class Ride
 {
     //global variables for our Rides class
-    public String riderID;
-    public String driverID;
-    public String destination;
+    private String riderID;
+    private String driverID;
+    private String destination;
 
-    public Ride(String riderID, String driverID, String destination) {
-        this.riderID = riderID;
-        this.driverID = driverID;
+    public Ride() {
+        this.riderID = "";
+        this.driverID = "";
+        this.destination = "";
+    }
+
+    public void setRiderID(String id) {
+        this.riderID = id;
+    }
+
+    public void setDriverID(String id) {
+        this.driverID = id;
+    }
+
+    public void setDestination(String destination) {
         this.destination = destination;
     }
 }
