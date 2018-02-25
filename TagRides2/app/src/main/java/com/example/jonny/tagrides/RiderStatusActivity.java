@@ -34,6 +34,9 @@ public class RiderStatusActivity extends AppCompatActivity {
         statusTextView = (TextView) findViewById(R.id.textView);
         statusTextView.setText("Matching you with a driver...");
         rideStartButton = (Button) findViewById(R.id.button);
+
+        // set to VISIBLE to test next pages
+        // should be: rideStartButton.setVisibility(View.INVISIBLE);
         rideStartButton.setVisibility(View.INVISIBLE);
 
         Bundle extras = getIntent().getExtras();
