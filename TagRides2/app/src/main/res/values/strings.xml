@@ -4,4 +4,8 @@
     <string name="prompt_email">Email</string>
     <string name="password">Password</string>
     <string name="todo">TODO</string>
+
+    <string name="destination">Destination</string>
+
+
 </resources>
