@@ -5,6 +5,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+<<<<<<< HEAD
+=======
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+>>>>>>> rider
 
     <application
         android:name="android.support.multidex.MultiDexApplication"
@@ -27,9 +31,15 @@
         <activity android:name=".Login" />
         <activity android:name=".Pick_RD" />
         <activity android:name=".RiderActivity" />
+<<<<<<< HEAD
         <activity android:name=".postRides" />
         <activity android:name=".RiderStatusActivity" />
         <activity android:name=".DriverActivity"></activity>
+=======
+        <activity android:name=".DriverActivity" />
+        <activity android:name=".RiderStatusActivity" />
+        <activity android:name=".RiderInProgressActivity"></activity>
+>>>>>>> rider
     </application>
 
 </manifest>
