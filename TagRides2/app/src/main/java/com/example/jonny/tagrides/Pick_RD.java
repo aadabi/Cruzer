@@ -17,19 +17,13 @@ public class Pick_RD extends Login{
 
         Button btnRider = (Button)findViewById(R.id.btnRider);
 
-        /*btnRider.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Pick_RD.this, RiderActivity.class));
-            }
-        });*/
 
         Button btnDriver = (Button)findViewById(R.id.btnDriver);
 
         btnDriver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Pick_RD.this, postRides.class));
+                startActivity(new Intent(Pick_RD.this, DriverActivity.class));
             }
         });
         btnRider.setOnClickListener(new View.OnClickListener() {

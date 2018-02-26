@@ -27,9 +27,9 @@
         <activity android:name=".Login" />
         <activity android:name=".Pick_RD" />
         <activity android:name=".RiderActivity" />
-        <activity android:name=".DriverActivity" />
         <activity android:name=".postRides" />
-        <activity android:name=".RiderStatusActivity"></activity>
+        <activity android:name=".RiderStatusActivity" />
+        <activity android:name=".DriverActivity"></activity>
     </application>
 
 </manifest>
