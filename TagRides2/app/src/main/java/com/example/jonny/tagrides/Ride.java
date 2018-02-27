@@ -12,13 +12,16 @@ public class Ride
     public String riderID;
     public String driverID;
     public String destination;
+    public String currentLocation;
     public boolean driverArrived;
     public boolean rideCompleted;
     public boolean rideInProgress;
 
+
     public Ride() {
         this.riderID = "";
         this.driverID = "";
+        this.currentLocation = "";
         this.destination = "";
         this.driverArrived = false;
         this.rideCompleted = false;
@@ -54,4 +57,9 @@ public class Ride
     public void setDriverArrived(boolean arrived) { this.driverArrived = arrived; }
 
     public void completeRide() { this.rideCompleted = true; }
+
+    public void setCurrentLocation(String currentLocation) {
+        this.currentLocation = currentLocation;
+    }
+
 }
