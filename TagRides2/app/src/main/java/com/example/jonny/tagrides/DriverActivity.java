@@ -2,6 +2,7 @@ package com.example.jonny.tagrides;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,19 +18,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+
 
 import java.util.ArrayList;
 
 public class DriverActivity extends AppCompatActivity {
 
-    private FirebaseAuth rideAuth;
-    private DatabaseReference userReference;
-    private DatabaseReference rideReference;
-    private FirebaseDatabase userDatabase;
-    private FirebaseDatabase rideDatabase;
-    private String _rideID;
+    private final DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+
+    private String rideID;
 
     //array list for rides
     ArrayList<String> myRides = new ArrayList<String>();
@@ -47,23 +44,21 @@ public class DriverActivity extends AppCompatActivity {
 
         //begin to get the information for our Rides from firebase
         //intantiateFirebase();
-        firebaseListener();
+        DatabaseReference rideDB = mRootRef.child("rides");
+        DatabaseReference userDB = mRootRef.child("users");
+        firebaseListener(rideDB, userDB);
     }
 
-
     //fiunction to listen for changes in the database
-    public void firebaseListener()
+    public void firebaseListener(DatabaseReference rideDatabase, DatabaseReference userDatabase)
     {
         //this is where we listen for data changes when new rides get posted
         rideList = (ListView) findViewById(R.id.allRidesview);
-        rideDatabase = FirebaseDatabase.getInstance();
-        userDatabase = FirebaseDatabase.getInstance();
-        userReference = userDatabase.getReference("user");
-        rideReference = rideDatabase.getReference().child("rides");
 
         adapter = new ArrayAdapter<String>(DriverActivity.this, android.R.layout.simple_dropdown_item_1line, myRides);
 
-        rideReference.addChildEventListener(new ChildEventListener() {
+        //rideReference.addChildEventListener(new ChildEventListener() {
+        rideDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 rideInfo = dataSnapshot.getValue(Ride.class);
@@ -74,13 +69,10 @@ public class DriverActivity extends AppCompatActivity {
                 //String rideDriverInfo= rideInfo.getDriverID();
                 String rideRiderInfo = rideInfo.getRiderID();
 
+
                 myRides.add("Destination: "+rideDestInfo);
                 //myRides.add(rideDriverInfo);
-                myRides.add("Rider Name: "+ rideRiderInfo);
-                myRides.add(rideDestInfo);
-
-                //myRides.add(rideDriverInfo);
-                myRides.add(rideRiderInfo);
+                myRides.add("Rider Name: "+rideRiderInfo);
 
 
                 rideList.setAdapter(adapter);
@@ -180,12 +172,6 @@ public class DriverActivity extends AppCompatActivity {
                         rideInfo.child("rides").child(tempID).child("driverID").setValue(currUser.getUid());
                         rideInfo.child("rides").child(tempID).child("rideInProgress").setValue(true);
                         //Utils.toastMessage(currUser.getUid(), DriverActivity.this);
-
-                        //Utils.toastMessage(currUser.getUid(), DriverActivity.this);
-                        //rideInfo.child("rides").child(rideID).child().setValue(currUser.getUid());
-                        //rideInfo.child("rides").child(query.toString()).child("rideInProgress").setValue(true);
-
-
 
                         //lets the user know the ride was added
                         Utils.toastMessage("Rider Added to Ride", DriverActivity.this);
