@@ -70,12 +70,17 @@ public class DriverActivity extends AppCompatActivity {
                 userInfo = dataSnapshot.getValue(User.class);
 
                 String rideDestInfo = rideInfo.getDestination();
-                String rideDriverInfo= rideInfo.getDriverID();
+                //we dont need to display driver info
+                //String rideDriverInfo= rideInfo.getDriverID();
                 String rideRiderInfo = rideInfo.getRiderID();
 
                 myRides.add("Destination: "+rideDestInfo);
                 //myRides.add(rideDriverInfo);
                 myRides.add("Rider Name: "+ rideRiderInfo);
+                myRides.add(rideDestInfo);
+
+                //myRides.add(rideDriverInfo);
+                myRides.add(rideRiderInfo);
 
 
                 rideList.setAdapter(adapter);
