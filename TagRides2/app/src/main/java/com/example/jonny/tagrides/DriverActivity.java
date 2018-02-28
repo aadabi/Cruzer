@@ -2,6 +2,7 @@ package com.example.jonny.tagrides;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,16 +19,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
 import java.util.ArrayList;
 
 public class DriverActivity extends AppCompatActivity {
 
-    private FirebaseAuth rideAuth;
-    private DatabaseReference userReference;
-    private DatabaseReference rideReference;
-    private FirebaseDatabase userDatabase;
-    private FirebaseDatabase rideDatabase;
-    private String _rideID;
+    private final DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+
+    private String rideID;
 
     //array list for rides
     ArrayList<String> myRides = new ArrayList<String>();
@@ -37,6 +36,7 @@ public class DriverActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
 
     Ride rideInfo;
+    User userInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,35 +44,35 @@ public class DriverActivity extends AppCompatActivity {
 
         //begin to get the information for our Rides from firebase
         //intantiateFirebase();
-        firebaseListener();
+        DatabaseReference rideDB = mRootRef.child("rides");
+        DatabaseReference userDB = mRootRef.child("users");
+        firebaseListener(rideDB, userDB);
     }
 
-
     //fiunction to listen for changes in the database
-    public void firebaseListener()
+    public void firebaseListener(DatabaseReference rideDatabase, DatabaseReference userDatabase)
     {
         //this is where we listen for data changes when new rides get posted
         rideList = (ListView) findViewById(R.id.allRidesview);
-        rideDatabase = FirebaseDatabase.getInstance();
-        userDatabase = FirebaseDatabase.getInstance();
-        userReference = userDatabase.getReference("user");
-        rideReference = rideDatabase.getReference().child("rides");
 
         adapter = new ArrayAdapter<String>(DriverActivity.this, android.R.layout.simple_dropdown_item_1line, myRides);
 
-        rideReference.addChildEventListener(new ChildEventListener() {
+        //rideReference.addChildEventListener(new ChildEventListener() {
+        rideDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 rideInfo = dataSnapshot.getValue(Ride.class);
+                userInfo = dataSnapshot.getValue(User.class);
+
                 String rideDestInfo = rideInfo.getDestination();
                 //we dont need to display driver info
                 //String rideDriverInfo= rideInfo.getDriverID();
                 String rideRiderInfo = rideInfo.getRiderID();
 
-                myRides.add(rideDestInfo);
 
+                myRides.add("Destination: "+rideDestInfo);
                 //myRides.add(rideDriverInfo);
-                myRides.add(rideRiderInfo);
+                myRides.add("Rider Name: "+rideRiderInfo);
 
 
                 rideList.setAdapter(adapter);
@@ -163,10 +163,15 @@ public class DriverActivity extends AppCompatActivity {
                         DatabaseReference rideInfo = FirebaseDatabase.getInstance().getReference();
                         //this code should set the driver but from here we need to send that info to another activity
                         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-                        //rideInfo.setDriverID(currUser.getUid());
-                        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
                         String rideID = rideInfo.child("rides").push().getKey();
-                        //myRef.child("rides").child(rideID).setValue(ride);
+
+                        //rideInfo.child("rides").orderByChild("riderID").equalTo(currUser.getUid());
+                        // TODO need a way to query the current rides ID
+                        // hardcoded for testing purposes
+                        String tempID = "-L6Os_1xsMgDdHpv4Yzq";
+                        rideInfo.child("rides").child(tempID).child("driverID").setValue(currUser.getUid());
+                        rideInfo.child("rides").child(tempID).child("rideInProgress").setValue(true);
+                        //Utils.toastMessage(currUser.getUid(), DriverActivity.this);
 
                         //lets the user know the ride was added
                         Utils.toastMessage("Rider Added to Ride", DriverActivity.this);
