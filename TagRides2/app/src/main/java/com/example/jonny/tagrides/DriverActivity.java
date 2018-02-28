@@ -17,6 +17,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -37,6 +39,7 @@ public class DriverActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
 
     Ride rideInfo;
+    User userInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,13 +67,15 @@ public class DriverActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 rideInfo = dataSnapshot.getValue(Ride.class);
+                userInfo = dataSnapshot.getValue(User.class);
+
                 String rideDestInfo = rideInfo.getDestination();
                 String rideDriverInfo= rideInfo.getDriverID();
                 String rideRiderInfo = rideInfo.getRiderID();
 
-                myRides.add(rideDestInfo);
-                myRides.add(rideDriverInfo);
-                myRides.add(rideRiderInfo);
+                myRides.add("Destination: "+rideDestInfo);
+                //myRides.add(rideDriverInfo);
+                myRides.add("Rider Name: "+ rideRiderInfo);
 
 
                 rideList.setAdapter(adapter);
@@ -161,10 +166,21 @@ public class DriverActivity extends AppCompatActivity {
                         DatabaseReference rideInfo = FirebaseDatabase.getInstance().getReference();
                         //this code should set the driver but from here we need to send that info to another activity
                         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-                        //rideInfo.setDriverID(currUser.getUid());
-                        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
                         String rideID = rideInfo.child("rides").push().getKey();
-                        //myRef.child("rides").child(rideID).setValue(ride);
+
+                        //rideInfo.child("rides").orderByChild("riderID").equalTo(currUser.getUid());
+                        // TODO need a way to query the current rides ID
+                        // hardcoded for testing purposes
+                        String tempID = "-L6Os_1xsMgDdHpv4Yzq";
+                        rideInfo.child("rides").child(tempID).child("driverID").setValue(currUser.getUid());
+                        rideInfo.child("rides").child(tempID).child("rideInProgress").setValue(true);
+                        //Utils.toastMessage(currUser.getUid(), DriverActivity.this);
+
+                        //Utils.toastMessage(currUser.getUid(), DriverActivity.this);
+                        //rideInfo.child("rides").child(rideID).child().setValue(currUser.getUid());
+                        //rideInfo.child("rides").child(query.toString()).child("rideInProgress").setValue(true);
+
+
 
                         //lets the user know the ride was added
                         Utils.toastMessage("Rider Added to Ride", DriverActivity.this);
