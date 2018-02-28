@@ -67,12 +67,12 @@ public class DriverActivity extends AppCompatActivity {
                 String rideDestInfo = rideInfo.getDestination();
                 //we dont need to display driver info
                 //String rideDriverInfo= rideInfo.getDriverID();
-                String rideRiderInfo = rideInfo.getRiderID();
+                String rideRiderInfo = rideInfo.getRiderName();
 
 
-                myRides.add("Destination: "+rideDestInfo);
+                myRides.add("Destination: "+rideDestInfo+"  "+"Rider Name: "+rideRiderInfo);
                 //myRides.add(rideDriverInfo);
-                myRides.add("Rider Name: "+rideRiderInfo);
+                //myRides.add();
 
 
                 rideList.setAdapter(adapter);

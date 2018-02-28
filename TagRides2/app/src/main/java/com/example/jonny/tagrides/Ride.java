@@ -13,6 +13,7 @@ public class Ride
     public String driverID;
     public String destination;
     public String currentLocation;
+    public String riderName;
     public boolean driverArrived;
     public boolean rideCompleted;
     public boolean rideInProgress;
@@ -23,6 +24,7 @@ public class Ride
         this.driverID = "";
         this.currentLocation = "";
         this.destination = "";
+        this.riderName = "";
         this.driverArrived = false;
         this.rideCompleted = false;
     }
@@ -40,6 +42,9 @@ public class Ride
     {
         return this.destination;
     }
+    public String getRiderName() {
+        return this.riderName;
+    }
 
 
     public boolean hasDriver() { return !(this.driverID == ""); }
@@ -49,6 +54,10 @@ public class Ride
     public boolean isRideCompleted() { return this.rideCompleted; }
 
     public void setRiderID(String id) { this.riderID = id; }
+
+    public void setRiderName(String name) {
+        this.riderName = name;
+    }
 
     public void setDriverID(String id) { this.driverID = id; }
 
