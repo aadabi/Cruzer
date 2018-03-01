@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.drive.Drive;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -69,16 +70,15 @@ public class DriverActivity extends AppCompatActivity {
                 String rideRiderInfo = rideInfo.getRiderName();
                 rideID = dataSnapshot.getKey();
 
+                if (!rideInfo.isRideInProgress() || rideInfo.getDriverID().equals("")) {
+                    myRides.add("Destination: "+rideDestInfo+"  "+"Rider Name: "+rideRiderInfo);
+                }
 
-
-                myRides.add("Destination: "+rideDestInfo+"  "+"Rider Name: "+rideRiderInfo);
-
-
-                //adapter.remove(currRideID);
                 rideList.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
             //this is still not working properly
+            // TODO NEED TO UPDATE PREVIOUS SELECTED RIDER TO NOTHING
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s)
             {
@@ -92,11 +92,11 @@ public class DriverActivity extends AppCompatActivity {
 
 
                 //get the location where change happened
-                int index = myRides.indexOf(key)+1;
+                int index = myRides.indexOf(key);
                 //set the change to the adapter
-                myRides.set(index, modifyDest);
+                //myRides.set(index, modifyDest);
                 //myRides.set(index, modifyDId);
-                //myRides.set(index,modifyRId);
+                //myRides.set(index, modifyRId);
 
 
                 rideList.setAdapter(adapter);
@@ -112,20 +112,17 @@ public class DriverActivity extends AppCompatActivity {
                 String rideDriverInfo= rideInfo.getDriverID();
                 String rideRiderInfo = rideInfo.getRiderID();
 
-//                myRides.remove(rideDriverInfo);
-//                myRides.remove(rideRiderInfo);
-//                myRides.remove(rideDestInfo);
-//                myRides.remove(rideInfo);
 
-                // TODO dont display rides with inprogress=true and rideid!=null
-                for (String i : myRides) {
-                    if (i.equals(rideID)) {
-                        myRides.remove(rideDriverInfo);
-                        myRides.remove(rideRiderInfo);
-                        myRides.remove(rideDestInfo);
-                        myRides.remove(rideInfo);
-                    }
-                }
+                myRides.remove(rideDriverInfo);
+                myRides.remove(rideRiderInfo);
+                myRides.remove(rideDestInfo);
+                myRides.remove(rideInfo);
+
+                adapter.remove(rideDestInfo);
+                adapter.remove(rideRiderInfo);
+                adapter.remove(rideDriverInfo);
+
+
 
                 rideList.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
