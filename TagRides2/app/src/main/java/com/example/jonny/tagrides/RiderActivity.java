@@ -71,6 +71,7 @@ public class RiderActivity extends Activity {
         ride.setCurrentLocation(currentLocation.getText().toString());
         ride.setDestination(destinationInput.getText().toString());
         ride.setRiderName(currUser.getDisplayName());
+
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
         String rideID = myRef.child("rides").push().getKey();
         myRef.child("rides").child(rideID).setValue(ride);

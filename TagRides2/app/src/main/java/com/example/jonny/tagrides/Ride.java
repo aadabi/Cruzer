@@ -27,6 +27,7 @@ public class Ride
         this.riderName = "";
         this.driverArrived = false;
         this.rideCompleted = false;
+        this.rideInProgress = false;
     }
 
    //getters
@@ -44,6 +45,9 @@ public class Ride
     }
     public String getRiderName() {
         return this.riderName;
+    }
+    public boolean isRideInProgress() {
+        return this.rideInProgress;
     }
 
 
