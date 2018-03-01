@@ -77,52 +77,28 @@ public class DriverActivity extends AppCompatActivity {
                 rideList.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
-            //this is still not working properly
-            // TODO NEED TO UPDATE PREVIOUS SELECTED RIDER TO NOTHING
+
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s)
             {
                 //insert new modified value
 
                 Ride valueUpdated = dataSnapshot.getValue(Ride.class);
-                String key = dataSnapshot.getKey();
                 String modifyDest = valueUpdated.getDestination();
-                String modifyDId  = valueUpdated.getDriverID();
-                String modifyRId  = valueUpdated.getRiderID();
+                String modifyRName = valueUpdated.getRiderName();
+
 
 
                 //get the location where change happened
-                int index = myRides.indexOf(key);
-                //set the change to the adapter
-                //myRides.set(index, modifyDest);
-                //myRides.set(index, modifyDId);
-                //myRides.set(index, modifyRId);
-
-
-                rideList.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-
+                if (valueUpdated.isRideInProgress() && !valueUpdated.getDriverID().equals("")) {
+                    myRides.remove("Destination: "+modifyDest+"  "+"Rider Name: "+modifyRName);
+                    rideList.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
             }
-
+            // maybe later
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Ride rideInfo = dataSnapshot.getValue(Ride.class);
-
-                String rideDestInfo = rideInfo.getDestination();
-                String rideDriverInfo= rideInfo.getDriverID();
-                String rideRiderInfo = rideInfo.getRiderID();
-
-
-                myRides.remove(rideDriverInfo);
-                myRides.remove(rideRiderInfo);
-                myRides.remove(rideDestInfo);
-                myRides.remove(rideInfo);
-
-                adapter.remove(rideDestInfo);
-                adapter.remove(rideRiderInfo);
-                adapter.remove(rideDriverInfo);
-
-
 
                 rideList.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
@@ -148,15 +124,17 @@ public class DriverActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                dselectRide();
+                dselectRide(position);
+
             }
         });
     }
 
     //method that gets called when the user clicks on the list
     //cretes  pop up view to select ride
-    public void dselectRide()
+    public void dselectRide(int position)
     {
+        final int pos = position;
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Do you want to add this rider");
         alertDialogBuilder.setPositiveButton("Yes",
@@ -175,6 +153,10 @@ public class DriverActivity extends AppCompatActivity {
 
                         //lets the user know the ride was added
                         Utils.toastMessage("Rider Added to Ride", DriverActivity.this);
+                        // not sure if works with multiple users
+//                        myRides.set(pos, "Added Rider!");
+//                        adapter.remove(rideID);
+//                        adapter.notifyDataSetChanged();
 
                     }
                 });
