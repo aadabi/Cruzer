@@ -32,7 +32,7 @@ public class DriverActivity extends AppCompatActivity {
     ArrayList<String> myRides = new ArrayList<String>();
     //listview for my rides
     ListView rideList;
-    //adapter for rides listvie
+    //adapter for rides listview
     ArrayAdapter<String> adapter;
 
     Ride rideInfo;
