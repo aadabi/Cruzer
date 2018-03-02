@@ -74,22 +74,4 @@ public class RiderActivity extends Activity {
         currentLocation = (EditText) findViewById(R.id.currText);
         destinationInput = (EditText) findViewById(R.id.destText);
     }
-
-    /** Called when the user presses the send button */
-    public void sendRideRequest(View view) {
-        FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-        Ride ride = new Ride();
-        ride.setRiderID(currUser.getUid());
-        ride.setCurrentLocation(currentLocation.getText().toString());
-        ride.setDestination(destinationInput.getText().toString());
-        ride.setRiderName(currUser.getDisplayName());
-
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
-        String rideID = myRef.child("rides").push().getKey();
-        myRef.child("rides").child(rideID).setValue(ride);
-        Intent intent = new Intent(this, RiderStatusActivity.class);
-        intent.putExtra("RIDE_ID", rideID);
-        startActivity(intent);
-    }
-
 }
