@@ -29,6 +29,7 @@ public class Ride
         this.riderName = "";
         this.driverArrived = false;
         this.rideCompleted = false;
+        this.rideInProgress = false;
     }
 
    //getters
@@ -66,6 +67,10 @@ public class Ride
         this.longitude = locationX;
     }
 
+
+    public boolean isRideInProgress() {
+        return this.rideInProgress;
+    }
 
 
     public boolean hasDriver() { return !(this.driverID == ""); }
