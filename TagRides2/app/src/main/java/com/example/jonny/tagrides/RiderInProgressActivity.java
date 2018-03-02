@@ -21,6 +21,7 @@ public class RiderInProgressActivity extends AppCompatActivity {
     private DatabaseReference database;
     private ValueEventListener rideListener;
     private Ride ride;
+    private String driverID;
 
     Button rideEndButton;
 
@@ -43,6 +44,7 @@ public class RiderInProgressActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ride = dataSnapshot.getValue(Ride.class);
+                driverID = ride.getDriverID();
             }
 
             @Override
@@ -56,7 +58,9 @@ public class RiderInProgressActivity extends AppCompatActivity {
     public void endRide(View v) {
         database.child("rides").child(rideID).child("rideInProgress").setValue(false);
         database.child("rides").child(rideID).child("rideCompleted").setValue(true);
-        Intent intent = new Intent(this, Pick_RD.class);
+        Intent intent = new Intent(this, Rating.class);
+        intent.putExtra("RIDE_ID", rideID);
+        intent.putExtra("DRIVER_ID", driverID);
         startActivity(intent);
     }
 }
