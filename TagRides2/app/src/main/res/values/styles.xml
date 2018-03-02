@@ -1,12 +1,22 @@
 <resources>
-    <!--for the splash activity we must define the the spalsh theme-->
     <!-- Base application theme. -->
+    <!-- Theme for for the app to implement the navigation bar-->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="drawerArrowStyle">@style/MaterialDrawer.DrawerArrowStyle</item>
     </style>
+    <!-- we only need this if we are using primaryColor Dark otherwise we dont-->
+    <!-- color for the hamburger menu icon is also set here-->
+    <style name="MaterialDrawer.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">false</item>
+        <item name="color">@android:color/white</item>
+    </style>
+    <!--theme for our  splash screen -->
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
 
         <item name="android:windowBackground">

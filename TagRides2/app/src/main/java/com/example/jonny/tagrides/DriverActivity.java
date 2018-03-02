@@ -78,7 +78,7 @@ public class DriverActivity extends AppCompatActivity {
                 rideList.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
-            //this is still not working properly
+
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s)
             {
@@ -137,6 +137,7 @@ public class DriverActivity extends AppCompatActivity {
 
             }
         });
+
 
         //here we declare a listener
         rideList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
