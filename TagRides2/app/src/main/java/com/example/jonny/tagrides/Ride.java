@@ -17,6 +17,8 @@ public class Ride
     public boolean driverArrived;
     public boolean rideCompleted;
     public boolean rideInProgress;
+    public double longitude;
+    public double latitude;
 
 
     public Ride() {
@@ -45,6 +47,25 @@ public class Ride
     public String getRiderName() {
         return this.riderName;
     }
+    public double get_latitude()
+    {
+        return this.latitude;
+    }
+    public double get_longitude()
+
+    {
+        return this.longitude;
+    }
+
+    public void user_latitude(double locationY)
+    {
+        this.latitude = locationY;
+    }
+    public void user_longitude(double locationX)
+    {
+        this.longitude = locationX;
+    }
+
 
 
     public boolean hasDriver() { return !(this.driverID == ""); }

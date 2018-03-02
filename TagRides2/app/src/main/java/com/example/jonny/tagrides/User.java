@@ -19,8 +19,8 @@ public class User{
     public boolean rider;
     public String user_license;
     public String userEmail;
-    public float longitude;
-    public float latitude;
+    public double longitude;
+    public double latitude;
 
     public Car userCar;
 
@@ -51,11 +51,11 @@ public class User{
 
    }
    //setters
-   public void user_latitude(float locationY)
+   public void user_latitude(double locationY)
    {
        this.latitude = locationY;
    }
-   public void user_longitude(float locationX)
+   public void user_longitude(double locationX)
    {
        this.longitude = locationX;
    }
@@ -92,11 +92,11 @@ public class User{
    }
 
    //getters
-   public float get_latitude()
+   public double get_latitude()
    {
         return this.latitude;
    }
-   public float get_longitude()
+   public double get_longitude()
 
     {
         return this.longitude;

@@ -8,7 +8,6 @@ import android.test.mock.MockPackageManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,7 +21,6 @@ public class RiderActivity extends Activity {
     String mPermisssion = android.Manifest.permission.ACCESS_FINE_LOCATION;
 
     GPSTracker gps;
-    TextView location;
     Button btnShowLocation;
     EditText currentLocation;
     EditText destinationInput;
@@ -46,16 +44,30 @@ public class RiderActivity extends Activity {
 
             public void onClick(View v){
                 gps = new GPSTracker(RiderActivity.this);
-                location = (TextView) findViewById(R.id.textView2);
                 if (gps.canGetLocation()){
                     double latitude = gps.getLatitude();
                     double longitude = gps.getLongitude();
-                    location.setText(latitude+"/"+longitude);
+                    FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
+                    Ride ride = new Ride();
+                    ride.setRiderID(currUser.getUid());
 
+                    ride.user_latitude(latitude);
+                    ride.user_longitude(longitude);
+                    ride.setCurrentLocation(currentLocation.getText().toString());
+                    ride.setDestination(destinationInput.getText().toString());
+
+                    ride.setRiderName(currUser.getDisplayName());
+                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+                    String rideID = myRef.child("rides").push().getKey();
+                    myRef.child("rides").child(rideID).setValue(ride);
+                    Intent intent = new Intent(v.getContext(), RiderStatusActivity.class);
+                    intent.putExtra("RIDE_ID", rideID);
+                    startActivity(intent);
 
                 }else{
                     return;
                 }
+
             }
         });
 
@@ -63,20 +75,5 @@ public class RiderActivity extends Activity {
         destinationInput = (EditText) findViewById(R.id.destText);
     }
 
-    /** Called when the user presses the send button */
-    public void sendRideRequest(View view) {
-        FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-        Ride ride = new Ride();
-        ride.setRiderID(currUser.getUid());
-        ride.setCurrentLocation(currentLocation.getText().toString());
-        ride.setDestination(destinationInput.getText().toString());
-        ride.setRiderName(currUser.getDisplayName());
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
-        String rideID = myRef.child("rides").push().getKey();
-        myRef.child("rides").child(rideID).setValue(ride);
-        Intent intent = new Intent(this, RiderStatusActivity.class);
-        intent.putExtra("RIDE_ID", rideID);
-        startActivity(intent);
-    }
 
 }
