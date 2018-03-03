@@ -147,16 +147,14 @@ public class DriverActivity extends AppCompatActivity {
                         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
 
                         // add current ride id fields to database
-                        String tempID = rideID;
-                        rideInfo.child("rides").child(tempID).child("driverID").setValue(currUser.getUid());
-                        rideInfo.child("rides").child(tempID).child("rideInProgress").setValue(true);
+
+                        rideInfo.child("rides").child(rideID).child("driverID").setValue(currUser.getUid());
+                        rideInfo.child("rides").child(rideID).child("rideInProgress").setValue(true);
+                        rideInfo.child("rides").child(rideID).child("driverName").setValue(currUser.getDisplayName());
 
                         //lets the user know the ride was added
                         Utils.toastMessage("Rider Added to Ride", DriverActivity.this);
-                        // not sure if works with multiple users
-//                        myRides.set(pos, "Added Rider!");
-//                        adapter.remove(rideID);
-//                        adapter.notifyDataSetChanged();
+
 
                     }
                 });

@@ -14,6 +14,7 @@ public class Ride
     public String destination;
     public String currentLocation;
     public String riderName;
+    public String driverName;
     public boolean driverArrived;
     public boolean rideCompleted;
     public boolean rideInProgress;
@@ -57,6 +58,9 @@ public class Ride
     {
         return this.longitude;
     }
+    public String getDriverName() {
+        return this.driverName;
+    }
 
     public void user_latitude(double locationY)
     {
@@ -80,6 +84,9 @@ public class Ride
     public boolean isRideCompleted() { return this.rideCompleted; }
 
     public void setRiderID(String id) { this.riderID = id; }
+    public void setDriverName(String name) {
+        this.driverName = name;
+    }
 
     public void setRiderName(String name) {
         this.riderName = name;

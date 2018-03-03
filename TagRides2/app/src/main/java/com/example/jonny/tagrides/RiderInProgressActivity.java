@@ -44,7 +44,6 @@ public class RiderInProgressActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ride = dataSnapshot.getValue(Ride.class);
-                driverID = ride.getDriverID();
             }
 
             @Override
@@ -60,7 +59,6 @@ public class RiderInProgressActivity extends AppCompatActivity {
         database.child("rides").child(rideID).child("rideCompleted").setValue(true);
         Intent intent = new Intent(this, Rating.class);
         intent.putExtra("RIDE_ID", rideID);
-        intent.putExtra("DRIVER_ID", driverID);
         startActivity(intent);
     }
 }

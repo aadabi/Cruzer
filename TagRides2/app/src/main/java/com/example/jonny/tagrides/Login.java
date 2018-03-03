@@ -148,9 +148,11 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                                 currUser.setName(user.getDisplayName());
                                 currUser.setUserID(user.getUid());
 
-                                // store in users->uid->user info
-                                myRef.child("users").child(user.getUid()).setValue(currUser);
+                                //Utils.toastMessage( "curr rating: "+ Float.toString(currUser.getRating()), Login.this);
 
+                                // store in users->uid->user info
+
+                                myRef.child("users").child(user.getUid()).setValue(currUser);
 
                                 Intent intent = new Intent(Login.this,Pick_RD.class);
                                 startActivity(intent);
