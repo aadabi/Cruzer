@@ -87,19 +87,27 @@ public class Rating extends AppCompatActivity {
                     currUserID = ride.getDriverID();
                     currUserName = ride.getDriverName();
                     // otherwise, current user is driver, get rider info to be rated
-                } else {
+                } else if (currUser.getUid().equals(ride.getDriverID())){
                     currUserID = ride.getRiderName();
                     currUserName = ride.getRiderID();
+                } else {
+                    System.out.println("some error in finding person to rate");
                 }
 
                 // database listener for rate model
                 rateDataListener = new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        currRate = dataSnapshot.getValue(Rate.class);
+                        // check if rate object exists
+                        if (dataSnapshot.exists()) {
+                            currRate = dataSnapshot.getValue(Rate.class);
+                            // otherwise create new rate object for user
+                        } else {
+                            Rate temp = new Rate();
+                            currRate = temp;
+                        }
 
                         // get number of ratings and list of ratings from current user (driver)
-                        //System.out.println(currRate.getUserID());
                         numRates = currRate.getNumRates();
                         currRateList = currRate.getRatingsList();
 

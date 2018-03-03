@@ -16,10 +16,11 @@ public class Rate {
     public ArrayList<Float> ratingsList;
 
     public Rate () {
-        this.userName = userName;
-        this.rating = rating;
+        this.userName = "";
+        this.rating = 0;
         this.ratingsList = new ArrayList<>();
-        this.numRates = ratingsList.size();
+        this.numRates = 0;
+        this.userID = "";
 
     }
     //set
