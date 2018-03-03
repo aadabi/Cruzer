@@ -54,8 +54,12 @@ public class Rate {
     public String getUserName() {
         return this.userName;
     }
+    public int getNumRates() {
+        return ratingsList.size();
+    }
 
 
+    // functions
     public float calcRatings() {
         float sum = 0;
         for (int i = 0; i < ratingsList.size(); i++ ) {
@@ -68,10 +72,6 @@ public class Rate {
     public void addRatings(float rate) {
         this.numRates = this.numRates + 1;
         ratingsList.add(rate);
-    }
-
-    public int getNumRates() {
-        return ratingsList.size();
     }
 
 

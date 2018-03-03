@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,9 +31,10 @@ public class Rating extends AppCompatActivity {
     private String currUserID;
 
     private final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+    private final FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
 
-    private ValueEventListener driverRateListener;  // rider rating the driver, driver's rating
-    private ValueEventListener rateData;
+    private ValueEventListener driverRateListener;      // rider rating the driver, driver's rating
+    private ValueEventListener rateDataListener;        // rate model
 
     private Ride ride;
 
@@ -49,7 +52,7 @@ public class Rating extends AppCompatActivity {
         Button btnSubmit = (Button) findViewById(R.id.btnSubmit);
         final TextView rating = (TextView) findViewById(R.id.rating);
 
-
+        // gets current ride id from previous layout
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             rideID = extras.getString("RIDE_ID");
@@ -58,19 +61,45 @@ public class Rating extends AppCompatActivity {
             Log.e(TAG, "No ride ID received");
         }
 
+        // rider rates driver, driver rates rider
+        rateUser(btnSubmit, rating, ratingBar);
+
+    }
+
+    /* This function gets current ride info and rate info. Listens for submit button
+     * to be pressed to update driver's or rider's rating. First ValueEventListener is to get
+     * ride data, inner ValueEventListener is to get current rate data about the
+     * to be rated user.
+     *
+     */
+    public void rateUser(Button btnSubmit, TextView rating_, RatingBar ratingBar_) {
+        // to pass variable into onclick listener
+        final TextView rating = rating_;
+        final RatingBar ratingBar = ratingBar_;
+        // database listener for rides model
         driverRateListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ride = dataSnapshot.getValue(Ride.class);
 
-                currUserName = ride.getDriverName();
-                currUserID = ride.getDriverID();
+                // if the current user is a rider, get driver info to be rated
+                if (currUser.getUid().equals(ride.getRiderID())) {
+                    currUserID = ride.getDriverID();
+                    currUserName = ride.getDriverName();
+                    // otherwise, current user is driver, get rider info to be rated
+                } else {
+                    currUserID = ride.getRiderName();
+                    currUserName = ride.getRiderID();
+                }
 
-                rateData = new ValueEventListener() {
+                // database listener for rate model
+                rateDataListener = new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         currRate = dataSnapshot.getValue(Rate.class);
 
+                        // get number of ratings and list of ratings from current user (driver)
+                        //System.out.println(currRate.getUserID());
                         numRates = currRate.getNumRates();
                         currRateList = currRate.getRatingsList();
 
@@ -82,7 +111,7 @@ public class Rating extends AppCompatActivity {
                     }
                 };
 
-                database.child("rate").child(currUserID).addValueEventListener(rateData);
+                database.child("rate").child(currUserID).addValueEventListener(rateDataListener);
             }
 
             @Override
@@ -92,19 +121,30 @@ public class Rating extends AppCompatActivity {
         };
         database.child("rides").child(rideID).addValueEventListener(driverRateListener);
 
-
+        // listens for submit button to be pressed in layout
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rating.setText("You gave a rating: " + ratingBar.getRating());
                 currRating = ratingBar.getRating();
-                submitDriverRate(currRating);
+                rating.setText("You gave a rating: " + currRating);
+                submitRate(currRating);
 
             }
         });
     }
 
-    public void submitDriverRate(float newRating) {
+    /* This function is called to store the rate model into the database.
+     * It sets the current user name (driver or rider) to be rated by the rider.
+     * It sets the current user id (driver id or rider id) into the rate model.
+     * Then it sets the number of ratings from the current user (previous ratings).
+     * It gets an array list of all previous ratings and adds the new ratings given
+     * to the list of all ratings for this current user (driver or rider). Finally, it
+     * sets the new rating of the user (driver or rider) to be the average of values in
+     * the array list. Once the values are set, the rate object is stored into
+     * the rate model for the current user (driver or rider).
+     *
+     */
+    public void submitRate(float newRating) {
         currRate.setUserName(currUserName);
         currRate.setUserID(currUserID);
 
@@ -117,7 +157,10 @@ public class Rating extends AppCompatActivity {
         database.child("rate").child(currRate.getUserID()).setValue(currRate);
 
         Utils.toastMessage("Submited Rating of "+ String.valueOf(newRating), Rating.this);
+
+        // sends user back to pick rider/driver page
         Intent back = new Intent(Rating.this, Pick_RD.class);
         startActivity(back);
     }
+
 }
