@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class RiderActivity extends Activity {
+public class RiderActivity extends MainActivity {
 
     final String TAG = "RiderActivity";
     private static final  int REQUEST_CODE_PERMISSION =2;

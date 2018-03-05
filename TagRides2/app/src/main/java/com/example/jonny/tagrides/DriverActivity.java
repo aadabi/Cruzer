@@ -20,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class DriverActivity extends AppCompatActivity {
+public class DriverActivity extends MainActivity{
 
     private FirebaseAuth rideAuth;
     private DatabaseReference userReference;
