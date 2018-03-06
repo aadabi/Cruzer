@@ -2,6 +2,7 @@ package com.example.jonny.tagrides;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -70,7 +71,7 @@ public class DriverActivity extends AppCompatActivity {
                 String rideRiderInfo = rideInfo.getRiderName();
                 rideID = dataSnapshot.getKey();
 
-                if (!rideInfo.isRideInProgress() || rideInfo.getDriverID().equals("")) {
+                if (!rideInfo.isRideInProgress() && rideInfo.getDriverID().equals("")) {
                     myRides.add("Destination: "+rideDestInfo+"  "+"Rider Name: "+rideRiderInfo);
                 }
 
@@ -155,7 +156,7 @@ public class DriverActivity extends AppCompatActivity {
                         //lets the user know the ride was added
                         Utils.toastMessage("Rider Added to Ride", DriverActivity.this);
 
-
+                        openDriverRideInProgressActivity();
                     }
                 });
 
@@ -170,5 +171,9 @@ public class DriverActivity extends AppCompatActivity {
 
     }
 
-
+    private void openDriverRideInProgressActivity() {
+        Intent intent = new Intent(this, DriverRideInProgress.class);
+        intent.putExtra("RIDE_ID", rideID);
+        startActivity(intent);
+    }
 }

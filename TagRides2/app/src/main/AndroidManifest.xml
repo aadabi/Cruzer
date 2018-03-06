@@ -36,7 +36,8 @@
         <activity android:name=".RiderStatusActivity" />
         <activity android:name=".DriverActivity" />
         <activity android:name=".RiderInProgressActivity" />
-        <activity android:name=".Rating"></activity>
+        <activity android:name=".Rating" />
+        <activity android:name=".DriverRideInProgress"></activity>
     </application>
 
 </manifest>
