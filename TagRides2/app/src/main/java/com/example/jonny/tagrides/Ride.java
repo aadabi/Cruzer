@@ -104,4 +104,8 @@ public class Ride
         this.currentLocation = currentLocation;
     }
 
+    public String getCurrentLocation() {
+        return this.currentLocation;
+    }
+
 }
