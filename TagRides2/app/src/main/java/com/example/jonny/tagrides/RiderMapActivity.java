@@ -9,6 +9,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,6 +52,17 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             LatLng userLocation = new LatLng(latitude, longitude);
             mMap.addMarker(new MarkerOptions().position(userLocation).title("Current Location"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    startRideRequestActivity();
+                    return true;
+                }
+            });
         }
+    }
+
+    private void startRideRequestActivity() {
+        startActivity(new Intent(this, RiderActivity.class));
     }
 }
