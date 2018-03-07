@@ -49,11 +49,11 @@ public class Ride
     public String getRiderName() {
         return this.riderName;
     }
-    public double get_latitude()
+    public double getLatitude()
     {
         return this.latitude;
     }
-    public double get_longitude()
+    public double getLongitude()
 
     {
         return this.longitude;
@@ -62,20 +62,11 @@ public class Ride
         return this.driverName;
     }
 
-    public void user_latitude(double locationY)
-    {
-        this.latitude = locationY;
-    }
-    public void user_longitude(double locationX)
-    {
-        this.longitude = locationX;
-    }
 
 
     public boolean isRideInProgress() {
         return this.rideInProgress;
     }
-
 
     public boolean hasDriver() { return !(this.driverID == ""); }
 
@@ -83,6 +74,14 @@ public class Ride
 
     public boolean isRideCompleted() { return this.rideCompleted; }
 
+    public void setLatitude(double locationY)
+    {
+        this.latitude = locationY;
+    }
+    public void setLongitude(double locationX)
+    {
+        this.longitude = locationX;
+    }
     public void setRiderID(String id) { this.riderID = id; }
     public void setDriverName(String name) {
         this.driverName = name;

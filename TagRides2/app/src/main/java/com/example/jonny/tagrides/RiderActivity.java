@@ -51,8 +51,8 @@ public class RiderActivity extends Activity {
                     Ride ride = new Ride();
                     ride.setRiderID(currUser.getUid());
 
-                    ride.user_latitude(latitude);
-                    ride.user_longitude(longitude);
+                    ride.setLatitude(latitude);
+                    ride.setLongitude(longitude);
                     ride.setCurrentLocation(currentLocation.getText().toString());
                     ride.setDestination(destinationInput.getText().toString());
 

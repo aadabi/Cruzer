@@ -146,10 +146,10 @@ public class ModelTest {
         Ride ride = new Ride();
 
         // excersise
-        ride.user_longitude(127.12003);
+        ride.setLongitude(127.12003);
 
         // assert
-        assertEquals(ride.get_longitude(), 127.12003, 0.000001 );
+        assertEquals(ride.getLongitude(), 127.12003, 0.000001 );
     }
 
     @Test
@@ -158,10 +158,10 @@ public class ModelTest {
         Ride ride = new Ride();
 
         // excersise
-        ride.user_latitude(66.12003);
+        ride.setLatitude(66.12003);
 
         // assert
-        assertEquals(ride.get_latitude(), 66.12003, 0.000001 );
+        assertEquals(ride.getLatitude(), 66.12003, 0.000001 );
     }
 
     @Test
