@@ -17,7 +17,6 @@ public class Pick_RD extends Login{
 
         Button btnRider = (Button)findViewById(R.id.btnRider);
 
-
         Button btnDriver = (Button)findViewById(R.id.btnDriver);
 
         btnDriver.setOnClickListener(new View.OnClickListener() {
@@ -29,7 +28,7 @@ public class Pick_RD extends Login{
         btnRider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Pick_RD.this, RiderActivity.class));
+                startActivity(new Intent(Pick_RD.this, RiderMapActivity.class));
             }
         });
     }
