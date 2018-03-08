@@ -7,6 +7,9 @@
 
     <string name="destination">Destination</string>
     <string name="title_activity_rider_map">Map</string>
+    <string name="title_activity_map">Map</string>
+    <string name="title_activity_driver_maps">Map</string>
+    <string name="title_activity_driver_map">Map</string>
 
 
 </resources>
