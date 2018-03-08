@@ -52,7 +52,11 @@
 
         <activity
             android:name=".RiderMapActivity"
-            android:label="@string/title_activity_rider_map"></activity>
+            android:label="@string/title_activity_rider_map" />
+        <activity
+            android:name=".DriverMapActivity"
+            android:label="@string/title_activity_map"
+            android:exported="true"/>
     </application>
 
 </manifest>

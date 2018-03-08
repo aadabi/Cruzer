@@ -172,7 +172,7 @@ public class DriverActivity extends AppCompatActivity {
     }
 
     private void openDriverRideInProgressActivity() {
-        Intent intent = new Intent(this, DriverRideInProgress.class);
+        Intent intent = new Intent(this, DriverMapActivity.class);
         intent.putExtra("RIDE_ID", rideID);
         startActivity(intent);
     }
