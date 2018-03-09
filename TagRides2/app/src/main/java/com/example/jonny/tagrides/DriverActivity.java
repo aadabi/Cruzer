@@ -20,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class DriverActivity extends MainActivity{
+public class DriverActivity extends baseDrawer{
 
     private FirebaseAuth rideAuth;
     private DatabaseReference userReference;
@@ -29,6 +29,7 @@ public class DriverActivity extends MainActivity{
     private FirebaseDatabase rideDatabase;
     private String _rideID;
 
+    MainActivity navDrawerRef;
     //array list for rides
     ArrayList<String> myRides = new ArrayList<String>();
     //listview for my rides
@@ -40,8 +41,17 @@ public class DriverActivity extends MainActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_driver);
+        //setContentView(R.layout.activity_driver);
+        /**
+         * Adding our layout to parent class frame layout.
+         */
+       getLayoutInflater().inflate(R.layout.activity_driver, frameLayout2);
 
+        /**
+         * Setting title and itemChecked
+         */
+        mDrawerList.setItemChecked(position, true);
+        setTitle(listArray[position]);
         //begin to get the information for our Rides from firebase
         //intantiateFirebase();
         firebaseListener();

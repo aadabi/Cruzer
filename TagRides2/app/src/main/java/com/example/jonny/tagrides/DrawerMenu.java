@@ -3,24 +3,38 @@ package com.example.jonny.tagrides;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
+
+
 
 @Layout(R.layout.drawer_items)
 public  class  DrawerMenu  {
 
     public static final int DRAWER_MENU_ITEM_RIDER = 1;
     public static final int DRAWER_MENU_ITEM_DRIVER = 2;
+    public static final int DRAWER_MENU_ITEM_SIGNOUT = 3;
 
     private int mMenuPosition;
     private Context mContext;
     private DrawerCallBack mCallBack;
+    private GoogleApiClient mGoogleApiClient;
+    private FirebaseAuth mAuth;
 
     @View(R.id.itemNameTxt)
     private TextView itemNameTxt;
@@ -33,42 +47,77 @@ public  class  DrawerMenu  {
         mContext = context;
         mMenuPosition = menuPosition;
     }
-
-    @Resolve
-    private void onResolved() {
-        DrawerMenu context = DrawerMenu.this;
-        switch (mMenuPosition){
-            case DRAWER_MENU_ITEM_RIDER:
-                itemNameTxt.setText("Rider");
-                itemIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_event_seat_black_24dp, null));
-
-
-                break;
-            case DRAWER_MENU_ITEM_DRIVER:
-                itemNameTxt.setText("Driver");
-                itemIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_directions_car_black_24dp, null));
-                break;
-
-        }
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth = FirebaseAuth.getInstance();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        //updateUI(currentUser);
     }
 
-    @Click(R.id.mainView)
-    private void onMenuItemClick(){
-        switch (mMenuPosition){
-            case DRAWER_MENU_ITEM_RIDER:
+    @Resolve
+        private void onResolved () {
+            switch (mMenuPosition) {
+                case DRAWER_MENU_ITEM_RIDER:
+                    itemNameTxt.setText("Rider");
+                    itemIcon.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_event_seat_black_24dp));
 
-                Toast.makeText(mContext, "I will be a Rider", Toast.LENGTH_SHORT).show();
-                if(mCallBack != null)mCallBack.onRiderMenuSelected();
-                mContext.startActivity(new Intent(mContext, RiderActivity.class));
-                break;
-            case DRAWER_MENU_ITEM_DRIVER:
 
-                Toast.makeText(mContext, "I will be a Driver", Toast.LENGTH_SHORT).show();
-                mContext.startActivity(new Intent(mContext, DriverActivity.class));
-                if(mCallBack != null)mCallBack.onDriverMenuSelected();
-                break;
+                    break;
+                case DRAWER_MENU_ITEM_DRIVER:
+                    itemNameTxt.setText("Driver");
+                    itemIcon.setImageDrawable(ContextCompat.getDrawable(mContext,R.drawable.ic_directions_car_black_24dp));
+                    break;
+                case DRAWER_MENU_ITEM_SIGNOUT:
+                    itemNameTxt.setText("Sign out");
+                    itemIcon.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_exit_to_app_black_24dp));
+
+            }
+        }
+        Login login = new Login();
+
+        @Click(R.id.mainView)
+        private void onMenuItemClick () {
+            switch (mMenuPosition) {
+                case DRAWER_MENU_ITEM_RIDER:
+
+                    Toast.makeText(mContext, "I will be a Rider", Toast.LENGTH_SHORT).show();
+                    if (mCallBack != null) mCallBack.onRiderMenuSelected();
+                    mContext.startActivity(new Intent(mContext, RiderActivity.class));
+                    break;
+                case DRAWER_MENU_ITEM_DRIVER:
+
+                    Toast.makeText(mContext, "I will be a Driver", Toast.LENGTH_SHORT).show();
+                    mContext.startActivity(new Intent(mContext, DriverActivity.class));
+                    if (mCallBack != null) mCallBack.onDriverMenuSelected();
+                    break;
+
+                case DRAWER_MENU_ITEM_SIGNOUT:
+
+                    Toast.makeText(mContext, "Signing Out", Toast.LENGTH_SHORT).show();
+                    signOut();
+
+
+                    if (mCallBack != null) mCallBack.onSignOutMenuSelected();
+
+
+
+            }
 
         }
+
+    private void signOut(){
+        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+
+            @Override
+            public void onResult(@NonNull Status status) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(mContext, Login.class);
+                mContext.startActivity(intent);
+
+            }
+        });
     }
 
     public void setDrawerCallBack(DrawerCallBack callBack) {
@@ -78,6 +127,8 @@ public  class  DrawerMenu  {
     public interface DrawerCallBack{
         void onRiderMenuSelected();
         void onDriverMenuSelected();
+        void onSignOutMenuSelected();
 
     }
+
 }

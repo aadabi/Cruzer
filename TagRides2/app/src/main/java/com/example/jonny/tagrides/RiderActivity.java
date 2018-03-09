@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.test.mock.MockPackageManager;
 import android.view.View;
 import android.widget.Button;
@@ -14,24 +18,41 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mindorks.placeholderview.PlaceHolderView;
 
-public class RiderActivity extends MainActivity {
+import static com.example.jonny.tagrides.DrawerMenu.DRAWER_MENU_ITEM_DRIVER;
+import static com.example.jonny.tagrides.DrawerMenu.DRAWER_MENU_ITEM_RIDER;
+
+
+public class RiderActivity extends baseDrawer {
 
     final String TAG = "RiderActivity";
     private static final  int REQUEST_CODE_PERMISSION =2;
     String mPermisssion = android.Manifest.permission.ACCESS_FINE_LOCATION;
-
+    MainActivity drawerReference;
     GPSTracker gps;
     TextView location;
     Button btnShowLocation;
     EditText currentLocation;
     EditText destinationInput;
-
+    //drawer values
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rider);
+        //setContentView(R.layout.activity_rider);
+
+        /**
+         * Adding our layout to parent class frame layout.
+         */
+
+        getLayoutInflater().inflate(R.layout.activity_rider, frameLayout2);
+
+        /**
+         * Setting title and itemChecked
+         */
+        mDrawerList.setItemChecked(position, true);
+        setTitle(listArray[position]);
 
         try{
             if (ActivityCompat.checkSelfPermission(this,mPermisssion)!= MockPackageManager.PERMISSION_GRANTED){
@@ -61,6 +82,7 @@ public class RiderActivity extends MainActivity {
 
         currentLocation = (EditText) findViewById(R.id.currText);
         destinationInput = (EditText) findViewById(R.id.destText);
+
     }
 
     /** Called when the user presses the send button */
@@ -77,5 +99,6 @@ public class RiderActivity extends MainActivity {
         intent.putExtra("RIDE_ID", rideID);
         startActivity(intent);
     }
+
 
 }

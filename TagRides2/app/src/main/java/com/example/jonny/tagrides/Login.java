@@ -34,7 +34,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
-public class Login extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
+public class Login extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
+        View.OnClickListener{
     SignInButton signInButton;
     TextView statusTextView;
     Button signOutButton;
@@ -88,7 +89,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         }
     }
 
-    private void signIn() {
+    public void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
 
@@ -173,7 +174,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                 });
     }
 
-    private void signOut() {
+    public void signOut() {
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
 
             @Override
@@ -184,8 +185,9 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         });
     }
 
+
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.d(TAG,"onConnectionFailed:"+connectionResult);
+
     }
 }

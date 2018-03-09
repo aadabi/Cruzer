@@ -1,4 +1,8 @@
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:id="@+id/linearView"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent">
+<android.support.v4.widget.DrawerLayout
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,11 +13,6 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar"/>
-        <com.mindorks.placeholderview.PlaceHolderView
-            android:id="@+id/galleryView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical"/>
     </LinearLayout>
 
     <FrameLayout
@@ -30,3 +29,4 @@
             android:scrollbars="vertical" />
     </FrameLayout>
 </android.support.v4.widget.DrawerLayout>
+</LinearLayout>

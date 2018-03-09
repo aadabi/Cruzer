@@ -1,5 +1,6 @@
 package com.example.jonny.tagrides;
 
+import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,7 +11,7 @@ import com.mindorks.placeholderview.annotations.View;
 
 @NonReusable
 @Layout(R.layout.drawer_header)
-public class DrawerHeader {
+public class DrawerHeader{
     private User user;
 
     @View(R.id.profileImageView)
@@ -22,9 +23,11 @@ public class DrawerHeader {
     @View(R.id.Email)
     private TextView emailTxt;
 
+
+
     @Resolve
     private void onResolved() {
-        nameTxt.setText(user.getName());
-        emailTxt.setText(user.getName());
+        nameTxt.setText("Jonathan Molina");
+        emailTxt.setText("jomolina@ucsc.edu");
     }
 }
