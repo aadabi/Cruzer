@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -28,6 +29,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -36,12 +39,17 @@ import java.util.ArrayList;
 
 public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, RoutingListener {
 
+    private static final String TAG = "Driver Ride in Progress";
     private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
     LocationRequest mLocationRequest;
     Location mLastLocation;
 
     private Button mEnd;
+
+    private String rideID;
+    private DatabaseReference database;
+    private ValueEventListener rideListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +60,49 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        database = FirebaseDatabase.getInstance().getReference();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            rideID = extras.getString("RIDE_ID");
+            Log.d(TAG, rideID);
+        } else {
+            Log.e(TAG, "No ride ID received");
+        }
+        rideListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Ride ride = dataSnapshot.getValue(Ride.class);
+                Log.d(TAG, Boolean.toString(ride.isRideCompleted()));
+                if (ride.isRideCompleted()) {
+                    sendToRatingActivity();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, databaseError.toException());
+            }
+        };
+        database.child("rides").child(rideID).addValueEventListener(rideListener);
+
         mEnd = (Button) findViewById(R.id.end);
         mEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DriverMapActivity.this, Rating.class);
+                intent.putExtra("RIDE_ID", rideID);
                 startActivity(intent);
                 finish();
                 return;
             }
         });
+    }
+
+    private void sendToRatingActivity() {
+        Intent intent = new Intent(this, Rating.class);
+        intent.putExtra("RIDE_ID", rideID);
+        startActivity(intent);
     }
 
 

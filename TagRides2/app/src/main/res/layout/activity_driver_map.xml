@@ -6,9 +6,11 @@
     tools:context="com.example.jonny.tagrides.DriverMapActivity" >
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@id/end"/>
+        android:id="@id/end"
+        android:hint="Trip End"
+        android:layout_gravity="bottom"/>
 
 
 
