@@ -174,7 +174,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 //        geoFire.removeLocation(userId);
     }
 
-
     @Override
     public void onRoutingFailure(RouteException e) {
 
@@ -194,4 +193,25 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public void onRoutingCancelled() {
 
     }
+
+
+//    @Override
+//    public void onRoutingFailure(RouteException e) {
+//
+//    }
+//
+//    @Override
+//    public void onRoutingStart() {
+//
+//    }
+//
+//    @Override
+//    public void onRoutingSuccess(ArrayList<Route> arrayList, int i) {
+//
+//    }
+//
+//    @Override
+//    public void onRoutingCancelled() {
+//
+//    }
 }

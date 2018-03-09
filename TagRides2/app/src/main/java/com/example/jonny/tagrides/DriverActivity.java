@@ -69,11 +69,19 @@ public class DriverActivity extends AppCompatActivity {
                 // get destination and rider's name to display
                 String rideDestInfo = rideInfo.getDestination();
                 String rideRiderInfo = rideInfo.getRiderName();
+<<<<<<< HEAD
                 String ridePickUp = rideInfo.getCurrentLocation();
                 rideID = dataSnapshot.getKey();
 
                 if (!rideInfo.isRideInProgress() && rideInfo.getDriverID().equals("")) {
                     myRides.add("From: "+ridePickUp +", To: "+rideDestInfo+", Name: "+rideRiderInfo);
+=======
+                String rideCurrLoc = rideInfo.getCurrentLocation();
+                rideID = dataSnapshot.getKey();
+
+                if (!rideInfo.isRideInProgress() && rideInfo.getDriverID().equals("")) {
+                    myRides.add("From: "+rideCurrLoc+", To: "+rideDestInfo+", Name: "+rideRiderInfo);
+>>>>>>> be5ebc0fc50868e9bb19e8bb133c83195d46a917
                 }
 
                 rideList.setAdapter(adapter);
@@ -88,13 +96,21 @@ public class DriverActivity extends AppCompatActivity {
                 Ride valueUpdated = dataSnapshot.getValue(Ride.class);
                 String modifyDest = valueUpdated.getDestination();
                 String modifyRName = valueUpdated.getRiderName();
+<<<<<<< HEAD
                 String modifyPickUp = valueUpdated.getCurrentLocation();
+=======
+                String modifyCurr = valueUpdated.getCurrentLocation();
+>>>>>>> be5ebc0fc50868e9bb19e8bb133c83195d46a917
 
 
 
                 //get the location where change happened
                 if (valueUpdated.isRideInProgress() && !valueUpdated.getDriverID().equals("")) {
+<<<<<<< HEAD
                     myRides.remove("From: "+modifyPickUp +", To: "+modifyDest+", Name: "+modifyRName);
+=======
+                    myRides.remove("From: "+ modifyCurr+ ", To: "+modifyDest+", Name: "+modifyRName);
+>>>>>>> be5ebc0fc50868e9bb19e8bb133c83195d46a917
                     rideList.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 }
