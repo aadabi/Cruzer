@@ -2,6 +2,8 @@ package com.example.jonny.tagrides;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.drive.Drive;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -18,25 +21,24 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
 import java.util.ArrayList;
 
 public class DriverActivity extends AppCompatActivity {
 
-    private FirebaseAuth rideAuth;
-    private DatabaseReference userReference;
-    private DatabaseReference rideReference;
-    private FirebaseDatabase userDatabase;
-    private FirebaseDatabase rideDatabase;
-    private String _rideID;
+    private final DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+
+    private String rideID;
 
     //array list for rides
     ArrayList<String> myRides = new ArrayList<String>();
     //listview for my rides
     ListView rideList;
-    //adapter for rides listvie
+    //adapter for rides listview
     ArrayAdapter<String> adapter;
 
     Ride rideInfo;
+    User userInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,79 +46,62 @@ public class DriverActivity extends AppCompatActivity {
 
         //begin to get the information for our Rides from firebase
         //intantiateFirebase();
-        firebaseListener();
+        DatabaseReference rideDB = mRootRef.child("rides");
+        DatabaseReference userDB = mRootRef.child("users");
+        firebaseListener(rideDB, userDB);
     }
 
-
     //fiunction to listen for changes in the database
-    public void firebaseListener()
+    public void firebaseListener(DatabaseReference rideDatabase, DatabaseReference userDatabase)
     {
         //this is where we listen for data changes when new rides get posted
         rideList = (ListView) findViewById(R.id.allRidesview);
-        rideDatabase = FirebaseDatabase.getInstance();
-        userDatabase = FirebaseDatabase.getInstance();
-        userReference = userDatabase.getReference("user");
-        rideReference = rideDatabase.getReference().child("rides");
 
         adapter = new ArrayAdapter<String>(DriverActivity.this, android.R.layout.simple_dropdown_item_1line, myRides);
 
-        rideReference.addChildEventListener(new ChildEventListener() {
+        //rideReference.addChildEventListener(new ChildEventListener() {
+        rideDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 rideInfo = dataSnapshot.getValue(Ride.class);
+                userInfo = dataSnapshot.getValue(User.class);
+
+                // get destination and rider's name to display
                 String rideDestInfo = rideInfo.getDestination();
-                String rideDriverInfo= rideInfo.getDriverID();
-                String rideRiderInfo = rideInfo.getRiderID();
+                String rideRiderInfo = rideInfo.getRiderName();
+                String rideCurrLoc = rideInfo.getCurrentLocation();
+                rideID = dataSnapshot.getKey();
 
-                myRides.add(rideDestInfo);
-                myRides.add(rideDriverInfo);
-                myRides.add(rideRiderInfo);
-
+                if (!rideInfo.isRideInProgress() && rideInfo.getDriverID().equals("")) {
+                    myRides.add("From: "+rideCurrLoc+", To: "+rideDestInfo+", Name: "+rideRiderInfo);
+                }
 
                 rideList.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
-            //this is still not working properly
+
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s)
             {
                 //insert new modified value
 
                 Ride valueUpdated = dataSnapshot.getValue(Ride.class);
-                String key = dataSnapshot.getKey();
                 String modifyDest = valueUpdated.getDestination();
-                String modifyDId  = valueUpdated.getDriverID();
-                String modifyRId  = valueUpdated.getRiderID();
+                String modifyRName = valueUpdated.getRiderName();
+                String modifyCurr = valueUpdated.getCurrentLocation();
+
 
 
                 //get the location where change happened
-                int index = myRides.indexOf(key)+1;
-                //set the change to the adapter
-                myRides.set(index, modifyDest);
-                //myRides.set(index, modifyDId);
-                //myRides.set(index,modifyRId);
-
-
-                rideList.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-
+                if (valueUpdated.isRideInProgress() && !valueUpdated.getDriverID().equals("")) {
+                    myRides.remove("From: "+ modifyCurr+ ", To: "+modifyDest+", Name: "+modifyRName);
+                    rideList.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
             }
-
+            // maybe later
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-
-                Ride rideInfo = dataSnapshot.getValue(Ride.class);
-
-                String rideDestInfo = rideInfo.getDestination();
-                String rideDriverInfo= rideInfo.getDriverID();
-                String rideRiderInfo = rideInfo.getRiderID();
-
-                myRides.remove(rideDestInfo);
-                myRides.remove(rideDriverInfo);
-                myRides.remove(rideRiderInfo);
-
-
 
                 rideList.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
@@ -142,15 +127,17 @@ public class DriverActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                dselectRide();
+                dselectRide(position);
+
             }
         });
     }
 
     //method that gets called when the user clicks on the list
     //cretes  pop up view to select ride
-    public void dselectRide()
+    public void dselectRide(int position)
     {
+        final int pos = position;
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Do you want to add this rider");
         alertDialogBuilder.setPositiveButton("Yes",
@@ -161,14 +148,17 @@ public class DriverActivity extends AppCompatActivity {
                         DatabaseReference rideInfo = FirebaseDatabase.getInstance().getReference();
                         //this code should set the driver but from here we need to send that info to another activity
                         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-                        //rideInfo.setDriverID(currUser.getUid());
-                        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
-                        String rideID = rideInfo.child("rides").push().getKey();
-                        //myRef.child("rides").child(rideID).setValue(ride);
+
+                        // add current ride id fields to database
+
+                        rideInfo.child("rides").child(rideID).child("driverID").setValue(currUser.getUid());
+                        rideInfo.child("rides").child(rideID).child("rideInProgress").setValue(true);
+                        rideInfo.child("rides").child(rideID).child("driverName").setValue(currUser.getDisplayName());
 
                         //lets the user know the ride was added
                         Utils.toastMessage("Rider Added to Ride", DriverActivity.this);
 
+                        openDriverRideInProgressActivity();
                     }
                 });
 
@@ -183,5 +173,9 @@ public class DriverActivity extends AppCompatActivity {
 
     }
 
-
+    private void openDriverRideInProgressActivity() {
+        Intent intent = new Intent(this, DriverRideInProgress.class);
+        intent.putExtra("RIDE_ID", rideID);
+        startActivity(intent);
+    }
 }

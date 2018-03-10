@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -13,25 +13,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class RiderInProgressActivity extends AppCompatActivity {
+public class DriverRideInProgress extends AppCompatActivity {
 
-    private final String TAG = "RiderInProgressActivity";
-
+    private final String TAG = "Driver Ride in Progress";
     private String rideID;
     private DatabaseReference database;
     private ValueEventListener rideListener;
-    private Ride ride;
-    private String driverID;
-
-    Button rideEndButton;
+    private Button driverArrivedButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rider_in_progress);
+        setContentView(R.layout.activity_driver_ride_in_progress);
 
-        rideEndButton = (Button) findViewById(R.id.button2);
         database = FirebaseDatabase.getInstance().getReference();
+        driverArrivedButton = (Button) findViewById(R.id.button);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -40,10 +36,20 @@ public class RiderInProgressActivity extends AppCompatActivity {
         } else {
             Log.e(TAG, "No ride ID received");
         }
+        driverArrivedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                database.child("rides").child(rideID).child("driverArrived").setValue(true);
+            }
+        });
         rideListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ride = dataSnapshot.getValue(Ride.class);
+                Ride ride = dataSnapshot.getValue(Ride.class);
+                Log.d(TAG, Boolean.toString(ride.isRideCompleted()));
+                if (ride.isRideCompleted()) {
+                    sendToRatingActivity();
+                }
             }
 
             @Override
@@ -54,9 +60,7 @@ public class RiderInProgressActivity extends AppCompatActivity {
         database.child("rides").child(rideID).addValueEventListener(rideListener);
     }
 
-    public void endRide(View v) {
-        database.child("rides").child(rideID).child("rideInProgress").setValue(false);
-        database.child("rides").child(rideID).child("rideCompleted").setValue(true);
+    private void sendToRatingActivity() {
         Intent intent = new Intent(this, Rating.class);
         intent.putExtra("RIDE_ID", rideID);
         startActivity(intent);

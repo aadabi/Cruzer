@@ -6,6 +6,7 @@
     <string name="todo">TODO</string>
 
     <string name="destination">Destination</string>
+    <string name="title_activity_rider_map">Map</string>
 
 
 </resources>

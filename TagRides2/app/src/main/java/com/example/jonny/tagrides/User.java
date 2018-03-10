@@ -1,5 +1,6 @@
 package com.example.jonny.tagrides;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,8 +20,8 @@ public class User{
     public boolean rider;
     public String user_license;
     public String userEmail;
-    public float longitude;
-    public float latitude;
+    public double longitude;
+    public double latitude;
 
     public Car userCar;
 
@@ -29,7 +30,7 @@ public class User{
 
 
   //constructors
-   public User(String myId, String name, String stateLicense,String idState, Date idExpires, String email )
+   public User(String myId, String name, String stateLicense,String idState, Date idExpires, String email, float rating, ArrayList<Float> ratingsList)
    {
        this.userID = myId;
        this.name = name;
@@ -39,6 +40,7 @@ public class User{
        this.idExperationDate = idExpires;
        this.user_license = stateLicense;
        this.userEmail = email;
+
    }
 
    public User(String userid)
@@ -51,11 +53,11 @@ public class User{
 
    }
    //setters
-   public void user_latitude(float locationY)
+   public void userLatitude(double locationY)
    {
        this.latitude = locationY;
    }
-   public void user_longitude(float locationX)
+   public void userLongitude(double locationX)
    {
        this.longitude = locationX;
    }
@@ -78,7 +80,7 @@ public class User{
    {
        this.userEmail = email;
    }
-   public void setUser_license(String license)
+   public void setUserLicense(String license)
    {
        this.user_license = license;
    }
@@ -91,12 +93,32 @@ public class User{
        this.idExperationDate = expires;
    }
 
-   //getters
-   public float get_latitude()
+
+
+    //methods for the user to add a vehicle
+    public  void setCarMake (String Make)
+    {
+        userCar.setCarMake(Make);
+    }
+    public void setCarModel(String model)
+    {
+        userCar.setCarModel(model);
+    }
+    public void setCarYear(int year)
+    {
+        userCar.setCarYear(year);
+    }
+    public void setCarColor(String color)
+    {
+        userCar.setCarColor(color );
+    }
+
+    //getters
+    public double getLatitude()
    {
         return this.latitude;
    }
-   public float get_longitude()
+    public double getLongitude()
 
     {
         return this.longitude;
@@ -135,21 +157,6 @@ public class User{
         //return sdf.format(idExperationDate);
         return Calendar.getInstance().getTime().toString();
     }
-    //methods for the user to add a vehicle
-    public  void setCarMake (String Make)
-    {
-        userCar.setCarMake(Make);
-    }
-    public void setCarModel(String model)
-    {
-        userCar.setCarModel(model);
-    }
-    public void setCarYear(int year)
-    {
-        userCar.setCarYear(year);
-    }
-    public void setCarColor(String color)
-    {
-        userCar.setCarColor(color );
-    }
+
+
 }
