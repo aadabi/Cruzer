@@ -88,8 +88,8 @@ public class Rating extends AppCompatActivity {
                     currUserName = ride.getDriverName();
                     // otherwise, current user is driver, get rider info to be rated
                 } else if (currUser.getUid().equals(ride.getDriverID())){
-                    currUserID = ride.getRiderName();
-                    currUserName = ride.getRiderID();
+                    currUserID = ride.getRiderID();
+                    currUserName = ride.getRiderName();
                 } else {
                     System.out.println("some error in finding person to rate");
                 }
