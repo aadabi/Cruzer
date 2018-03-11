@@ -3,7 +3,6 @@ package com.example.jonny.tagrides;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,7 +19,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -34,33 +32,6 @@ public class DriverActivity extends AppCompatActivity {
     private ArrayList<String> rideKeyList;
     private ListView rideListView;
     private ArrayAdapter<String> rideListAdapter;
-
-    private ValueEventListener initializeRideLists = new ValueEventListener() {
-        /* This onDataChange() is called only once during onCreate() and the listener is
-           then immediately removed. */
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            for (DataSnapshot d : dataSnapshot.getChildren()) {
-                Ride ride = d.getValue(Ride.class);
-                if (!ride.hasDriver()) {
-                    String currLocation = ride.getCurrentLocation();
-                    String destination = ride.getDestination();
-                    String riderName = ride.getRiderName();
-                    rideList.add("From: " + currLocation + ", To: " + destination + ", Name: " + riderName);
-
-                    String key = d.getKey();
-                    rideKeyList.add(key);
-
-                    rideListAdapter.notifyDataSetChanged();
-                }
-            }
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-            Log.w(TAG, databaseError.toException());
-        }
-    };
 
     private ChildEventListener childEventListener = new ChildEventListener() {
         @Override
@@ -87,26 +58,35 @@ public class DriverActivity extends AppCompatActivity {
             String riderName = ride.getRiderName();
             String rideString = "From: " + currLocation + ", To: " + destination + ", Name: " + riderName;
             if (rideList.contains(rideString) && ride.hasDriver()) {
-                int index = rideList.indexOf(rideString);
-                rideList.remove(index);
-                rideKeyList.remove(index);
+                int position = rideList.indexOf(rideString);
+                rideList.remove(position);
+                rideKeyList.remove(position);
                 rideListAdapter.notifyDataSetChanged();
             }
         }
 
         @Override
         public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+            Ride ride = dataSnapshot.getValue(Ride.class);
+            String currLocation = ride.getCurrentLocation();
+            String destination = ride.getDestination();
+            String riderName = ride.getRiderName();
+            String rideString = "From: " + currLocation + ", To: " + destination + ", Name: " + riderName;
+            if (rideList.contains(rideString)) {
+                int position = rideList.indexOf(rideString);
+                rideList.remove(position);
+                rideKeyList.remove(position);
+                rideListAdapter.notifyDataSetChanged();
+            }
         }
 
+        // This method is only relevant when working with ordered data.
         @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-        }
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
 
         @Override
         public void onCancelled(DatabaseError databaseError) {
-
+            Log.w(TAG, databaseError.toException());
         }
     };
 
@@ -131,81 +111,10 @@ public class DriverActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance().getReference();
 
-        database.child("rides").addListenerForSingleValueEvent(initializeRideLists);
         database.child("rides").addChildEventListener(childEventListener);
     }
 
-    //function to listen for changes in the database
-//    public void firebaseListener(DatabaseReference rideDatabase, DatabaseReference userDatabase)
-//    {
-//        //this is where we listen for data changes when new rides get posted
-//        rideDatabase.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                rideInfo = dataSnapshot.getValue(Ride.class);
-//                userInfo = dataSnapshot.getValue(User.class);
-//
-//                // get destination and rider's name to display
-//                String rideDestInfo = rideInfo.getDestination();
-//                String rideRiderInfo = rideInfo.getRiderName();
-//                String rideCurrLoc = rideInfo.getCurrentLocation();
-//                rideID = dataSnapshot.getKey();
-//
-//                if (!rideInfo.isRideInProgress() && rideInfo.getDriverID().equals("")) {
-//                    myRides.add("From: "+rideCurrLoc+", To: "+rideDestInfo+", Name: "+rideRiderInfo);
-//                }
-//
-//                rideList.setAdapter(adapter);
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s)
-//            {
-//                //insert new modified value
-//                Ride valueUpdated = dataSnapshot.getValue(Ride.class);
-//                String modifyDest = valueUpdated.getDestination();
-//                String modifyRName = valueUpdated.getRiderName();
-//                String modifyCurr = valueUpdated.getCurrentLocation();
-//
-//                //get the location where change happened
-//                if (valueUpdated.isRideInProgress() && !valueUpdated.getDriverID().equals("")) {
-//                    myRides.remove("From: "+ modifyCurr+ ", To: "+modifyDest+", Name: "+modifyRName);
-//                    rideList.setAdapter(adapter);
-//                    adapter.notifyDataSetChanged();
-//                }
-//            }
-//
-//            // maybe later
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//                rideList.setAdapter(adapter);
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            //for now we wont deal with this yet
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                String message = "Server error. Refresh page";
-//                Toast.makeText(DriverActivity.this, message, Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        //here we declare a listener
-//        rideList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                handleRideSelection(position);
-//            }
-//        });
-//    }
-//
-    public void handleRideSelection(int position)
-    {
+    public void handleRideSelection(int position) {
         final int index = position;
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Do you want to add this rider");
