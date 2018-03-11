@@ -111,17 +111,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         }
     }
 
-    private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG,"handleSignInResult:"+ result.isSuccess());
-        if (result.isSuccess()) {
-            GoogleSignInAccount acct = result.getSignInAccount();
-            statusTextView.setText("Welcome to Tagrides!\n" + acct.getDisplayName());
-            //Intent intent=new Intent(Login.this,Pick_RD.class); // redirecting to LoginActivity.
-            //startActivity(intent);
-        }else {
-        }
-    }
-
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
@@ -147,8 +136,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                                 currUser.setName(user.getDisplayName());
                                 currUser.setUserID(user.getUid());
 
-                                //Utils.toastMessage( "curr rating: "+ Float.toString(currUser.getRating()), Login.this);
-
                                 // store in users->uid->user info
 
                                 myRef.child("users").child(user.getUid()).setValue(currUser);
@@ -156,15 +143,12 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                                 Intent intent = new Intent(Login.this,Pick_RD.class);
                                 startActivity(intent);
 
-
                             } else {
                                 // error message
                                 Toast.makeText(getApplicationContext(), "Please enter a UCSC email" , Toast.LENGTH_SHORT).show();
                                 signOut();
                                 return;
                             }
-
-
 
                         } else {
                             // If sign in fails, display a message to the user.

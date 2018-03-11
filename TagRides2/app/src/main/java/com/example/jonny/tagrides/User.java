@@ -14,31 +14,16 @@ public class User{
    //global variables for helper class
     public String userID;
     public String name;
-    public String stateIssuedId;
-    public Date idExperationDate;
-    public boolean driver;
-    public boolean rider;
-    public String user_license;
+    public Date currLogin;
     public String userEmail;
-    public double longitude;
-    public double latitude;
-
-    public Car userCar;
-
-    //this is the format we want for our day
-    public static SimpleDateFormat sdf  = new SimpleDateFormat("MMddyyyy");
 
 
   //constructors
-   public User(String myId, String name, String stateLicense,String idState, Date idExpires, String email, float rating, ArrayList<Float> ratingsList)
+   public User(String myId, String name, Date currLogin, String email)
    {
        this.userID = myId;
        this.name = name;
-       this.stateIssuedId = idState;
-       this.driver = false;
-       this.rider = false;
-       this.idExperationDate = idExpires;
-       this.user_license = stateLicense;
+       this.currLogin = currLogin;
        this.userEmail = email;
 
    }
@@ -53,14 +38,6 @@ public class User{
 
    }
    //setters
-   public void userLatitude(double locationY)
-   {
-       this.latitude = locationY;
-   }
-   public void userLongitude(double locationX)
-   {
-       this.longitude = locationX;
-   }
    public void setUserID(String id)
    {
        this.userID = id;
@@ -68,61 +45,13 @@ public class User{
    public void setName(String name) {
        this.name = name;
    }
-   public void setDriver()
-   {
-     this.driver =true;
-   }
-   public void setRider()
-   {
-       this.rider = true;
-   }
    public void setUserEmail(String email)
    {
        this.userEmail = email;
    }
-   public void setUserLicense(String license)
-   {
-       this.user_license = license;
-   }
-   public void setStateIssuedId(String state_id)
-   {
-       this.stateIssuedId = state_id;
-   }
-   public void setIdExperationDate(Date expires)
-   {
-       this.idExperationDate = expires;
-   }
 
-
-
-    //methods for the user to add a vehicle
-    public  void setCarMake (String Make)
-    {
-        userCar.setCarMake(Make);
-    }
-    public void setCarModel(String model)
-    {
-        userCar.setCarModel(model);
-    }
-    public void setCarYear(int year)
-    {
-        userCar.setCarYear(year);
-    }
-    public void setCarColor(String color)
-    {
-        userCar.setCarColor(color );
-    }
 
     //getters
-    public double getLatitude()
-   {
-        return this.latitude;
-   }
-    public double getLongitude()
-
-    {
-        return this.longitude;
-    }
     public String getUserID()
     {
         return this.userID;
@@ -130,31 +59,12 @@ public class User{
     public String getName() {
        return this.name;
     }
-    public boolean getDriver()
-    {
-        return this.driver;
-    }
-    public boolean getRider()
-    {
-        return this.rider;
-    }
-    public String getUser_license()
-    {
-        return this.user_license;
-    }
-    public String getStateIssuedId()
-    {
-        return this.stateIssuedId;
-
-    }
     public String getUserEmail()
     {
         return this.userEmail;
     }
-    public String getExpiration()
+    public String getCurrLogin()
     {
-        // wasn't compiling with this
-        //return sdf.format(idExperationDate);
         return Calendar.getInstance().getTime().toString();
     }
 

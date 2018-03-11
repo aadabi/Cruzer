@@ -2,10 +2,6 @@ package com.example.jonny.tagrides;
 
 import java.util.ArrayList;
 
-/**
- * Created by nwman on 3/2/2018.
- */
-
 public class Rate {
     public String userName;
     public float rating;
@@ -40,8 +36,6 @@ public class Rate {
         this.numRates = num;
     }
 
-
-
     //get
     public float getRating() {
         return this.rating;
@@ -58,7 +52,6 @@ public class Rate {
     public int getNumRates() {
         return ratingsList.size();
     }
-
 
     // functions
     public float calcRatings() {
