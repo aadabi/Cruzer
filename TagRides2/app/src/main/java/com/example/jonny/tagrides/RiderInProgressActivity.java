@@ -40,6 +40,7 @@ public class RiderInProgressActivity extends AppCompatActivity {
         } else {
             Log.e(TAG, "No ride ID received");
         }
+
         rideListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

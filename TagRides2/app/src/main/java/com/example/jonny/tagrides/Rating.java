@@ -42,7 +42,6 @@ public class Rating extends AppCompatActivity {
 
     private ArrayList<Float> currRateList = new ArrayList<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
