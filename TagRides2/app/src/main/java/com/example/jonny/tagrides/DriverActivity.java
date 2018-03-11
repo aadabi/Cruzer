@@ -81,7 +81,17 @@ public class DriverActivity extends AppCompatActivity {
 
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+            Ride ride = dataSnapshot.getValue(Ride.class);
+            String currLocation = ride.getCurrentLocation();
+            String destination = ride.getDestination();
+            String riderName = ride.getRiderName();
+            String rideString = "From: " + currLocation + ", To: " + destination + ", Name: " + riderName;
+            if (rideList.contains(rideString) && ride.hasDriver()) {
+                int index = rideList.indexOf(rideString);
+                rideList.remove(index);
+                rideKeyList.remove(index);
+                rideListAdapter.notifyDataSetChanged();
+            }
         }
 
         @Override
