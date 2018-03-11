@@ -42,15 +42,17 @@ public class DriverActivity extends AppCompatActivity {
         public void onDataChange(DataSnapshot dataSnapshot) {
             for (DataSnapshot d : dataSnapshot.getChildren()) {
                 Ride ride = d.getValue(Ride.class);
-                String currLocation = ride.getCurrentLocation();
-                String destination = ride.getDestination();
-                String riderName = ride.getRiderName();
-                rideList.add("From: "+currLocation+", To: "+destination+", Name: "+riderName);
+                if (!ride.hasDriver()) {
+                    String currLocation = ride.getCurrentLocation();
+                    String destination = ride.getDestination();
+                    String riderName = ride.getRiderName();
+                    rideList.add("From: " + currLocation + ", To: " + destination + ", Name: " + riderName);
 
-                String key = d.getKey();
-                rideKeyList.add(key);
+                    String key = d.getKey();
+                    rideKeyList.add(key);
 
-                rideListAdapter.notifyDataSetChanged();
+                    rideListAdapter.notifyDataSetChanged();
+                }
             }
         }
 
@@ -64,15 +66,17 @@ public class DriverActivity extends AppCompatActivity {
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Ride ride = dataSnapshot.getValue(Ride.class);
-            String currLocation = ride.getCurrentLocation();
-            String destination = ride.getDestination();
-            String riderName = ride.getRiderName();
-            rideList.add("From: "+currLocation+", To: "+destination+", Name: "+riderName);
+            if (!ride.hasDriver()) {
+                String currLocation = ride.getCurrentLocation();
+                String destination = ride.getDestination();
+                String riderName = ride.getRiderName();
+                rideList.add("From: " + currLocation + ", To: " + destination + ", Name: " + riderName);
 
-            String key = dataSnapshot.getKey();
-            rideKeyList.add(key);
+                String key = dataSnapshot.getKey();
+                rideKeyList.add(key);
 
-            rideListAdapter.notifyDataSetChanged();
+                rideListAdapter.notifyDataSetChanged();
+            }
         }
 
         @Override
@@ -216,6 +220,7 @@ public class DriverActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {}
         });
+
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
