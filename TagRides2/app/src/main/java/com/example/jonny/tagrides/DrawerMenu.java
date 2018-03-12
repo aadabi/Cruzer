@@ -24,7 +24,7 @@ import com.mindorks.placeholderview.annotations.View;
 
 
 @Layout(R.layout.drawer_items)
-public  class  DrawerMenu  {
+public  class  DrawerMenu extends Login {
 
     public static final int DRAWER_MENU_ITEM_RIDER = 1;
     public static final int DRAWER_MENU_ITEM_DRIVER = 2;
@@ -47,17 +47,10 @@ public  class  DrawerMenu  {
         mContext = context;
         mMenuPosition = menuPosition;
     }
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth = FirebaseAuth.getInstance();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
-    }
 
     @Resolve
         private void onResolved () {
+
             switch (mMenuPosition) {
                 case DRAWER_MENU_ITEM_RIDER:
                     itemNameTxt.setText("Rider");
@@ -75,10 +68,18 @@ public  class  DrawerMenu  {
 
             }
         }
-        Login login = new Login();
+      @Override
+      public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        //updateUI(currentUser);
+      }
+
 
         @Click(R.id.mainView)
         private void onMenuItemClick () {
+            mAuth = FirebaseAuth.getInstance();
             switch (mMenuPosition) {
                 case DRAWER_MENU_ITEM_RIDER:
 
@@ -106,15 +107,13 @@ public  class  DrawerMenu  {
             }
 
         }
-
-    private void signOut(){
-        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+    public void signOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
 
             @Override
             public void onResult(@NonNull Status status) {
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(mContext, Login.class);
-                mContext.startActivity(intent);
+                mContext.startActivity(new Intent(mContext, Login.class));
 
             }
         });
