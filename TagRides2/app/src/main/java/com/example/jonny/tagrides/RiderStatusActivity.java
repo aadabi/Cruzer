@@ -27,6 +27,7 @@ public class RiderStatusActivity extends AppCompatActivity {
 
     TextView statusTextView;
     Button rideStartButton;
+    Button cancelButton;
 
     private ValueEventListener rideListener = new ValueEventListener() {
         @Override
@@ -47,9 +48,10 @@ public class RiderStatusActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rider_status);
 
         statusTextView = (TextView) findViewById(R.id.textView);
-        statusTextView.setText("Matching you with a driver...");
         rideStartButton = (Button) findViewById(R.id.button);
+        cancelButton = (Button) findViewById(R.id.cancelButton);
 
+        statusTextView.setText("Matching you with a driver...");
         rideStartButton.setVisibility(View.INVISIBLE);
 
         Bundle extras = getIntent().getExtras();
@@ -88,5 +90,11 @@ public class RiderStatusActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RiderInProgressActivity.class);
         intent.putExtra("RIDE_ID", rideID);
         startActivity(intent);
+    }
+
+    /** Called when the user presses the "Cancel Ride Request" button */
+    public void cancelRide(View view) {
+        database.child("rides").child(rideID).removeValue();
+        startActivity(new Intent(this, Pick_RD.class));
     }
 }
