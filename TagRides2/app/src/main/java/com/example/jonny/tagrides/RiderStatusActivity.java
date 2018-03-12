@@ -23,11 +23,23 @@ public class RiderStatusActivity extends AppCompatActivity {
 
     private String rideID;
     private DatabaseReference database;
-    private ValueEventListener rideListener;
     private Ride ride;
 
     TextView statusTextView;
     Button rideStartButton;
+
+    private ValueEventListener rideListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            ride = dataSnapshot.getValue(Ride.class);
+            updateUI();
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            Log.w(TAG, databaseError.toException());
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +50,6 @@ public class RiderStatusActivity extends AppCompatActivity {
         statusTextView.setText("Matching you with a driver...");
         rideStartButton = (Button) findViewById(R.id.button);
 
-        // set to VISIBLE to test next pages
-        // should be: rideStartButton.setVisibility(View.INVISIBLE);
         rideStartButton.setVisibility(View.INVISIBLE);
 
         Bundle extras = getIntent().getExtras();
@@ -50,18 +60,6 @@ public class RiderStatusActivity extends AppCompatActivity {
             Log.e(TAG, "No ride ID received");
         }
         database = FirebaseDatabase.getInstance().getReference();
-        rideListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ride = dataSnapshot.getValue(Ride.class);
-                updateUI();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, databaseError.toException());
-            }
-        };
         database.child("rides").child(rideID).addValueEventListener(rideListener);
     }
 
