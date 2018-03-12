@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,9 +19,13 @@ public class DriverRideInProgress extends AppCompatActivity {
 
     private final String TAG = "Driver Ride in Progress";
     private String rideID;
+    private String startLocation;
+    private String destinationLocation;
     private DatabaseReference database;
 
     private Button driverArrivedButton;
+    private TextView startLocationView;
+    private TextView destinationLocationView;
 
     private ValueEventListener rideListener = new ValueEventListener() {
         @Override
@@ -30,7 +35,10 @@ public class DriverRideInProgress extends AppCompatActivity {
                 startActivity(new Intent(DriverRideInProgress.this, Pick_RD.class));
             } else {
                 Ride ride = dataSnapshot.getValue(Ride.class);
-                Log.d(TAG, Boolean.toString(ride.isRideCompleted()));
+                startLocation = ride.getCurrentLocation();
+                destinationLocation = ride.getDestination();
+                startLocationView.setText("Start location: " + startLocation);
+                destinationLocationView.setText("Destination location: " + destinationLocation);
                 if (ride.isRideCompleted()) {
                     sendToRatingActivity();
                 }
@@ -50,6 +58,8 @@ public class DriverRideInProgress extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance().getReference();
         driverArrivedButton = (Button) findViewById(R.id.button);
+        startLocationView = (TextView) findViewById(R.id.startLocation);
+        destinationLocationView = (TextView) findViewById(R.id.destLocation);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
