@@ -58,7 +58,7 @@ public class RiderInProgressActivity extends AppCompatActivity {
     public void endRide(View v) {
         database.child("rides").child(rideID).child("rideInProgress").setValue(false);
         database.child("rides").child(rideID).child("rideCompleted").setValue(true);
-        Intent intent = new Intent(this, Rating.class);
+        Intent intent = new Intent(this, RatingActivity.class);
         intent.putExtra("RIDE_ID", rideID);
         startActivity(intent);
     }

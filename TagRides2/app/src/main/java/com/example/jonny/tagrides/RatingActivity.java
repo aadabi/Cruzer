@@ -1,8 +1,6 @@
 package com.example.jonny.tagrides;
 
 import android.content.Intent;
-import android.os.SystemClock;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,8 +20,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class Rating extends AppCompatActivity {
-    private final String TAG = "Rating";
+public class RatingActivity extends AppCompatActivity {
+    private final String TAG = "RatingActivity";
 
     private String rideID;
     private float currRating;
@@ -163,10 +162,10 @@ public class Rating extends AppCompatActivity {
 
         database.child("rate").child(currRate.getUserID()).setValue(currRate);
 
-        Utils.toastMessage("Submited Rating of "+ String.valueOf(newRating), Rating.this);
+        Toast.makeText(RatingActivity.this,"Submitted RatingActivity of " + String.valueOf(newRating), Toast.LENGTH_SHORT).show();
 
         // sends user back to pick rider/driver page
-        Intent back = new Intent(Rating.this, Pick_RD.class);
+        Intent back = new Intent(RatingActivity.this, PickRiderDriverActivity.class);
         startActivity(back);
     }
 

@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".splashscreenactivity"
+            android:name=".SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -31,13 +31,13 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".Login" />
-        <activity android:name=".Pick_RD" />
+        <activity android:name=".PickRiderDriverActivity" />
         <activity android:name=".RiderActivity" />
         <activity android:name=".RiderStatusActivity" />
         <activity android:name=".DriverActivity" />
         <activity android:name=".RiderInProgressActivity" />
-        <activity android:name=".Rating" />
-        <activity android:name=".DriverRideInProgress" />
+        <activity android:name=".RatingActivity" />
+        <activity android:name=".DriverRideInProgressActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

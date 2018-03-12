@@ -4,8 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -95,6 +93,6 @@ public class RiderStatusActivity extends AppCompatActivity {
     /** Called when the user presses the "Cancel Ride Request" button */
     public void cancelRide(View view) {
         database.child("rides").child(rideID).removeValue();
-        startActivity(new Intent(this, Pick_RD.class));
+        startActivity(new Intent(this, PickRiderDriverActivity.class));
     }
 }

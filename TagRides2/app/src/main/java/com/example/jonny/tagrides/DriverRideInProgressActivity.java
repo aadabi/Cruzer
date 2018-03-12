@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class DriverRideInProgress extends AppCompatActivity {
+public class DriverRideInProgressActivity extends AppCompatActivity {
 
     private final String TAG = "Driver Ride in Progress";
     private String rideID;
@@ -31,8 +31,8 @@ public class DriverRideInProgress extends AppCompatActivity {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             if (dataSnapshot.getValue() == null) {
-                Toast.makeText(DriverRideInProgress.this,"Ride was cancelled", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(DriverRideInProgress.this, Pick_RD.class));
+                Toast.makeText(DriverRideInProgressActivity.this,"Ride was cancelled", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(DriverRideInProgressActivity.this, PickRiderDriverActivity.class));
             } else {
                 Ride ride = dataSnapshot.getValue(Ride.class);
                 startLocation = ride.getCurrentLocation();
@@ -78,7 +78,7 @@ public class DriverRideInProgress extends AppCompatActivity {
     }
 
     private void sendToRatingActivity() {
-        Intent intent = new Intent(this, Rating.class);
+        Intent intent = new Intent(this, RatingActivity.class);
         intent.putExtra("RIDE_ID", rideID);
         startActivity(intent);
     }
