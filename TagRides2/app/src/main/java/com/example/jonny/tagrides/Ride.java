@@ -68,7 +68,7 @@ public class Ride
         return this.rideInProgress;
     }
 
-    public boolean hasDriver() { return !(this.driverID == ""); }
+    public boolean hasDriver() { return !this.driverID.equals(""); }
 
     public boolean isDriverArrived() { return this.driverArrived; }
 

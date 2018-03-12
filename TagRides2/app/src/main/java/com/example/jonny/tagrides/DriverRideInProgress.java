@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,8 +19,29 @@ public class DriverRideInProgress extends AppCompatActivity {
     private final String TAG = "Driver Ride in Progress";
     private String rideID;
     private DatabaseReference database;
-    private ValueEventListener rideListener;
+
     private Button driverArrivedButton;
+
+    private ValueEventListener rideListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            if (dataSnapshot.getValue() == null) {
+                Toast.makeText(DriverRideInProgress.this,"Ride was cancelled", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(DriverRideInProgress.this, Pick_RD.class));
+            } else {
+                Ride ride = dataSnapshot.getValue(Ride.class);
+                Log.d(TAG, Boolean.toString(ride.isRideCompleted()));
+                if (ride.isRideCompleted()) {
+                    sendToRatingActivity();
+                }
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            Log.w(TAG, databaseError.toException());
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +64,6 @@ public class DriverRideInProgress extends AppCompatActivity {
                 database.child("rides").child(rideID).child("driverArrived").setValue(true);
             }
         });
-        rideListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Ride ride = dataSnapshot.getValue(Ride.class);
-                Log.d(TAG, Boolean.toString(ride.isRideCompleted()));
-                if (ride.isRideCompleted()) {
-                    sendToRatingActivity();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, databaseError.toException());
-            }
-        };
         database.child("rides").child(rideID).addValueEventListener(rideListener);
     }
 
