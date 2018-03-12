@@ -1,5 +1,9 @@
 package com.example.jonny.tagrides;
 
+import com.example.jonny.tagrides.Models.Rate;
+import com.example.jonny.tagrides.Models.Ride;
+import com.example.jonny.tagrides.Models.User;
+
 import org.junit.Test;
 
 import java.util.ArrayList;

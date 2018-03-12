@@ -1,4 +1,4 @@
-package com.example.jonny.tagrides;
+package com.example.jonny.tagrides.Models;
 
 /**
  * Created by jonny on 2/16/2018.

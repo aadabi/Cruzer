@@ -1,9 +1,11 @@
-package com.example.jonny.tagrides;
+package com.example.jonny.tagrides.Activities;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.example.jonny.tagrides.R;
+import com.example.jonny.tagrides.Utils.GPSTracker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;

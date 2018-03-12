@@ -1,4 +1,4 @@
-package com.example.jonny.tagrides;
+package com.example.jonny.tagrides.Activities;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;

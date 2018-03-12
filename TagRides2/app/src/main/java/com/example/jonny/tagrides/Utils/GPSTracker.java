@@ -1,4 +1,4 @@
-package com.example.jonny.tagrides;
+package com.example.jonny.tagrides.Utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;

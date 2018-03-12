@@ -1,4 +1,4 @@
-package com.example.jonny.tagrides;
+package com.example.jonny.tagrides.Models;
 
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
