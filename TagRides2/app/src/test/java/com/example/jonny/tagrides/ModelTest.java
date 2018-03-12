@@ -43,30 +43,7 @@ public class ModelTest {
         // assert
         assertEquals(user.getUserEmail(), "example@gmail.com");
     }
-
-    @Test
-    public void testUserModelRider() {
-        // set up
-        User user = new User();
-
-        // excersise
-        user.setRider();
-
-        // assert
-        assertEquals(user.getRider(), true);
-    }
-
-    @Test
-    public void testUserModelDriver() {
-        // set up
-        User user = new User();
-
-        // excersise
-        user.setDriver();
-
-        // assert
-        assertEquals(user.getDriver(), true);
-    }
+    
 
     @Test
     public void testRideRiderName() {
