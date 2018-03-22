@@ -1,4 +1,4 @@
-# tagrides
+# Cruzer (formerly known as TagRides) 
 The MIT License
 
 Copyright (c) 2010-2018 Tagrides.
