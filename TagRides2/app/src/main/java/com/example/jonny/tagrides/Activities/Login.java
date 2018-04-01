@@ -139,7 +139,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
                                 myRef.child("users").child(user.getUid()).setValue(currUser);
 
-                                Intent intent = new Intent(Login.this,PickRiderDriverActivity.class);
+                                Intent intent = new Intent(Login.this,MainActivity.class);
                                 startActivity(intent);
 
                             } else {
