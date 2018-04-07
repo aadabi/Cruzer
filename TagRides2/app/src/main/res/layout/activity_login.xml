@@ -54,15 +54,6 @@
                 android:contextClickable="true"
                 android:gravity="center_vertical|center" />
 
-            <Button
-                android:id="@+id/signOutButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:gravity="center_vertical|center"
-                android:text="                Sign out"
-                android:textSize="12sp" />
-
 
         </android.support.design.widget.TextInputLayout>
 

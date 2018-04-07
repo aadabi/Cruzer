@@ -61,8 +61,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(this);
 
-        signOutButton = (Button) findViewById(R.id.signOutButton);
-        signOutButton.setOnClickListener(this);
+
     }
 
     @Override
@@ -80,9 +79,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                 signIn();
 
                 break;
-            case R.id.signOutButton:
-                signOut();
-                break;
+
         }
     }
 
@@ -145,7 +142,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                             } else {
                                 // error message
                                 Toast.makeText(getApplicationContext(), "Please enter a UCSC email" , Toast.LENGTH_SHORT).show();
-                                signOut();
+                                //signOut();
                                 return;
                             }
 
@@ -157,7 +154,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                 });
     }
 
-    private void signOut() {
+   /* private void signOut() {
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
 
             @Override
@@ -166,7 +163,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                 statusTextView.setText("Signed Out");
             }
         });
-    }
+    }*/
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
